@@ -3,18 +3,19 @@
 import { useState, FormEvent } from 'react';
 
 const reviews = [
-  { name: 'María G.', review: 'Espectacular todo. Comida increíble y el servicio de 10. Volveremos sin duda.', rating: 5 },
-  { name: 'Carlos M.', review: 'La comida estaba buena pero el servicio fue muy lento. Tardaron 40 minutos en servirnos.', rating: 3 },
-  { name: 'Laura P.', review: 'Terrible experiencia. La mesa estaba sucia y la comida llegó fría. No volveré.', rating: 1 },
-  { name: 'Javier R.', review: 'La mejor paella que he probado fuera de Valencia. Trato excelente. Recomendado 100%.', rating: 5 },
-  { name: 'Ana S.', review: 'Bien pero caro para lo que ofrece. Las raciones son pequeñas y los precios altos.', rating: 3 },
-  { name: 'David L.', review: 'Un desastre. Reserva confirmada y cuando llegamos no tenían mesa. Muy mala organización.', rating: 1 },
+  { name: 'María González', review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. Volveremos sin duda.', rating: 5 },
+  { name: 'Carlos Martínez', review: 'La comida buena pero el servicio muy lento. Estuvimos 40 minutos esperando para que nos tomaran nota.', rating: 2 },
+  { name: 'Laura Pérez', review: 'Muy buena experiencia. El pulpo a la gallega espectacular. El único pero es que el local se queda pequeño.', rating: 4 },
+  { name: 'Javier Ruiz', review: 'La mejor paella que he probado fuera de Valencia. Trato excelente y terraza encantadora. Recomendado 100%.', rating: 5 },
+  { name: 'Ana Sánchez', review: 'Bien pero caro para lo que ofrece. Las raciones son pequeñas y los precios algo elevados.', rating: 3 },
+  { name: 'David López', review: 'Un desastre. Teníamos reserva confirmada y cuando llegamos no había mesa. Muy mala organización.', rating: 1 },
 ];
 
 const example = "Comida excelente pero el servicio fue muy lento. Estuvimos esperando 30 minutos para que nos tomaran nota y otro tanto para el postre. La comida compensa pero la espera es demasiado.";
 
 export default function Home() {
   const [review, setReview] = useState('');
+  const [reviewAuthor, setReviewAuthor] = useState('');
   const [rating, setRating] = useState<number>(0);
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ export default function Home() {
       const res = await fetch('/api/review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ review: review.trim(), rating: rating || undefined }),
+        body: JSON.stringify({ review: review.trim(), rating: rating || undefined, author: reviewAuthor || undefined }),
       });
       const data = await res.json();
       setResponse(data.response || data.error || 'Error');
@@ -48,6 +49,7 @@ export default function Home() {
 
   const loadExample = (r: typeof reviews[0]) => {
     setReview(r.review);
+    setReviewAuthor(r.name);
     setRating(r.rating);
     setResponse('');
     setTimeout(() => generateResponse(), 300);
@@ -124,7 +126,7 @@ export default function Home() {
             <div className="flex flex-wrap gap-2">
               {reviews.map((r, i) => (
                 <button key={i} onClick={() => loadExample(r)} className="text-xs bg-white border border-gray-200 hover:border-orange-300 px-3 py-1.5 rounded-full text-gray-600 hover:text-orange-600 transition-all">
-                  {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                  {r.name} {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
                 </button>
               ))}
             </div>
@@ -143,6 +145,11 @@ export default function Home() {
                   ))}
                 </div>
               </div>
+              {reviewAuthor && (
+                <div className="mb-2 text-xs text-gray-400">
+                  De <span className="font-medium text-gray-600">{reviewAuthor}</span>
+                </div>
+              )}
               <textarea
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
@@ -154,7 +161,7 @@ export default function Home() {
                 {loading ? 'Generando...' : 'Generar respuesta con IA'}
               </button>
               {review.length > 5 && (
-                <button onClick={() => { setReview(''); setResponse(''); setRating(0); }} className="text-xs text-gray-400 mt-2 hover:text-gray-600">
+                <button onClick={() => { setReview(''); setReviewAuthor(''); setResponse(''); setRating(0); }} className="text-xs text-gray-400 mt-2 hover:text-gray-600">
                   Limpiar
                 </button>
               )}
