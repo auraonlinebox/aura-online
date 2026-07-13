@@ -2,7 +2,7 @@ import webpush from 'web-push';
 
 const vapidPublic = process.env.VAPID_PUBLIC_KEY;
 const vapidPrivate = process.env.VAPID_PRIVATE_KEY;
-const vapidSubject = process.env.VAPID_SUBJECT || 'mailto:jose@aura-online.es';
+const vapidSubject = process.env.VAPID_SUBJECT || 'mailto:auraonlinebox@gmail.com';
 
 if (vapidPublic && vapidPrivate) {
   webpush.setVapidDetails(vapidSubject, vapidPublic, vapidPrivate);

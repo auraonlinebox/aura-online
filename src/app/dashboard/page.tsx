@@ -233,7 +233,7 @@ export default function DashboardPage() {
       const reg = await navigator.serviceWorker.ready;
       const sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: 'BAKzHfrBc9keVIdmX--lECy631JyOI1AMXaNbnsPn5TZqbmrq78qxgS5OmGEFXT44l2-dwxldORlEZS9sqFNk6U',
+        applicationServerKey: 'BPWu-fmcWmA7aVZ_ElaZJPxWaBnbKvVnHW-dr6XxNC1dBfr6wj4agEsl_YyEMFgVk_UPJ4Dy1qvze-q7bPrOgfU',
       });
       await fetch('/api/push/subscribe', {
         method: 'POST',
