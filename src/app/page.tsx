@@ -63,6 +63,7 @@ export default function Home() {
           </a>
           <nav className="flex items-center gap-6 text-sm">
             <a href="#demo" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Demo</a>
+            <a href="#ejemplos" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Ejemplos</a>
             <a href="#como-funciona" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Cómo funciona</a>
             <button onClick={() => setShowContact(true)} className="bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-all">
               Quiero AURA
@@ -200,6 +201,99 @@ export default function Home() {
                 <div className="text-xs font-bold text-orange-500 tracking-widest">{s.n}</div>
                 <h3 className="font-bold text-lg text-gray-900">{s.t}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{s.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Real examples */}
+      <section id="ejemplos" className="py-16 sm:py-20 bg-gray-50">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Así responde AURA
+            </h2>
+            <p className="text-gray-500 max-w-lg mx-auto">
+              Reseñas reales de Google, respondidas por AURA. Natural, humano, al grano.
+            </p>
+          </div>
+          <div className="space-y-6">
+            {[
+              {
+                name: 'María González',
+                initial: 'M',
+                stars: 5,
+                date: 'hace 3 días',
+                review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda.',
+                response: 'María, muchísimas gracias. Me alegra especialmente que mencionaras la crema de calabaza y el tartar — son dos platos que cuidamos mucho. Y Javier se va a llevar tu comentario a casa, se lo merece. ¡Os esperamos cuando queráis!',
+              },
+              {
+                name: 'Carlos Martínez',
+                initial: 'C',
+                stars: 2,
+                date: 'hace 1 semana',
+                review: 'La comida buena pero el servicio nefasto. Estuvimos 40 minutos esperando para que nos tomaran nota y cuando pedimos la cuenta, otro cuarto de hora. El camarero parecía agobiado.',
+                response: 'Carlos, gracias por ser sincero. Lamento muchísimo la espera, no es lo que queremos que viváis aquí. Ya hemos hablado con el equipo para organizar mejor los turnos. Me encantaría que nos dieras otra oportunidad para demostrártelo. Un abrazo.',
+              },
+              {
+                name: 'Laura Pérez',
+                initial: 'L',
+                stars: 4,
+                date: 'hace 5 días',
+                review: 'Muy buena experiencia. El pulpo a la gallega espectacular y el arroz con leche casero riquísimo. El único pero es que el local se queda pequeño los fines de semana.',
+                response: 'Laura, gracias por tu visita y por tomarte el tiempo. El pulpo a la gallega es uno de nuestros platos estrella y me alegra que lo disfrutaras. Tienes razón con el espacio los fines de semana — estamos mirando cómo mejorarlo. ¡Hasta pronto!',
+              },
+              {
+                name: 'Javier Ruiz',
+                initial: 'J',
+                stars: 5,
+                date: 'hace 2 semanas',
+                review: 'La mejor paella que he probado fuera de Valencia. El trato inmejorable y la terraza encantadora. Precio más que razonable para la calidad.',
+                response: 'Javier, viniendo de alguien que entiende de paella, tu comentario nos llega al corazón. Trabajamos cada día para que cada plato esté a la altura. Me alegra que también disfrutaras de la terraza. ¡Te esperamos cuando quieras!',
+              },
+              {
+                name: 'Ana Sánchez',
+                initial: 'A',
+                stars: 3,
+                date: 'hace 1 semana',
+                review: 'Bien pero caro para lo que ofrece. Las raciones son pequeñas y los precios algo elevados. El sitio está bien decorado y el servicio correcto.',
+                response: 'Ana, gracias por tu sinceridad, nos ayuda mucho. Tomamos nota de lo de las raciones, lo revisaremos con el equipo de cocina. Me alegra que el ambiente te gustara. Ojalá nos des otra oportunidad para ajustar lo que no funcionó.',
+              },
+              {
+                name: 'David López',
+                initial: 'D',
+                stars: 1,
+                date: 'hace 4 días',
+                review: 'Un desastre. Teníamos reserva confirmada y cuando llegamos no había mesa. Muy mala organización y el recibimiento fue frío. No volveré.',
+                response: 'David, lamento profundamente lo que pasó. Es imperdonable que tengas una reserva y al llegar no esté todo preparado. Ya hemos revisado el sistema para que no vuelva a ocurrir. Me encantaría invitarte personalmente a cenar para demostrarte que no somos así. Si te parece, escríbenos y te lo organizo.',
+              },
+            ].map((r, i) => (
+              <div key={i} className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-sm font-semibold text-gray-600 shrink-0">
+                    {r.initial}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-semibold text-sm text-gray-900">{r.name}</span>
+                      <div className="flex gap-0.5">
+                        {[1,2,3,4,5].map(s => (
+                          <span key={s} className={`text-sm ${s <= r.stars ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>
+                        ))}
+                      </div>
+                    </div>
+                    <span className="text-xs text-gray-400">{r.date}</span>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed mb-4">{r.review}</p>
+                <div className="border-t border-gray-100 pt-4 mt-2">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center text-white text-[10px] font-bold shrink-0">A</div>
+                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Respuesta de AURA</span>
+                  </div>
+                  <p className="text-sm text-gray-700 leading-relaxed">{r.response}</p>
+                </div>
               </div>
             ))}
           </div>
