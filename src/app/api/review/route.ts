@@ -9,47 +9,60 @@ function getFirstName(author: string): string | null {
   return first;
 }
 
-function buildPrompt(review: string, rating: number | string, author: string): string {
+function detectSentiment(text: string): 'positive' | 'neutral' | 'negative' {
+  const t = text.toLowerCase();
+  const neg = ['pésimo', 'pésima', 'fatal', 'nefasto', 'terrible', 'horrible', 'desastre', 'malo', 'mala', 'peor', 'nunca', 'no volver', 'no vuelvo', 'no recomend', 'queja', 'enfadado', 'decepcion', 'lento', 'tarde', 'esperando', 'sucia', 'fría', 'caro', 'cara', 'carísimo', 'carisimo', 'desagradable', 'malísimo', 'malisimo'];
+  const pos = ['espectacular', 'increíble', 'increible', 'fenomenal', 'excelente', 'maravilloso', 'perfecto', 'encantador', 'riquísimo', 'riquisimo', 'delicioso', 'estupendo', 'genial', 'fantástico', 'fantastico', 'recomiendo', 'repetiremos', 'volveremos', 'inolvidable', 'brutal', 'impecable'];
+
+  const negCount = neg.filter(w => t.includes(w)).length;
+  const posCount = pos.filter(w => t.includes(w)).length;
+
+  if (negCount > posCount) return 'negative';
+  if (posCount > negCount) return 'positive';
+  return 'neutral';
+}
+
+function sentimentPrompt(text: string): string {
+  const sent = detectSentiment(text);
+  if (sent === 'negative') return 'La reseña es NEGATIVA (queja, crítica). Discúlpate sin excusas, reconoce el problema concreto y di qué harás. No finjas alegría.';
+  if (sent === 'positive') return 'La reseña es POSITIVA (elogio). Agradece con naturalidad y menciona algún detalle concreto que haya dicho.';
+  return 'La reseña es NEUTRAL (opinión mezclada o sin carga). Agradece la sinceridad y responde al punto concreto que mencione.';
+}
+
+function buildPrompt(review: string, author: string): string {
   const name = getFirstName(author);
+  const sentGuide = sentimentPrompt(review);
 
-  return `Eres el dueño de un restaurante en España. Vas a contestar una reseña de Google. Tienes que sonar como una persona real, no como un departamento de marketing.
+  return `Eres el dueño de un restaurante en España. Vas a contestar una reseña de Google. IGNORA las estrellas. LEE el TEXTO y responde a lo que dice.
 
-FORMA DE TRABAJAR:
+${sentGuide}
+
+PASOS:
 1. LEE la reseña.
-2. SACA los detalles importantes: ¿nombra un plato? (croqueta, paella, pulpo, arroz, crema de calabaza, tartar, carne, postre...), ¿habla del servicio? (camarero, espera, atención), ¿del ambiente? (terraza, decoración, espacio), ¿de los precios?, ¿de una reserva?
-3. RESPONDE a esos detalles. Si dice "el pulpo a la gallega espectacular", dile algo sobre el pulpo. Si dice "el camarero Javier nos trató fenomenal", menciónalo. Si dice "esperamos 40 minutos", discúlpate por eso concreto.
-4. USA el nombre del cliente si es visible.${name ? ` El cliente se llama ${name}.` : ''}
-5. CIERRA con algo corto y cálido: "un abrazo", "hasta pronto", "te esperamos".
+2. BUSCA qué menciona: ¿un plato concreto? (croqueta, paella, pulpo, arroz, crema, tartar...), ¿el servicio?, ¿el ambiente?, ¿los precios?, ¿la espera?, ¿una reserva?, ¿un camarero?
+3. RESPONDE a eso. Si menciona un plato, habla de ese plato. Si menciona a un camarero, responde sobre él. Si se queja de algo, discúlpate por ESO.
+4. USA el nombre si está visible.${name ? ` Se llama ${name}.` : ''}
+5. CIERRA corto: "un abrazo", "hasta pronto".
 
-FRASES QUE NUNCA USAR: "agradecemos su preferencia", "nos complace informarle", "valoramos su opinión", "seguiremos trabajando para mejorar", "esperamos verte pronto", "te invito a cenar", "invitarte personalmente". Eso suena a robot.
+PROHIBIDO: "agradecemos su preferencia", "nos complace", "valoramos su opinión", "esperamos verte pronto", "te invito a cenar". Suena a robot.
+USA EN SU LUGAR: "gracias de verdad", "tienes razón", "lo siento", "lo hablamos con el equipo", "te esperamos".
 
-FRASES QUE SÍ USAR: "gracias de verdad", "tienes razón", "me alegra que mencionaras...", "lo he hablado con el equipo", "te esperamos cuando quieras", "un abrazo".
+MÁXIMO 3 FRASES. Sin introducciones. Directo.
 
-NO escribas más de 3 frases. Sé directo. Nada de introducciones. Nada de "como dueño del restaurante". Empieza con el nombre si lo tienes, o con "gracias" directamente.
+EJEMPLOS:
 
-EJEMPLOS DE RESPUESTAS QUE ESTÁN BIEN:
+Cliente: María | "La crema de calabaza increíble. El camarero Javier fenomenal."
+→ "María, muchísimas gracias. Me alegra que mencionaras la crema de calabaza, la preparamos con mucho cariño. Y Javier se va a llevar tu comentario a casa. ¡Os esperamos cuando queráis!"
 
-Cliente: María | 5★ | "Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal."
-Respuesta: "María, muchísimas gracias. Me alegra especialmente que mencionaras la crema de calabaza y el tartar — son dos platos que cuidamos mucho. Y Javier se va a llevar tu comentario a casa, se lo merece. ¡Os esperamos cuando queráis!"
+Cliente: Carlos | "Comida buena pero 40 minutos esperando. Servicio nefasto."
+→ "Carlos, disculpa, tienes toda la razón. 40 minutos es demasiado. Ya hemos hablado con el equipo de sala. Esperamos verte de nuevo para que sea una experiencia mejor. Un saludo."
 
-Cliente: Carlos | 2★ | "La comida buena pero el servicio nefasto. Estuvimos 40 minutos esperando para que nos tomaran nota."
-Respuesta: "Carlos, gracias por ser sincero y disculpa la espera. No es normal y ya hemos hablado con el equipo para que no vuelva a pasar. Esperamos verte de nuevo y que sea una experiencia mucho mejor. Un saludo."
+Cliente: Antonio | "La comida buena pero Juan el camarero es muy desagradable. No volveré."
+→ "Antonio, lamento muchísimo lo que pasaste con Juan. No es la actitud que queremos en nuestro equipo. Ya lo hemos hablado con él. Gracias por decírmelo, de verdad."
 
-Cliente: Laura | 4★ | "El pulpo a la gallega espectacular. El único pero es que el local se queda pequeño los fines de semana."
-Respuesta: "Laura, gracias por tu visita. El pulpo a la gallega es uno de nuestros platos estrella y me alegra que lo disfrutaras. Tienes razón con el espacio los fines de semana — estamos buscando soluciones. ¡Hasta pronto!"
+AHORA RESPONDE A ESTA RESEÑA (IGNORA LAS ESTRELLAS, LEE SOLO EL TEXTO):
 
-Cliente: Javier | 5★ | "La mejor paella que he probado fuera de Valencia. La terraza encantadora."
-Respuesta: "Javier, viniendo de alguien que entiende de paella, tu comentario nos llega al corazón. Me alegra que también disfrutaras de la terraza. ¡Te esperamos cuando quieras!"
-
-Cliente: Ana | 3★ | "Bien pero caro. Las raciones pequeñas y los precios altos."
-Respuesta: "Ana, gracias por tu sinceridad. Tomamos nota de lo de las raciones, lo revisaremos con el equipo de cocina. Un saludo."
-
-Cliente: David | 1★ | "Teníamos reserva y no había mesa. Mala organización."
-Respuesta: "David, lamento muchísimo lo que pasó. No tiene excusa. Ya hemos revisado el sistema de reservas para que no se repita. Esperamos que nos des una segunda oportunidad."
-
-AHORA RESPONDE A ESTA:
-
-Reseña (${rating} estrellas) de ${author}: "${review}"
+${author}: "${review}"
 
 Escribe SOLO la respuesta.`;
 
@@ -63,9 +76,8 @@ export async function POST(req: Request) {
     }
 
     const apiKey = process.env.GOOGLE_AI_API_KEY;
-    const stars = rating || '?';
     const safeAuthor = typeof author === 'string' && author.trim() ? author.trim() : 'Cliente';
-    const prompt = buildPrompt(review, stars, safeAuthor);
+    const prompt = buildPrompt(review, safeAuthor);
 
     if (apiKey) {
       try {
@@ -91,25 +103,25 @@ export async function POST(req: Request) {
 
     const firstName = getFirstName(safeAuthor);
     const greeting = firstName ? `${firstName}, ` : '';
+    const sentiment = detectSentiment(review);
 
     const positives = [
-      `${greeting}de verdad, gracias. Leer esto me hace el día. Trabajamos cada día para que cada cliente se vaya contento y saber que lo conseguimos es lo mejor. ¡Un abrazo y hasta pronto!`,
-      `${greeting}me alegra muchísimo que lo pasaras bien. Esto es lo que nos motiva cada mañana. Gracias por tomarte el tiempo de escribirnos. Te esperamos cuando quieras.`,
-      `${greeting}qué bonito mensaje. De verdad, gracias. Me encanta cuando la gente nota el cariño que le ponemos a esto. Nos vemos pronto, un abrazo.`,
+      `${greeting}muchísimas gracias. Me alegra de verdad que lo pasaras bien. Trabajamos cada día para esto. ¡Un abrazo y hasta pronto!`,
+      `${greeting}gracias por tu visita y por compartir tu experiencia. Nos alegra saber que todo fue bien. Te esperamos cuando quieras.`,
     ];
     const neutrals = [
-      `${greeting}gracias por tu sinceridad, de verdad. Cada opinión nos ayuda a mejorar. He tomado nota de lo que comentas y lo hablaremos en el equipo. Ojalá nos des otra oportunidad para demostrarte que podemos hacerlo mejor.`,
-      `${greeting}agradezco que te hayas tomado el tiempo de escribir. Tus comentarios me sirven para mejorar. Espero verte de nuevo por aquí para que notes los cambios. Un saludo.`,
+      `${greeting}gracias por tu sinceridad. Tomamos nota de lo que comentas y lo tendremos en cuenta para mejorar. Un saludo.`,
+      `${greeting}agradezco que te hayas tomado el tiempo de escribir. Cada opinión nos ayuda a mejorar día a día. Esperamos verte de nuevo.`,
     ];
     const negatives = [
-      `${greeting}siento muchísimo lo que pasaste. No es la experiencia que queremos dar. Ya hemos hablado con el equipo para solucionarlo. Esperamos que nos des otra oportunidad y poder demostrarte que podemos hacerlo mejor.`,
-      `${greeting}lamento de verdad lo que ocurrió. Tienes razón. Ya estamos trabajando en ello para que no vuelva a pasar. Esperamos verte de nuevo por aquí.`,
+      `${greeting}siento mucho lo que pasaste. Lamento que la experiencia no fuera buena. Hablaremos con el equipo para que no se repita. Gracias por decírmelo.`,
+      `${greeting}tienes razón y lo siento. No es la experiencia que queremos dar. Tomamos nota de tu queja y trabajaremos en ello. Un saludo.`,
     ];
 
     let templates: string[];
-    if (stars === '?' || Number(stars) >= 4) templates = positives;
-    else if (Number(stars) >= 3) templates = neutrals;
-    else templates = negatives;
+    if (sentiment === 'positive') templates = positives;
+    else if (sentiment === 'negative') templates = negatives;
+    else templates = neutrals;
 
     const response = templates[Math.floor(Math.random() * templates.length)];
     return Response.json({ response });
