@@ -77,17 +77,17 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-white to-amber-50 pointer-events-none" />
-        <div className="max-w-5xl mx-auto px-4 pt-20 pb-16 sm:pt-28 sm:pb-20 relative">
-          <div className="max-w-3xl mx-auto text-center space-y-8">
-            <div className="inline-flex items-center gap-2 bg-gray-900 text-white text-xs font-medium px-4 py-1.5 rounded-full">
-              Para restaurantes que cuidan su reputación
-            </div>
+        <div className="max-w-5xl mx-auto px-4 pt-12 pb-16 sm:pt-16 sm:pb-20 relative">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05]" style={{ fontFamily: 'Playfair Display, serif' }}>
               Tu restaurante<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">
                 habla por sí solo
               </span>
             </h1>
+            <div className="inline-flex items-center gap-2 bg-gray-900 text-white text-xs font-medium px-4 py-1.5 rounded-full">
+              Para restaurantes que cuidan su reputación
+            </div>
             <p className="text-lg sm:text-xl text-gray-500 max-w-xl mx-auto leading-relaxed">
               Cada reseña en Google es una oportunidad. AURA te ayuda a responder de forma profesional, humana y rápida. Mejora tu reputación sin esfuerzo.
             </p>
