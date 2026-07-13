@@ -272,7 +272,7 @@ export default function Home() {
                 stars: 1,
                 date: 'hace 4 días',
                 review: 'Un desastre. Teníamos reserva confirmada y cuando llegamos no había mesa. Muy mala organización y el recibimiento fue frío. No volveré.',
-                response: 'David, lamento profundamente lo que pasó. Es imperdonable que tengas una reserva y al llegar no esté todo preparado. Ya hemos revisado el sistema para que no vuelva a ocurrir. Me encantaría invitarte personalmente a cenar para demostrarte que no somos así. Si te parece, escríbenos y te lo organizo.',
+                response: 'David, lamento profundamente lo que pasó. No tiene excusa. Ya hemos revisado el sistema de reservas para que no se repita. Esperamos que nos des una segunda oportunidad.',
               },
             ].map((r, i) => (
               <div key={i} className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">

@@ -21,7 +21,7 @@ FORMA DE TRABAJAR:
 4. USA el nombre del cliente si es visible.${name ? ` El cliente se llama ${name}.` : ''}
 5. CIERRA con algo corto y cálido: "un abrazo", "hasta pronto", "te esperamos".
 
-FRASES QUE NUNCA USAR: "agradecemos su preferencia", "nos complace informarle", "valoramos su opinión", "seguiremos trabajando para mejorar", "esperamos verte pronto". Eso suena a robot.
+FRASES QUE NUNCA USAR: "agradecemos su preferencia", "nos complace informarle", "valoramos su opinión", "seguiremos trabajando para mejorar", "esperamos verte pronto", "te invito a cenar", "invitarte personalmente". Eso suena a robot.
 
 FRASES QUE SÍ USAR: "gracias de verdad", "tienes razón", "me alegra que mencionaras...", "lo he hablado con el equipo", "te esperamos cuando quieras", "un abrazo".
 
@@ -33,19 +33,19 @@ Cliente: María | 5★ | "Espectacular todo. La crema de calabaza y el tartar de
 Respuesta: "María, muchísimas gracias. Me alegra especialmente que mencionaras la crema de calabaza y el tartar — son dos platos que cuidamos mucho. Y Javier se va a llevar tu comentario a casa, se lo merece. ¡Os esperamos cuando queráis!"
 
 Cliente: Carlos | 2★ | "La comida buena pero el servicio nefasto. Estuvimos 40 minutos esperando para que nos tomaran nota."
-Respuesta: "Carlos, gracias por ser sincero. Lamento muchísimo la espera, no es lo que queremos que viváis aquí. Ya hemos hablado con el equipo para organizar mejor los turnos. Me encantaría que nos dieras otra oportunidad para demostrártelo. Un abrazo."
+Respuesta: "Carlos, gracias por ser sincero y disculpa la espera. No es normal y ya hemos hablado con el equipo para que no vuelva a pasar. Esperamos verte de nuevo y que sea una experiencia mucho mejor. Un saludo."
 
 Cliente: Laura | 4★ | "El pulpo a la gallega espectacular. El único pero es que el local se queda pequeño los fines de semana."
-Respuesta: "Laura, gracias por tu visita. El pulpo a la gallega es uno de nuestros platos estrella y me alegra que lo disfrutaras. Tienes razón con el espacio los fines de semana — estamos mirando cómo mejorarlo. ¡Hasta pronto!"
+Respuesta: "Laura, gracias por tu visita. El pulpo a la gallega es uno de nuestros platos estrella y me alegra que lo disfrutaras. Tienes razón con el espacio los fines de semana — estamos buscando soluciones. ¡Hasta pronto!"
 
 Cliente: Javier | 5★ | "La mejor paella que he probado fuera de Valencia. La terraza encantadora."
 Respuesta: "Javier, viniendo de alguien que entiende de paella, tu comentario nos llega al corazón. Me alegra que también disfrutaras de la terraza. ¡Te esperamos cuando quieras!"
 
 Cliente: Ana | 3★ | "Bien pero caro. Las raciones pequeñas y los precios altos."
-Respuesta: "Ana, gracias por tu sinceridad. Tomamos nota de lo de las raciones, lo revisaremos con el equipo de cocina. Ojalá nos des otra oportunidad."
+Respuesta: "Ana, gracias por tu sinceridad. Tomamos nota de lo de las raciones, lo revisaremos con el equipo de cocina. Un saludo."
 
 Cliente: David | 1★ | "Teníamos reserva y no había mesa. Mala organización."
-Respuesta: "David, lamento profundamente lo que pasó. Es imperdonable. Ya hemos revisado el sistema de reservas. Me encantaría invitarte personalmente a cenar para compensarlo."
+Respuesta: "David, lamento muchísimo lo que pasó. No tiene excusa. Ya hemos revisado el sistema de reservas para que no se repita. Esperamos que nos des una segunda oportunidad."
 
 AHORA RESPONDE A ESTA:
 
@@ -102,8 +102,8 @@ export async function POST(req: Request) {
       `${greeting}agradezco que te hayas tomado el tiempo de escribir. Tus comentarios me sirven para mejorar. Espero verte de nuevo por aquí para que notes los cambios. Un saludo.`,
     ];
     const negatives = [
-      `${greeting}siento muchísimo lo que pasaste. No es la experiencia que queremos dar. Ya hemos hablado con el equipo para solucionarlo. Me encantaría que volvieras como invitado para demostrarte que no somos así. Cuéntame cuándo te va bien.`,
-      `${greeting}lamento de verdad lo que ocurrió. Tienes razón en todo lo que dices. Ya estamos trabajando en ello para que no vuelva a pasar. Si me das una oportunidad, te invito personalmente a cenar para compensarlo.`,
+      `${greeting}siento muchísimo lo que pasaste. No es la experiencia que queremos dar. Ya hemos hablado con el equipo para solucionarlo. Esperamos que nos des otra oportunidad y poder demostrarte que podemos hacerlo mejor.`,
+      `${greeting}lamento de verdad lo que ocurrió. Tienes razón. Ya estamos trabajando en ello para que no vuelva a pasar. Esperamos verte de nuevo por aquí.`,
     ];
 
     let templates: string[];
