@@ -145,11 +145,10 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              {reviewAuthor && (
-                <div className="mb-2 text-xs text-gray-400">
-                  De <span className="font-medium text-gray-600">{reviewAuthor}</span>
-                </div>
-              )}
+              <div className="mb-2 flex items-center gap-2">
+                <span className="text-xs text-gray-400">De</span>
+                <input type="text" value={reviewAuthor} onChange={(e) => setReviewAuthor(e.target.value)} placeholder="Nombre del cliente (opcional)" className="text-xs text-gray-600 border border-gray-200 rounded-lg px-2 py-1 w-full focus:outline-none focus:border-orange-300" />
+              </div>
               <textarea
                 value={review}
                 onChange={(e) => setReview(e.target.value)}

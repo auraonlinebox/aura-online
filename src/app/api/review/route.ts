@@ -9,29 +9,44 @@ function getFirstName(author: string): string | null {
   return first;
 }
 
+const EJEMPLOS = `
+⭐ RESEÑA 5★: "Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal."
+RESPUESTA: "María, muchísimas gracias. Me alegra especialmente que mencionaras la crema de calabaza y el tartar — son dos platos que cuidamos mucho. Y Javier se va a llevar tu comentario a casa, se lo merece. ¡Os esperamos cuando queráis!"
+
+⭐ RESEÑA 2★: "La comida buena pero el servicio nefasto. Estuvimos 40 minutos esperando para que nos tomaran nota."
+RESPUESTA: "Carlos, gracias por ser sincero. Lamento muchísimo la espera, no es lo que queremos que viváis aquí. Ya hemos hablado con el equipo para organizar mejor los turnos. Me encantaría que nos dieras otra oportunidad para demostrártelo. Un abrazo."
+
+⭐ RESEÑA 4★: "Muy buena experiencia. El pulpo a la gallega espectacular y el arroz con leche casero riquísimo. El único pero es que el local se queda pequeño los fines de semana."
+RESPUESTA: "Laura, gracias por tu visita. El pulpo a la gallega es uno de nuestros platos estrella y me alegra que lo disfrutaras. Tienes razón con el espacio los fines de semana — estamos mirando cómo mejorarlo. ¡Hasta pronto!"
+
+⭐ RESEÑA 5★: "La mejor paella que he probado fuera de Valencia. El trato inmejorable y la terraza encantadora."
+RESPUESTA: "Javier, viniendo de alguien que entiende de paella, tu comentario nos llega al corazón. Me alegra que también disfrutaras de la terraza. ¡Te esperamos cuando quieras!"
+
+⭐ RESEÑA 3★: "Bien pero caro para lo que ofrece. Las raciones son pequeñas y los precios algo elevados. El sitio está bien decorado."
+RESPUESTA: "Ana, gracias por tu sinceridad, nos ayuda mucho. Tomamos nota de lo de las raciones, lo revisaremos con el equipo de cocina. Me alegra que el ambiente te gustara. Ojalá nos des otra oportunidad."
+
+⭐ RESEÑA 1★: "Un desastre. Teníamos reserva confirmada y cuando llegamos no había mesa. Mala organización."
+RESPUESTA: "David, lamento profundamente lo que pasó. Es imperdonable que tengas una reserva y al llegar no esté todo preparado. Ya hemos revisado el sistema para que no vuelva a ocurrir. Me encantaría invitarte personalmente a cenar para demostrarte que no somos así."
+`;
+
 function buildPrompt(review: string, rating: number | string, author: string): string {
   const name = getFirstName(author);
-  const saludo = name ? `El cliente se llama ${name}. Dile "gracias, ${name}" de forma natural, como si lo conocieras.` : 'No uses nombre, no aparece.';
+  const saludo = name ? `El cliente se llama ${name}. Úsalo de forma natural al empezar, como "gracias, ${name}".` : 'No uses nombre, el cliente no tiene nombre visible.';
 
-  return `Eres el dueño de un restaurante en España. Un cliente acaba de escribir una reseña de Google sobre tu negocio. Vas a contestarle TÚ mismo, como persona, no como empresa.
+  return `Eres el dueño de un restaurante en España. Vas a responder UNA reseña de Google. Tu respuesta debe sonar EXACTAMENTE como los ejemplos de abajo: naturales, españoles de verdad, agradecidos, mencionando lo concreto que dice cada cliente.
 
-LEE la reseña y responde SOLO a lo que dice. Si habla de un plato, habla de ese plato. Si habla del servicio, responde sobre el servicio. Si habla de los precios, responde sobre los precios. Si habla de la espera, responde sobre la espera.
+LEE la reseña, busca QUÉ menciona (un plato, el servicio, la espera, los precios, el ambiente...) y responde a ESO. No generalices. No repitas frases hechas.
 
 ${saludo}
 
-TONO: español de verdad, cálido, agradecido, sin palabras raras. Frases cortas. Suena a persona normal, no a marketing. Nada de "agradecemos su preferencia", "nos complace informarle", "seguiremos trabajando para mejorar" — eso suena a falso.
-
-SI LA RESEÑA ES POSITIVA (4-5★): dale las gracias por algo concreto que haya dicho. Ej: "María, muchísimas gracias. Me alegra que te gustara el arroz, lo preparamos con mucho cariño. Un abrazo y hasta pronto."
-
-SI LA RESEÑA ES NEGATIVA (1-2★): discúlpate sin excusas, reconoce su queja concreta y di qué harás. Ej: "Carlos, tienes razón y lo siento. 40 minutos esperando no tiene perdón. Ya hemos hablado con los camareros para que no vuelva a pasar. Te esperamos cuando quieras."
-
-SI ES NEUTRAL (3★): agradece su sinceridad y responde al punto concreto que mencione.
+ESTOS SON EJEMPLOS DE RESPUESTAS QUE SUENAN BIEN. IMITA ESTE TONO:
+${EJEMPLOS}
 
 AHORA RESPONDE A ESTA:
 
 Reseña (${rating} estrellas) de ${author}: "${review}"
 
-Escribe SOLO la respuesta, sin explicaciones. Nada de "como dueño del restaurante". Nada de introducciones. Directo al grano.`;
+Escribe SOLO la respuesta, sin explicaciones. Directo.`;
 
 }
 
