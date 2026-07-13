@@ -23,7 +23,9 @@ export default function Home() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [restaurant, setRestaurant] = useState('');
+  const [phone, setPhone] = useState('');
   const [sending, setSending] = useState(false);
+  const [accepted, setAccepted] = useState(false);
 
   const generateResponse = async (e?: FormEvent) => {
     if (e) e.preventDefault();
@@ -246,7 +248,7 @@ export default function Home() {
               <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
               <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
-            <form onSubmit={async (e) => { e.preventDefault(); setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setEmail(''); setRestaurant(''); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
+            <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setEmail(''); setRestaurant(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
               <div>
                 <label className="text-xs text-gray-500 font-medium">Nombre</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Tu nombre" />
@@ -259,7 +261,15 @@ export default function Home() {
                 <label className="text-xs text-gray-500 font-medium">Restaurante</label>
                 <input type="text" value={restaurant} onChange={(e) => setRestaurant(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Nombre de tu restaurante" />
               </div>
-              <button type="submit" disabled={sending} className="w-full py-3 bg-gray-900 text-white font-medium rounded-xl hover:bg-gray-800 transition-all disabled:opacity-50">
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Teléfono <span className="text-gray-300">(opcional)</span></label>
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="+34 600 000 000" />
+              </div>
+              <label className="flex items-start gap-2 text-xs text-gray-500">
+                <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-0.5" />
+                <span>He leído y acepto la <a href="/privacidad" target="_blank" className="text-orange-500 underline hover:text-orange-600">política de privacidad</a></span>
+              </label>
+              <button type="submit" disabled={sending || !accepted} className="w-full py-3 bg-gray-900 text-white font-medium rounded-xl hover:bg-gray-800 transition-all disabled:opacity-50">
                 {sending ? 'Enviando...' : 'Enviar solicitud'}
               </button>
             </form>
@@ -271,7 +281,7 @@ export default function Home() {
       <footer className="bg-white py-8 border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-4 text-center text-xs text-gray-400">
           <h4 className="font-bold text-gray-700 mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>AURA</h4>
-          <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a></p>
+          <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a> | <a href="/privacidad" className="hover:text-gray-600 underline">Privacidad</a></p>
         </div>
       </footer>
     </div>

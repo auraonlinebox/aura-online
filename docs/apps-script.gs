@@ -6,7 +6,8 @@ function doGet(e) {
       e.parameter.name || '',
       e.parameter.email || '',
       e.parameter.restaurant || '',
-      e.parameter.phone || ''
+      e.parameter.phone || '',
+      e.parameter.accepted || ''
     ]);
     return ContentService
       .createTextOutput(JSON.stringify({ success: true }))
