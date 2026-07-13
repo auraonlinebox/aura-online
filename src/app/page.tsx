@@ -232,7 +232,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 3 días',
                 review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda.',
-                response: 'María, muchísimas gracias. Me alegra especialmente que mencionaras la crema de calabaza y el tartar — son dos platos que cuidamos mucho. Y Javier se va a llevar tu comentario a casa, se lo merece. ¡Os esperamos cuando queráis!',
+                response: 'María, gracias de verdad. Me alegra un montón que os gustara la crema de calabaza y el tartar, los cocinamos con mucho cariño. Y a Javier le voy a leer tu comentario, se lo merece. ¡Os esperamos!',
               },
               {
                 name: 'Carlos Martínez',
@@ -240,7 +240,7 @@ export default function Home() {
                 stars: 2,
                 date: 'hace 1 semana',
                 review: 'La comida buena pero el servicio nefasto. Estuvimos 40 minutos esperando para que nos tomaran nota y cuando pedimos la cuenta, otro cuarto de hora. El camarero parecía agobiado.',
-                response: 'Carlos, gracias por ser sincero. Lamento muchísimo la espera, no es lo que queremos que viváis aquí. Ya hemos hablado con el equipo para organizar mejor los turnos. Me encantaría que nos dieras otra oportunidad para demostrártelo. Un abrazo.',
+                response: 'Carlos, disculpa, tienes toda la razón. 40 minutos esperando no se le hace a nadie. Ya he hablado con el equipo de sala para que no vuelva a pasar. Esperamos verte de nuevo.',
               },
               {
                 name: 'Laura Pérez',
@@ -248,7 +248,7 @@ export default function Home() {
                 stars: 4,
                 date: 'hace 5 días',
                 review: 'Muy buena experiencia. El pulpo a la gallega espectacular y el arroz con leche casero riquísimo. El único pero es que el local se queda pequeño los fines de semana.',
-                response: 'Laura, gracias por tu visita y por tomarte el tiempo. El pulpo a la gallega es uno de nuestros platos estrella y me alegra que lo disfrutaras. Tienes razón con el espacio los fines de semana — estamos mirando cómo mejorarlo. ¡Hasta pronto!',
+                response: 'Laura, gracias. Me alegra que disfrutaras del pulpo, es de los platos que más mimamos. Y lo del espacio, tienes razón, los fines de semana se nos queda pequeño, estamos en ello. ¡Hasta pronto!',
               },
               {
                 name: 'Javier Ruiz',
@@ -256,7 +256,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 2 semanas',
                 review: 'La mejor paella que he probado fuera de Valencia. El trato inmejorable y la terraza encantadora. Precio más que razonable para la calidad.',
-                response: 'Javier, viniendo de alguien que entiende de paella, tu comentario nos llega al corazón. Trabajamos cada día para que cada plato esté a la altura. Me alegra que también disfrutaras de la terraza. ¡Te esperamos cuando quieras!',
+                response: 'Javier, gracias de verdad. Que digas eso de nuestra paella, viniendo de alguien que sabe, es lo mejor que nos podían decir. Me alegra que disfrutaras también de la terraza. ¡Te esperamos!',
               },
               {
                 name: 'Ana Sánchez',
@@ -264,7 +264,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 1 semana',
                 review: 'Bien pero caro para lo que ofrece. Las raciones son pequeñas y los precios algo elevados. El sitio está bien decorado y el servicio correcto.',
-                response: 'Ana, gracias por tu sinceridad, nos ayuda mucho. Tomamos nota de lo de las raciones, lo revisaremos con el equipo de cocina. Me alegra que el ambiente te gustara. Ojalá nos des otra oportunidad para ajustar lo que no funcionó.',
+                response: 'Ana, gracias por ser sincera. Tomamos nota de lo de las raciones, tienes razón que hay que revisarlo. Un saludo.',
               },
               {
                 name: 'David López',
@@ -272,7 +272,7 @@ export default function Home() {
                 stars: 1,
                 date: 'hace 4 días',
                 review: 'Un desastre. Teníamos reserva confirmada y cuando llegamos no había mesa. Muy mala organización y el recibimiento fue frío. No volveré.',
-                response: 'David, lamento profundamente lo que pasó. No tiene excusa. Ya hemos revisado el sistema de reservas para que no se repita. Esperamos que nos des una segunda oportunidad.',
+                response: 'David, lo siento mucho. Fallar con una reserva no tiene perdón. Ya hemos revisado el sistema para que no se repita. Esperamos verte de nuevo.',
               },
             ].map((r, i) => (
               <div key={i} className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">

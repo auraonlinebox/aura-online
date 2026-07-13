@@ -33,32 +33,34 @@ function buildPrompt(review: string, author: string): string {
   const name = getFirstName(author);
   const sentGuide = sentimentPrompt(review);
 
-  return `Eres el dueño de un restaurante en España. Vas a contestar una reseña de Google. IGNORA las estrellas. LEE el TEXTO y responde a lo que dice.
+  return `Eres el dueño de un restaurante en España. Vas a contestar una reseña de Google. IGNORA las estrellas. LEE el TEXTO y responde SOLO a lo que dice.
 
 ${sentGuide}
 
+INSTRUCCIÓN CLAVE: Busca en el texto qué menciona EXACTAMENTE y responde a ESO. No hagas un mensaje genérico.
+
 PASOS:
-1. LEE la reseña.
-2. BUSCA qué menciona: ¿un plato concreto? (croqueta, paella, pulpo, arroz, crema, tartar...), ¿el servicio?, ¿el ambiente?, ¿los precios?, ¿la espera?, ¿una reserva?, ¿un camarero?
-3. RESPONDE a eso. Si menciona un plato, habla de ese plato. Si menciona a un camarero, responde sobre él. Si se queja de algo, discúlpate por ESO.
+1. LEE la reseña palabra por palabra.
+2. ENCUENTRA los puntos clave: ¿un plato concreto? (croqueta, paella, pulpo, arroz, crema, tartar...), ¿el servicio?, ¿el ambiente?, ¿los precios?, ¿la espera?, ¿una reserva?, ¿un camarero?
+3. RESPONDE solo a esos puntos. Si menciona un plato, habla de ESE plato. Si menciona a un camarero, responde sobre él. Si se queja de algo, discúlpate por ESO concretamente.
 4. USA el nombre si está visible.${name ? ` Se llama ${name}.` : ''}
-5. CIERRA corto: "un abrazo", "hasta pronto".
+5. CIERRA corto: "un abrazo", "hasta pronto", "te esperamos".
 
-PROHIBIDO: "agradecemos su preferencia", "nos complace", "valoramos su opinión", "esperamos verte pronto", "te invito a cenar". Suena a robot.
-USA EN SU LUGAR: "gracias de verdad", "tienes razón", "lo siento", "lo hablamos con el equipo", "te esperamos".
+NO USAR: frases hechas de robot como "agradecemos su preferencia", "nos complace", "valoramos su opinión", "te invito a cenar", "para demostrártelo", "ajustar lo que no funcionó".
+USA: "gracias de verdad", "tienes razón", "lo siento", "lo hablamos con el equipo", "me alegra un montón".
 
-MÁXIMO 3 FRASES. Sin introducciones. Directo.
+MÁXIMO 3 FRASES. Sin introducciones. Directo. Suena a persona real, no a community manager.
 
 EJEMPLOS:
 
 Cliente: María | "La crema de calabaza increíble. El camarero Javier fenomenal."
-→ "María, muchísimas gracias. Me alegra que mencionaras la crema de calabaza, la preparamos con mucho cariño. Y Javier se va a llevar tu comentario a casa. ¡Os esperamos cuando queráis!"
+→ "María, gracias de verdad. Me alegra un montón que te gustara la crema de calabaza, la hacemos con mucho cariño. Y Javier se va a llevar tu comentario a casa. ¡Os esperamos!"
 
 Cliente: Carlos | "Comida buena pero 40 minutos esperando. Servicio nefasto."
-→ "Carlos, disculpa, tienes toda la razón. 40 minutos es demasiado. Ya hemos hablado con el equipo de sala. Esperamos verte de nuevo para que sea una experiencia mejor. Un saludo."
+→ "Carlos, disculpa, tienes razón. 40 minutos esperando no se le hace a nadie. Ya he hablado con el equipo de sala. Esperamos verte de nuevo."
 
 Cliente: Antonio | "La comida buena pero Juan el camarero es muy desagradable. No volveré."
-→ "Antonio, lamento muchísimo lo que pasaste con Juan. No es la actitud que queremos en nuestro equipo. Ya lo hemos hablado con él. Gracias por decírmelo, de verdad."
+→ "Antonio, lo siento mucho. Lo que pasaste con Juan no es aceptable. Ya lo hemos hablado con él. Gracias por decirlo."
 
 AHORA RESPONDE A ESTA RESEÑA (IGNORA LAS ESTRELLAS, LEE SOLO EL TEXTO):
 
@@ -106,16 +108,16 @@ export async function POST(req: Request) {
     const sentiment = detectSentiment(review);
 
     const positives = [
-      `${greeting}muchísimas gracias. Me alegra de verdad que lo pasaras bien. Trabajamos cada día para esto. ¡Un abrazo y hasta pronto!`,
-      `${greeting}gracias por tu visita y por compartir tu experiencia. Nos alegra saber que todo fue bien. Te esperamos cuando quieras.`,
+      `${greeting}gracias de verdad. Me alegra un montón que lo pasaras bien. ¡Te esperamos!`,
+      `${greeting}gracias por venir. Nos alegra que todo fuera bien. ¡Hasta pronto!`,
     ];
     const neutrals = [
-      `${greeting}gracias por tu sinceridad. Tomamos nota de lo que comentas y lo tendremos en cuenta para mejorar. Un saludo.`,
-      `${greeting}agradezco que te hayas tomado el tiempo de escribir. Cada opinión nos ayuda a mejorar día a día. Esperamos verte de nuevo.`,
+      `${greeting}gracias por tu sinceridad. Tomamos nota de lo que dices. Un saludo.`,
+      `${greeting}gracias por tomarte el tiempo de escribir. Nos ayuda. Un saludo.`,
     ];
     const negatives = [
-      `${greeting}siento mucho lo que pasaste. Lamento que la experiencia no fuera buena. Hablaremos con el equipo para que no se repita. Gracias por decírmelo.`,
-      `${greeting}tienes razón y lo siento. No es la experiencia que queremos dar. Tomamos nota de tu queja y trabajaremos en ello. Un saludo.`,
+      `${greeting}siento mucho lo que pasaste. Hablaremos con el equipo. Gracias por decirlo.`,
+      `${greeting}tienes razón y lo siento. No es lo que queremos. Tomamos nota. Un saludo.`,
     ];
 
     let templates: string[];
