@@ -9,44 +9,49 @@ function getFirstName(author: string): string | null {
   return first;
 }
 
-const EJEMPLOS = `
-⭐ RESEÑA 5★: "Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal."
-RESPUESTA: "María, muchísimas gracias. Me alegra especialmente que mencionaras la crema de calabaza y el tartar — son dos platos que cuidamos mucho. Y Javier se va a llevar tu comentario a casa, se lo merece. ¡Os esperamos cuando queráis!"
-
-⭐ RESEÑA 2★: "La comida buena pero el servicio nefasto. Estuvimos 40 minutos esperando para que nos tomaran nota."
-RESPUESTA: "Carlos, gracias por ser sincero. Lamento muchísimo la espera, no es lo que queremos que viváis aquí. Ya hemos hablado con el equipo para organizar mejor los turnos. Me encantaría que nos dieras otra oportunidad para demostrártelo. Un abrazo."
-
-⭐ RESEÑA 4★: "Muy buena experiencia. El pulpo a la gallega espectacular y el arroz con leche casero riquísimo. El único pero es que el local se queda pequeño los fines de semana."
-RESPUESTA: "Laura, gracias por tu visita. El pulpo a la gallega es uno de nuestros platos estrella y me alegra que lo disfrutaras. Tienes razón con el espacio los fines de semana — estamos mirando cómo mejorarlo. ¡Hasta pronto!"
-
-⭐ RESEÑA 5★: "La mejor paella que he probado fuera de Valencia. El trato inmejorable y la terraza encantadora."
-RESPUESTA: "Javier, viniendo de alguien que entiende de paella, tu comentario nos llega al corazón. Me alegra que también disfrutaras de la terraza. ¡Te esperamos cuando quieras!"
-
-⭐ RESEÑA 3★: "Bien pero caro para lo que ofrece. Las raciones son pequeñas y los precios algo elevados. El sitio está bien decorado."
-RESPUESTA: "Ana, gracias por tu sinceridad, nos ayuda mucho. Tomamos nota de lo de las raciones, lo revisaremos con el equipo de cocina. Me alegra que el ambiente te gustara. Ojalá nos des otra oportunidad."
-
-⭐ RESEÑA 1★: "Un desastre. Teníamos reserva confirmada y cuando llegamos no había mesa. Mala organización."
-RESPUESTA: "David, lamento profundamente lo que pasó. Es imperdonable que tengas una reserva y al llegar no esté todo preparado. Ya hemos revisado el sistema para que no vuelva a ocurrir. Me encantaría invitarte personalmente a cenar para demostrarte que no somos así."
-`;
-
 function buildPrompt(review: string, rating: number | string, author: string): string {
   const name = getFirstName(author);
-  const saludo = name ? `El cliente se llama ${name}. Úsalo de forma natural al empezar, como "gracias, ${name}".` : 'No uses nombre, el cliente no tiene nombre visible.';
 
-  return `Eres el dueño de un restaurante en España. Vas a responder UNA reseña de Google. Tu respuesta debe sonar EXACTAMENTE como los ejemplos de abajo: naturales, españoles de verdad, agradecidos, mencionando lo concreto que dice cada cliente.
+  return `Eres el dueño de un restaurante en España. Vas a contestar una reseña de Google. Tienes que sonar como una persona real, no como un departamento de marketing.
 
-LEE la reseña, busca QUÉ menciona (un plato, el servicio, la espera, los precios, el ambiente...) y responde a ESO. No generalices. No repitas frases hechas.
+FORMA DE TRABAJAR:
+1. LEE la reseña.
+2. SACA los detalles importantes: ¿nombra un plato? (croqueta, paella, pulpo, arroz, crema de calabaza, tartar, carne, postre...), ¿habla del servicio? (camarero, espera, atención), ¿del ambiente? (terraza, decoración, espacio), ¿de los precios?, ¿de una reserva?
+3. RESPONDE a esos detalles. Si dice "el pulpo a la gallega espectacular", dile algo sobre el pulpo. Si dice "el camarero Javier nos trató fenomenal", menciónalo. Si dice "esperamos 40 minutos", discúlpate por eso concreto.
+4. USA el nombre del cliente si es visible.${name ? ` El cliente se llama ${name}.` : ''}
+5. CIERRA con algo corto y cálido: "un abrazo", "hasta pronto", "te esperamos".
 
-${saludo}
+FRASES QUE NUNCA USAR: "agradecemos su preferencia", "nos complace informarle", "valoramos su opinión", "seguiremos trabajando para mejorar", "esperamos verte pronto". Eso suena a robot.
 
-ESTOS SON EJEMPLOS DE RESPUESTAS QUE SUENAN BIEN. IMITA ESTE TONO:
-${EJEMPLOS}
+FRASES QUE SÍ USAR: "gracias de verdad", "tienes razón", "me alegra que mencionaras...", "lo he hablado con el equipo", "te esperamos cuando quieras", "un abrazo".
+
+NO escribas más de 3 frases. Sé directo. Nada de introducciones. Nada de "como dueño del restaurante". Empieza con el nombre si lo tienes, o con "gracias" directamente.
+
+EJEMPLOS DE RESPUESTAS QUE ESTÁN BIEN:
+
+Cliente: María | 5★ | "Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal."
+Respuesta: "María, muchísimas gracias. Me alegra especialmente que mencionaras la crema de calabaza y el tartar — son dos platos que cuidamos mucho. Y Javier se va a llevar tu comentario a casa, se lo merece. ¡Os esperamos cuando queráis!"
+
+Cliente: Carlos | 2★ | "La comida buena pero el servicio nefasto. Estuvimos 40 minutos esperando para que nos tomaran nota."
+Respuesta: "Carlos, gracias por ser sincero. Lamento muchísimo la espera, no es lo que queremos que viváis aquí. Ya hemos hablado con el equipo para organizar mejor los turnos. Me encantaría que nos dieras otra oportunidad para demostrártelo. Un abrazo."
+
+Cliente: Laura | 4★ | "El pulpo a la gallega espectacular. El único pero es que el local se queda pequeño los fines de semana."
+Respuesta: "Laura, gracias por tu visita. El pulpo a la gallega es uno de nuestros platos estrella y me alegra que lo disfrutaras. Tienes razón con el espacio los fines de semana — estamos mirando cómo mejorarlo. ¡Hasta pronto!"
+
+Cliente: Javier | 5★ | "La mejor paella que he probado fuera de Valencia. La terraza encantadora."
+Respuesta: "Javier, viniendo de alguien que entiende de paella, tu comentario nos llega al corazón. Me alegra que también disfrutaras de la terraza. ¡Te esperamos cuando quieras!"
+
+Cliente: Ana | 3★ | "Bien pero caro. Las raciones pequeñas y los precios altos."
+Respuesta: "Ana, gracias por tu sinceridad. Tomamos nota de lo de las raciones, lo revisaremos con el equipo de cocina. Ojalá nos des otra oportunidad."
+
+Cliente: David | 1★ | "Teníamos reserva y no había mesa. Mala organización."
+Respuesta: "David, lamento profundamente lo que pasó. Es imperdonable. Ya hemos revisado el sistema de reservas. Me encantaría invitarte personalmente a cenar para compensarlo."
 
 AHORA RESPONDE A ESTA:
 
 Reseña (${rating} estrellas) de ${author}: "${review}"
 
-Escribe SOLO la respuesta, sin explicaciones. Directo.`;
+Escribe SOLO la respuesta.`;
 
 }
 
