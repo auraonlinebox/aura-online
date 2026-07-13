@@ -55,10 +55,9 @@ export default function Home() {
       {/* Header */}
       <header className="border-b border-gray-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
-            <span className="text-gray-900">AURA</span>
-            <span className="text-orange-500 text-xs align-top ml-0.5">®</span>
-          </h1>
+          <a href="/" className="flex items-center gap-2">
+            <img src="/logo.svg" alt="AURA" className="h-8" />
+          </a>
           <nav className="flex items-center gap-6 text-sm">
             <a href="#demo" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Demo</a>
             <a href="#como-funciona" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Cómo funciona</a>
