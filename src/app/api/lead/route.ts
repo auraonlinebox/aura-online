@@ -5,14 +5,11 @@ const SHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIr
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const res = await fetch(SHEET_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      redirect: 'follow',
-    });
+    const params = new URLSearchParams({ name: body.name || '', email: body.email || '', restaurant: body.restaurant || '', phone: body.phone || '' });
+    const res = await fetch(`${SHEET_WEBHOOK}?${params}`, { redirect: 'follow' });
     const text = await res.text();
-    return NextResponse.json({ success: res.ok, raw: text });
+    const json = JSON.parse(text);
+    return NextResponse.json(json);
   } catch {
     return NextResponse.json({ success: false, error: 'Error al conectar con Google Sheets' }, { status: 500 });
   }
