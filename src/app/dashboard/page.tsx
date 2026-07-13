@@ -84,22 +84,21 @@ const DEMO_REVIEWS: Review[] = [
     author: 'Clara88',
     rating: 5,
     date: '12 jul 2026',
-    text: 'Muy bueno todo, volveré',
+    text: 'Todo genial, muy recomendable. Volveremos sin duda. La comida espectacular y el servicio de 10.',
     response: '',
     status: 'pending',
-    spam: 'suspicious',
-    spamReason: 'Texto muy corto, sin detalles. Perfil sin foto.',
+    spam: 'none',
   },
   {
     id: 'spam2',
     author: 'Juan T.',
-    rating: 5,
+    rating: 1,
     date: '11 jul 2026',
-    text: 'Excelente servicio, excelente comida, excelente atención, excelente todo. Muy recomendable. Excelente.',
+    text: ' pesimo pesimo pesimo pesimo pesimo nada recomendable llamar antes de ir pesimo',
     response: '',
     status: 'pending',
     spam: 'suspicious',
-    spamReason: 'Misma palabra repetida, parece reseña genérica.',
+    spamReason: 'Texto repetitivo, parece reseña automatizada o falsa.',
   },
 ];
 
@@ -229,7 +228,7 @@ export default function DashboardPage() {
       const res = await fetch('/api/review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ review: review.text, rating: review.rating }),
+        body: JSON.stringify({ review: review.text, rating: review.rating, author: review.author }),
       });
       const data = await res.json();
       setReviews((prev) => prev.map((r) => (r.id === id ? { ...r, response: data.response || 'Error al generar', status: 'pending' } : r)));
