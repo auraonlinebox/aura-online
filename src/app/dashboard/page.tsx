@@ -314,7 +314,7 @@ export default function DashboardPage() {
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/">
-              <img src="/logo.svg" alt="AURA" className="h-7" />
+              <img src="/logo.svg" alt="AURA" className="h-9 sm:h-10" />
             </Link>
             <span className="text-gray-300">|</span>
             {editingName ? (
