@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 
 type ReviewStatus = 'pending' | 'published' | 'dismissed' | 'generating';
@@ -212,6 +212,57 @@ export default function DashboardPage() {
   const [restaurant, setRestaurant] = useState('Restaurante El Sabor');
   const [editingName, setEditingName] = useState(false);
   const [tempName, setTempName] = useState(restaurant);
+  const [pushSub, setPushSub] = useState<PushSubscription | null>(null);
+  const [pushStatus, setPushStatus] = useState<'idle' | 'loading' | 'subscribed' | 'unsupported' | 'denied'>('idle');
+
+  useEffect(() => {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      setPushStatus('unsupported');
+      return;
+    }
+    navigator.serviceWorker.register('/sw.js').then((reg) => {
+      reg.pushManager.getSubscription().then((sub) => {
+        if (sub) { setPushSub(sub); setPushStatus('subscribed'); }
+      });
+    }).catch(() => setPushStatus('unsupported'));
+  }, []);
+
+  const subscribePush = useCallback(async () => {
+    try {
+      setPushStatus('loading');
+      const reg = await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: 'BAKzHfrBc9keVIdmX--lECy631JyOI1AMXaNbnsPn5TZqbmrq78qxgS5OmGEFXT44l2-dwxldORlEZS9sqFNk6U',
+      });
+      await fetch('/api/push/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sub.toJSON()),
+      });
+      setPushSub(sub);
+      setPushStatus('subscribed');
+    } catch {
+      setPushStatus('denied');
+    }
+  }, []);
+
+  const testNotification = useCallback(async () => {
+    if (!pushSub) return;
+    const demoIndex = Math.floor(Math.random() * reviews.length);
+    const demo = reviews[demoIndex];
+    const name = Notification.permission === 'granted' ? '' : '';
+    await fetch('/api/push/trigger', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subscription: pushSub.toJSON(),
+        title: `⭐ ${demo.rating}★ — ${demo.author}`,
+        body: demo.text.slice(0, 80) + (demo.text.length > 80 ? '...' : ''),
+        url: '/dashboard',
+      }),
+    });
+  }, [pushSub, reviews]);
 
   const filtered = reviews.filter((r) => {
     if (filter === 'pending') return r.status === 'pending';
@@ -281,6 +332,15 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center gap-3 text-xs text-gray-500">
             <span className="hidden sm:inline">Panel demo</span>
+            {pushStatus === 'idle' && (
+              <button onClick={subscribePush} className="hover:text-orange-500 text-gray-400">🔔 Activar notif.</button>
+            )}
+            {pushStatus === 'loading' && <span className="text-gray-300">⌛</span>}
+            {pushStatus === 'subscribed' && (
+              <button onClick={testNotification} className="hover:text-orange-500 text-emerald-500">🔔 Probar</button>
+            )}
+            {pushStatus === 'denied' && <span className="text-gray-300" title="Notificaciones bloqueadas">🔔 Bloqueado</span>}
+            {pushStatus === 'unsupported' && <span className="text-gray-300">🔔 No compatible</span>}
             <Link href="/" className="hover:text-orange-500">Ver web</Link>
           </div>
         </div>
