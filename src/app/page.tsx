@@ -305,7 +305,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 3 días',
                 review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda.',
-                response: 'María, gracias de corazón. La crema de calabaza y el tartar son platos que cuidamos con esmero. Y a Javier le haré llegar tu comentario, se lo merece. Un fuerte abrazo.',
+                response: 'María, gracias de corazón 🙏 La crema de calabaza y el tartar son platos que cuidamos con esmero. Y a Javier le haré llegar tu comentario, se lo merece 👏 Un fuerte abrazo 🤗',
                 label: 'Restaurante',
               },
               {
@@ -314,7 +314,7 @@ export default function Home() {
                 stars: 4,
                 date: 'hace 5 días',
                 review: 'Muy contenta con el corte. Patricia entendió exactamente lo que quería y me dio buenos consejos para el mantenimiento en casa. El trato fue súper agradable. Repetiré sin duda.',
-                response: 'Sara, gracias por tus palabras. Patricia se alegrará mucho de leer esto. Nos encanta que nuestros clientes salgan contentos. Te esperamos cuando quieras. Un abrazo.',
+                response: 'Sara, gracias por tus palabras ✨ Patricia se alegrará mucho de leer esto. Nos encanta que nuestros clientes salgan contentos 😊 Te esperamos cuando quieras 🤗',
                 label: 'Peluquería',
               },
               {
@@ -323,7 +323,7 @@ export default function Home() {
                 stars: 1,
                 date: 'hace 1 semana',
                 review: 'Dejé el coche por una revisión y tardaron 3 días en decirme qué tenía. El presupuesto final duplicó el inicial y encima no quedó bien arreglado del todo. Mala comunicación.',
-                response: 'Javier, lamento profundamente la experiencia. No es la forma de trabajar que queremos. Hemos revisado el proceso para que los presupuestos sean más claros. Gracias por tu sinceridad.',
+                response: 'Javier, lamento profundamente la experiencia 🙏 No es la forma de trabajar que queremos. Hemos revisado el proceso para que los presupuestos sean más claros 💪 Gracias por tu sinceridad 🤝',
                 label: 'Taller mecánico',
               },
               {
@@ -332,7 +332,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 4 días',
                 review: 'La mejor clínica dental en la que he estado. La dra. Martínez es un encanto y me explicó todo el tratamiento paso a paso. Cero dolor y resultados increíbles. 100% recomendable.',
-                response: 'Laura, qué alegría leer esto. La doctora Martínez se entrega a cada paciente y le haré llegar tu comentario. Nos llena de satisfacción saber que estás contenta. Hasta pronto.',
+                response: 'Laura, qué alegría leer esto 😊 La doctora Martínez se entrega a cada paciente y le haré llegar tu comentario ⭐ Nos llena de satisfacción saber que estás contenta ❤️ Hasta pronto 👋',
                 label: 'Clínica dental',
               },
               {
@@ -341,7 +341,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 1 semana',
                 review: 'El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena.',
-                response: 'Ana, gracias por tu sinceridad. Tomamos nota de los tiempos de espera y lo revisaremos. Nos alegra que valores la calidad de nuestros productos. Un saludo afectuoso.',
+                response: 'Ana, gracias por tu sinceridad 🙏 Tomamos nota de los tiempos de espera y lo revisaremos 👍 Nos alegra que valores la calidad de nuestros productos ✨ Un saludo afectuoso 😊',
                 label: 'Tienda de ropa',
               },
               {
@@ -350,7 +350,7 @@ export default function Home() {
                 stars: 2,
                 date: 'hace 2 días',
                 review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.',
-                response: 'David, lamento mucho la tardanza. La puntualidad es fundamental y no estuvo a la altura. Ya hemos hablado con el equipo para que no se repita. Esperamos una nueva oportunidad.',
+                response: 'David, lamento mucho la tardanza 🙏 La puntualidad es fundamental y no estuvo a la altura. Ya hemos hablado con el equipo para que no se repita 💪 Esperamos una nueva oportunidad 🤝',
                 label: 'Limpiezas',
               },
             ].map((r, i) => (

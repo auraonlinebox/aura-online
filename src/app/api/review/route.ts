@@ -87,39 +87,39 @@ function pick<T>(arr: T[]): T {
 }
 
 const openerPos = (g: string) => pick([
-  `${g}gracias de corazón`,
-  `${g}qué alegría leer esto`,
-  `${g}nos llena de satisfacción tu comentario`,
-  `${g}gracias por tus palabras`,
-  `${g}cuánto nos alegramos de que así fuera`,
-  `${g}es un placer recibir reseñas como esta`,
-  `${g}de verdad, gracias por tu tiempo`,
-  `${g}gracias, qué bonito leer algo así`,
-  `${g}nos llega al alma tu comentario`,
-  `${g}mil gracias por compartirlo`,
+  `${g}gracias de corazón 🙏`,
+  `${g}qué alegría leer esto 😊`,
+  `${g}nos llena de satisfacción tu comentario ❤️`,
+  `${g}gracias por tus palabras ✨`,
+  `${g}cuánto nos alegramos de que así fuera 🙌`,
+  `${g}es un placer recibir reseñas como esta 🌟`,
+  `${g}de verdad, gracias por tu tiempo 🤗`,
+  `${g}gracias, qué bonito leer algo así 💛`,
+  `${g}nos llega al alma tu comentario 🙏`,
+  `${g}mil gracias por compartirlo 👏`,
 ]);
 const openerNeg = (g: string) => pick([
-  `${g}lamento sinceramente lo ocurrido`,
-  `${g}gracias por tu honestidad, la valoro profundamente`,
-  `${g}siento mucho que la experiencia no fuera la esperada`,
-  `${g}tienes toda la razón y te pido disculpas`,
-  `${g}lamento profundamente lo sucedido`,
-  `${g}gracias por decirlo con claridad, nos ayuda a mejorar`,
-  `${g}lo siento de verdad, no es lo que queremos`,
-  `${g}agradezco tu sinceridad y lamento lo que pasó`,
+  `${g}lamento sinceramente lo ocurrido 🙏`,
+  `${g}gracias por tu honestidad, la valoro profundamente 🤝`,
+  `${g}siento mucho que la experiencia no fuera la esperada 😔`,
+  `${g}tienes toda la razón y te pido disculpas 🙏`,
+  `${g}lamento profundamente lo sucedido 😔`,
+  `${g}gracias por decirlo con claridad, nos ayuda a mejorar 💪`,
+  `${g}lo siento de verdad, no es lo que queremos 🤝`,
+  `${g}agradezco tu sinceridad y lamento lo que pasó 🙏`,
 ]);
 const openerNeu = (g: string) => pick([
-  `${g}gracias por tu sinceridad`,
-  `${g}agradezco que te hayas tomado el tiempo`,
-  `${g}gracias por compartir tu experiencia con honestidad`,
-  `${g}valoro mucho tu opinión, gracias`,
-  `${g}gracias por escribirnos, nos ayuda a crecer`,
+  `${g}gracias por tu sinceridad 🙏`,
+  `${g}agradezco que te hayas tomado el tiempo ⏱️`,
+  `${g}gracias por compartir tu experiencia con honestidad 🤝`,
+  `${g}valoro mucho tu opinión, gracias 👍`,
+  `${g}gracias por escribirnos, nos ayuda a crecer 🌱`,
 ]);
 const close = () => pick([
-  'Un fuerte abrazo.', 'Recibe un cordial saludo.', 'Con afecto.',
-  'Hasta pronto.', 'Esperamos verte de nuevo.',
-  'Un abrazo muy sincero.', 'Gracias de nuevo.',
-  'Te esperamos con los brazos abiertos.', 'Un saludo afectuoso.',
+  'Un fuerte abrazo 🤗', 'Recibe un cordial saludo 😊', 'Con afecto ❤️',
+  'Hasta pronto 👋', 'Esperamos verte de nuevo 🙌',
+  'Un abrazo muy sincero 🤗', 'Gracias de nuevo 🙏',
+  'Te esperamos con los brazos abiertos 🫂', 'Un saludo afectuoso 😊',
 ]);
 
 function dishRef(d: string, art: string): string {
@@ -147,19 +147,19 @@ function dishPos(d: string, art: string): string {
 }
 function waiterPos(w: string): string {
   return pick([
-    `se lo haré saber a ${w}, se alegrará mucho`,
-    `voy a trasladarle tu comentario a ${w}, se lo merece`,
-    `${w} es un gran profesional, le haré llegar tus palabras`,
-    `compartiré tu opinión con ${w}, le hará una ilusión enorme`,
-    `no sabes la alegría que le dará a ${w} leer esto`,
+    `se lo haré saber a ${w}, se alegrará mucho 😊`,
+    `voy a trasladarle tu comentario a ${w}, se lo merece 👏`,
+    `${w} es un gran profesional, le haré llegar tus palabras ⭐`,
+    `compartiré tu opinión con ${w}, le hará una ilusión enorme 🙌`,
+    `no sabes la alegría que le dará a ${w} leer esto ❤️`,
   ]);
 }
 function waiterNeg(w: string): string {
   return pick([
-    `hemos hablado con ${w} para que no se repita`,
-    `lo ocurrido con ${w} no nos representa. Ya está hablado`,
-    `ya hemos tratado el tema con ${w}. Gracias por señalarlo`,
-    `no es la actitud que queremos. ${w} lo sabe y lo hemos tratado`,
+    `hemos hablado con ${w} para que no se repita 🤝`,
+    `lo ocurrido con ${w} no nos representa. Ya está hablado 🙏`,
+    `ya hemos tratado el tema con ${w}. Gracias por señalarlo 👍`,
+    `no es la actitud que queremos. ${w} lo sabe y lo hemos tratado 💪`,
   ]);
 }
 function esperaRef(): string {
@@ -331,7 +331,7 @@ REGLAS:
 - Usa el nombre si está:${name ? ` "${name}"` : ''}
 - MÁXIMO 3 frases. Directo. Sin introducciones.
 
-TONO: cercano pero elegante. Dueño de restaurante con clase, que habla desde el corazón pero con estilo. Nada de "buf", "jolín", "tela", "flipar" — eso es demasiado vulgar. Usa expresiones como "gracias de corazón", "nos llena de satisfacción", "lamento sinceramente", "lo trabajamos con dedicación".
+TONO: cercano pero elegante. Dueño de negocio con clase, que habla desde el corazón pero con estilo. Nada de "buf", "jolín", "tela", "flipar" — eso es demasiado vulgar. Usa expresiones como "gracias de corazón 🙏", "nos llena de satisfacción ❤️", "lamento sinceramente 😔", "lo trabajamos con dedicación ✨". Incluye UN emoji por frase como máximo, con naturalidad.
 
 PROHIBIDO: "agradecemos su preferencia", "nos complace", "valoramos su opinión", "te invito a cenar", "para demostrártelo", "ajustar lo que no funcionó", "cuidamos con cariño", "lo mimamos", "me alegra un montón", "buf", "jolín", "anda", "jo", "tela", "madre mía", "flipar".
 
