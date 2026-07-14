@@ -171,7 +171,7 @@ export default function DashboardPage() {
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/">
-              <img src="/logo.svg" alt="AURA" className="h-9 sm:h-10" />
+              <img src="/logo.svg" alt="AURA" className="h-12 sm:h-16" />
             </Link>
             <span className="text-gray-200 hidden sm:inline">|</span>
             <div className="hidden sm:flex items-center gap-2">
