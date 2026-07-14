@@ -190,6 +190,53 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why choose us */}
+      <section className="py-16 sm:py-20">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+            ¿Por qué elegir AURA?
+          </h2>
+          <p className="text-gray-500 text-center max-w-xl mx-auto mb-12">
+            Responder reseñas no es un lujo. Es lo que separa a un restaurante con buena imagen de uno que pasa desapercibido.
+          </p>
+
+          <div className="grid sm:grid-cols-2 gap-6 mb-10">
+            {[
+              {
+                t: 'Responder rápido sube tu estrella',
+                d: 'Los restaurantes que responden a sus reseñas en menos de 24 horas mejoran su valoración media hasta un 0.3★. Google premia la actividad y posiciona mejor a quienes interactúan con sus clientes.',
+              },
+              {
+                t: 'El 89% de los clientes lee las respuestas',
+                d: 'Antes de elegir un restaurante, la mayoría mira cómo el dueño responde. Una respuesta profesional y humana convierte a un indeciso en cliente. El silencio, en cambio, se interpreta como desinterés.',
+              },
+              {
+                t: 'Sin AURA, pierdes clientes cada día',
+                d: 'Cada reseña sin responder es una oportunidad perdida. Una crítica mal gestionada aleja a cientos de clientes potenciales. Una respuesta a tiempo puede recuperar a ese cliente y convencer a otros.',
+              },
+              {
+                t: 'El algoritmo de Google te favorece',
+                d: 'Google valora los perfiles activos. Cuantas más reseñas respondas, mejor apareces en las búsquedas locales. AURA te ayuda a mantener esa actividad sin esfuerzo.',
+              },
+            ].map((item, i) => (
+              <div key={i} className="bg-white rounded-xl border border-gray-200 p-6">
+                <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 font-bold text-sm mb-4">
+                  {i + 1}
+                </div>
+                <h3 className="font-bold text-gray-900 mb-2">{item.t}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{item.d}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-orange-50 rounded-2xl border border-orange-200 p-6 sm:p-8 text-center">
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto">
+              <strong className="text-gray-900">Cada reseña sin responder</strong> es una mesa vacía. Con AURA, respondes en segundos, mejoras tu reputación y duermes tranquilo mientras la IA trabaja por ti. <strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* How it works */}
       <section id="como-funciona" className="py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-4">
