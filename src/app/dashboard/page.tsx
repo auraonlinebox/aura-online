@@ -302,6 +302,17 @@ function ReviewCard({
 }) {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(review.response);
+  const [prevResponse, setPrevResponse] = useState(review.response);
+
+  useEffect(() => {
+    if (!prevResponse && review.response) {
+      setEditing(true);
+      setEditText(review.response);
+    }
+    setPrevResponse(review.response);
+  }, [review.response]);
+
+  const isNew = review.status === 'generating';
 
   return (
     <div className={`bg-white rounded-xl border p-4 sm:p-5 shadow-sm transition-all ${
@@ -331,42 +342,41 @@ function ReviewCard({
 
       <p className="text-sm text-gray-700 mb-4 leading-relaxed">{review.text}</p>
 
-      {review.response && !editing && (
-        <div className="bg-gray-50 rounded-lg p-4 mb-4 border border-gray-100">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Respuesta de AURA</span>
-            <button onClick={() => { setEditing(true); setEditText(review.response); }} className="text-xs text-orange-500 hover:text-orange-600">Editar</button>
-          </div>
-          <p className="text-sm text-gray-700 leading-relaxed">{review.response}</p>
+      {!editing && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          <button onClick={() => onGenerate(review.id)} disabled={isNew} className="text-xs px-4 py-2 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-all">
+            {isNew ? 'Generando...' : review.response ? 'Generar otra respuesta' : 'Generar respuesta'}
+          </button>
+          <button onClick={() => { onApprove(review.id); }} disabled={!review.response} className="text-xs px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+            Aprobar y publicar
+          </button>
+          <button onClick={() => onDismiss(review.id)} className="text-xs px-4 py-2 bg-white border border-gray-200 text-gray-500 rounded-lg hover:bg-gray-50 transition-all">Ignorar</button>
         </div>
       )}
 
       {editing && (
         <div className="mb-4">
-          <textarea value={editText} onChange={(e) => setEditText(e.target.value)} rows={3} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100 resize-none" />
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Editar respuesta</span>
+            <span className="text-xs text-gray-400">Puedes modificar el texto antes de publicar</span>
+          </div>
+          <textarea value={editText} onChange={(e) => setEditText(e.target.value)} rows={3} className="w-full px-3 py-2.5 border border-orange-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100 resize-none" />
           <div className="flex gap-2 mt-2">
-            <button onClick={() => { onEdit(review.id, editText); setEditing(false); }} className="text-xs px-3 py-1.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800">Guardar</button>
-            <button onClick={() => setEditing(false)} className="text-xs px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">Cancelar</button>
+            <button onClick={() => { onEdit(review.id, editText); setEditing(false); }} className="text-xs px-4 py-2 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800">Guardar</button>
+            <button onClick={() => onGenerate(review.id)} disabled={isNew} className="text-xs px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50">Regenerar</button>
+            <button onClick={() => setEditing(false)} className="text-xs px-4 py-2 bg-white border border-gray-200 text-gray-500 rounded-lg hover:bg-gray-50">Cancelar</button>
+            <div className="ml-auto">
+              <button onClick={() => { onEdit(review.id, editText); setEditing(false); onApprove(review.id); }} className="text-xs px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600">
+                Guardar y publicar
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2">
-        {review.status !== 'published' && review.status !== 'dismissed' && (
-          <>
-            <button onClick={() => onGenerate(review.id)} disabled={review.status === 'generating'} className="text-xs px-4 py-2 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-all">
-              {review.status === 'generating' ? 'Generando...' : 'Generar respuesta'}
-            </button>
-            <button onClick={() => { onApprove(review.id); }} disabled={!review.response} className="text-xs px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
-              Aprobar y publicar
-            </button>
-            <button onClick={() => onDismiss(review.id)} className="text-xs px-4 py-2 bg-white border border-gray-200 text-gray-500 rounded-lg hover:bg-gray-50 transition-all">Ignorar</button>
-          </>
-        )}
-        {(review.status === 'published' || review.status === 'dismissed') && (
-          <button onClick={() => onDelete(review.id)} className="text-xs px-3 py-1.5 bg-white border border-gray-200 text-gray-400 rounded-lg hover:bg-gray-50 transition-all">Reabrir</button>
-        )}
-      </div>
+      {(review.status === 'published' || review.status === 'dismissed') && (
+        <button onClick={() => onDelete(review.id)} className="text-xs px-3 py-1.5 bg-white border border-gray-200 text-gray-400 rounded-lg hover:bg-gray-50 transition-all">Reabrir</button>
+      )}
     </div>
   );
 }

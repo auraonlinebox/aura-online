@@ -26,14 +26,32 @@ function getDishes(text: string): string[] {
 }
 
 function getWaiterName(text: string): string | null {
+  const skip = new Set(['parecía', 'parecia', 'estaba', 'estresado', 'era', 'muy', 'fue', 'era', 'fue', 'está', 'esta', 'nos', 'te', 'le', 'me', 'se', 'lo', 'la', 'os', 'un', 'una', 'estába', 'agobiado', 'nervioso', 'estresada']);
+  const lower = text.toLowerCase();
   const patterns = [
-    /camarero\s+(\S+)/i, /camarera\s+(\S+)/i, /encargado\s+(\S+)/i,
-    /(\S+)\s+el\s+camarero/i, /(\S+)\s+la\s+camarera/i,
+    /camarero\s+([a-záéíóúñ]+)/i,
+    /camarera\s+([a-záéíóúñ]+)/i,
+    /encargado\s+([a-záéíóúñ]+)/i,
   ];
-  const t = text.toLowerCase();
+  const t = text;
   for (const pat of patterns) {
     const m = t.match(pat);
-    if (m && m[1].length > 2 && /^[a-záéíóúñ]+$/.test(m[1])) return m[1];
+    if (m) {
+      const word = m[1];
+      if (word.length > 2 && !skip.has(word.toLowerCase()) && word[0] === word[0].toUpperCase()) return word;
+    }
+  }
+  const revPat = /([a-záéíóúñ]+)\s+el\s+camarero/i;
+  const rm = t.match(revPat);
+  if (rm) {
+    const word = rm[1];
+    if (word.length > 2 && !skip.has(word.toLowerCase())) return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  }
+  const revPat2 = /([a-záéíóúñ]+)\s+la\s+camarera/i;
+  const rm2 = t.match(revPat2);
+  if (rm2) {
+    const word = rm2[1];
+    if (word.length > 2 && !skip.has(word.toLowerCase())) return word[0].toUpperCase() + word.slice(1).toLowerCase();
   }
   return null;
 }
