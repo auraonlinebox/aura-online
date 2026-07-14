@@ -319,7 +319,7 @@ function buildPrompt(review: string, author: string): string {
   const name = getFirstName(author);
   const sentGuide = sentimentPrompt(review);
 
-  return `Eres el dueño de un restaurante en España. Contestas reseñas de Google. IGNORA las estrellas, LEE el texto.
+  return `Eres el dueño o responsable de un negocio en España. Contestas reseñas de Google. IGNORA las estrellas, LEE el texto.
 
 ${sentGuide}
 

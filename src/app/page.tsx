@@ -80,16 +80,16 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 pt-12 pb-16 sm:pt-16 sm:pb-20 relative">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05]" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Tu restaurante<br />
+              Tu negocio<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">
                 habla por sí solo
               </span>
             </h1>
             <div className="inline-flex items-center gap-2 bg-gray-900 text-white text-xs font-medium px-4 py-1.5 rounded-full">
-              Para restaurantes que cuidan su reputación
+              Para empresari@s que cuidan su reputación
             </div>
             <p className="text-lg sm:text-xl text-gray-500 max-w-xl mx-auto leading-relaxed">
-              Cada reseña en Google es una oportunidad. AURA te ayuda a responder de forma profesional, humana y rápida. Mejora tu reputación sin esfuerzo.
+              Cada reseña en Google es una oportunidad. AURA te ayuda a responder de forma profesional, humana y rápida. Mejora tu reputación online sin esfuerzo.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a href="#demo" className="px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all shadow-lg">
@@ -197,18 +197,18 @@ export default function Home() {
             ¿Por qué elegir AURA?
           </h2>
           <p className="text-gray-500 text-center max-w-xl mx-auto mb-12">
-            Responder reseñas no es un lujo. Es lo que separa a un restaurante con buena imagen de uno que pasa desapercibido.
+            Responder reseñas no es un lujo. Es lo que separa un negocio con buena imagen de uno que pasa desapercibido.
           </p>
 
           <div className="grid sm:grid-cols-2 gap-6 mb-10">
             {[
               {
                 t: 'Responder rápido sube tu estrella',
-                d: 'Los restaurantes que responden a sus reseñas en menos de 24 horas mejoran su valoración media hasta un 0.3★. Google premia la actividad y posiciona mejor a quienes interactúan con sus clientes.',
+                d: 'Los negocios que responden a sus reseñas en menos de 24 horas mejoran su valoración media hasta un 0.3★. Google premia la actividad y posiciona mejor a quienes interactúan con sus clientes.',
               },
               {
                 t: 'El 89% de los clientes lee las respuestas',
-                d: 'Antes de elegir un restaurante, la mayoría mira cómo el dueño responde. Una respuesta profesional y humana convierte a un indeciso en cliente. El silencio, en cambio, se interpreta como desinterés.',
+                d: 'Antes de elegir un negocio, la mayoría mira cómo el dueño responde. Una respuesta profesional y humana convierte a un indeciso en cliente. El silencio, en cambio, se interpreta como desinterés.',
               },
               {
                 t: 'Sin AURA, pierdes clientes cada día',
@@ -249,7 +249,7 @@ export default function Home() {
             Prueba AURA gratis durante 7 días
           </h2>
           <p className="text-gray-400 text-base sm:text-lg mb-3 max-w-lg mx-auto">
-            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu restaurante y la IA más avanzada para responder reseñas.
+            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu negocio y la IA más avanzada para responder reseñas.
           </p>
           <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500 mb-8">
             <span className="flex items-center gap-1">✓ Configuración en 5 minutos</span>
@@ -271,7 +271,7 @@ export default function Home() {
           </h2>
           <div className="grid sm:grid-cols-3 gap-8">
             {[
-              { n: '01', icon: '🔗', t: 'Conecta tu Google', d: 'Añades tu restaurante. Nos encargamos de monitorizar tus reseñas en tiempo real.' },
+              { n: '01', icon: '🔗', t: 'Conecta tu Google', d: 'Añades tu negocio. Nos encargamos de monitorizar tus reseñas en tiempo real.' },
               { n: '02', icon: '🤖', t: 'IA responde por ti', d: 'Cada nueva reseña recibe una respuesta profesional, personalizada y humana generada por AURA.' },
               { n: '03', icon: '✅', t: 'Tú apruebas o publicas', d: 'Revisas antes de publicar. O activas el modo automático y AURA responde al instante.' },
             ].map((s, i) => (
@@ -294,7 +294,7 @@ export default function Home() {
               Así responde AURA
             </h2>
             <p className="text-gray-500 max-w-lg mx-auto">
-              Reseñas reales de Google, respondidas por AURA. Natural, humano, al grano.
+              Restaurantes, peluquerías, talleres, clínicas... Sea cual sea tu negocio, AURA responde por ti.
             </p>
           </div>
           <div className="space-y-6">
@@ -306,46 +306,52 @@ export default function Home() {
                 date: 'hace 3 días',
                 review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda.',
                 response: 'María, gracias de corazón. La crema de calabaza y el tartar son platos que cuidamos con esmero. Y a Javier le haré llegar tu comentario, se lo merece. Un fuerte abrazo.',
+                label: 'Restaurante',
               },
               {
-                name: 'Carlos Martínez',
-                initial: 'C',
-                stars: 2,
-                date: 'hace 1 semana',
-                review: 'La comida buena pero el servicio nefasto. Estuvimos 40 minutos esperando para que nos tomaran nota y cuando pedimos la cuenta, otro cuarto de hora. El camarero parecía agobiado.',
-                response: 'Carlos, lamento sinceramente la espera. No es el servicio que queremos ofrecer. Ya hemos tomado medidas con el equipo de sala. Recibe un cordial saludo.',
-              },
-              {
-                name: 'Laura Pérez',
-                initial: 'L',
+                name: 'Sara Ruiz',
+                initial: 'S',
                 stars: 4,
                 date: 'hace 5 días',
-                review: 'Muy buena experiencia. El pulpo a la gallega espectacular y el arroz con leche casero riquísimo. El único pero es que el local se queda pequeño los fines de semana.',
-                response: 'Laura, gracias por tus palabras. El pulpo a la gallega es uno de los platos que más nos enorgullece ofrecer. Y lo del espacio, tienes razón, los fines de semana se nos queda pequeño. Estamos en ello. Un abrazo.',
+                review: 'Muy contenta con el corte. Patricia entendió exactamente lo que quería y me dio buenos consejos para el mantenimiento en casa. El trato fue súper agradable. Repetiré sin duda.',
+                response: 'Sara, gracias por tus palabras. Patricia se alegrará mucho de leer esto. Nos encanta que nuestros clientes salgan contentos. Te esperamos cuando quieras. Un abrazo.',
+                label: 'Peluquería',
               },
               {
                 name: 'Javier Ruiz',
                 initial: 'J',
+                stars: 1,
+                date: 'hace 1 semana',
+                review: 'Dejé el coche por una revisión y tardaron 3 días en decirme qué tenía. El presupuesto final duplicó el inicial y encima no quedó bien arreglado del todo. Mala comunicación.',
+                response: 'Javier, lamento profundamente la experiencia. No es la forma de trabajar que queremos. Hemos revisado el proceso para que los presupuestos sean más claros. Gracias por tu sinceridad.',
+                label: 'Taller mecánico',
+              },
+              {
+                name: 'Laura Pérez',
+                initial: 'L',
                 stars: 5,
-                date: 'hace 2 semanas',
-                review: 'La mejor paella que he probado fuera de Valencia. El trato inmejorable y la terraza encantadora. Precio más que razonable para la calidad.',
-                response: 'Javier, qué alegría leer esto. Que alguien que entiende de paella la destaque así es lo mejor que nos podían decir. Me alegra que la terraza también fuera de tu agrado. Hasta pronto.',
+                date: 'hace 4 días',
+                review: 'La mejor clínica dental en la que he estado. La dra. Martínez es un encanto y me explicó todo el tratamiento paso a paso. Cero dolor y resultados increíbles. 100% recomendable.',
+                response: 'Laura, qué alegría leer esto. La doctora Martínez se entrega a cada paciente y le haré llegar tu comentario. Nos llena de satisfacción saber que estás contenta. Hasta pronto.',
+                label: 'Clínica dental',
               },
               {
                 name: 'Ana Sánchez',
                 initial: 'A',
                 stars: 3,
                 date: 'hace 1 semana',
-                review: 'Bien pero caro para lo que ofrece. Las raciones son pequeñas y los precios algo elevados. El sitio está bien decorado y el servicio correcto.',
-                response: 'Ana, gracias por tu sinceridad. Tomamos nota de lo de las raciones y los precios. Lo revisaremos con el equipo de cocina. Un saludo afectuoso.',
+                review: 'El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena.',
+                response: 'Ana, gracias por tu sinceridad. Tomamos nota de los tiempos de espera y lo revisaremos. Nos alegra que valores la calidad de nuestros productos. Un saludo afectuoso.',
+                label: 'Tienda de ropa',
               },
               {
                 name: 'David López',
                 initial: 'D',
-                stars: 1,
-                date: 'hace 4 días',
-                review: 'Un desastre. Teníamos reserva confirmada y cuando llegamos no había mesa. Muy mala organización y el recibimiento fue frío. No volveré.',
-                response: 'David, lamento profundamente lo ocurrido. Fallar con una reserva confirmada es inaceptable. Ya hemos revisado el sistema para que no se repita. Esperamos verte de nuevo.',
+                stars: 2,
+                date: 'hace 2 días',
+                review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.',
+                response: 'David, lamento mucho la tardanza. La puntualidad es fundamental y no estuvo a la altura. Ya hemos hablado con el equipo para que no se repita. Esperamos una nueva oportunidad.',
+                label: 'Limpiezas',
               },
             ].map((r, i) => (
               <div key={i} className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
@@ -353,7 +359,7 @@ export default function Home() {
                   <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-sm font-semibold text-gray-600 shrink-0">
                     {r.initial}
                   </div>
-                  <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-semibold text-sm text-gray-900">{r.name}</span>
                       <div className="flex gap-0.5">
@@ -361,6 +367,7 @@ export default function Home() {
                           <span key={s} className={`text-sm ${s <= r.stars ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>
                         ))}
                       </div>
+                      <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full font-medium">{r.label}</span>
                     </div>
                     <span className="text-xs text-gray-400">{r.date}</span>
                   </div>
@@ -400,7 +407,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="grid grid-cols-3 gap-8 text-center">
             {[
-              { n: '280.000+', l: 'Restaurantes en España' },
+              { n: '280.000+', l: 'Negocios en España' },
               { n: '87%', l: 'No responden reseñas' },
               { n: '2.3★', l: 'Pérdida media sin gestión' },
             ].map((s, i) => (
@@ -432,7 +439,7 @@ export default function Home() {
               </div>
               <div>
                 <label className="text-xs text-gray-500 font-medium">Restaurante</label>
-                <input type="text" value={restaurant} onChange={(e) => setRestaurant(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Nombre de tu restaurante" />
+                <input type="text" value={restaurant} onChange={(e) => setRestaurant(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Nombre de tu negocio" />
               </div>
               <div>
                 <label className="text-xs text-gray-500 font-medium">Teléfono <span className="text-gray-300">(opcional)</span></label>

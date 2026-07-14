@@ -21,8 +21,8 @@ export default function PrivacidadPage() {
           <p><strong>Última actualización:</strong> Julio 2026</p>
 
           <h2 className="text-lg font-bold text-gray-900 mt-8">1. Responsable del tratamiento</h2>
-          <p>El responsable del tratamiento de los datos personales recogidos a través de esta web es <strong>AURA (Reputación Digital para Restaurantes)</strong>, con correo de contacto: <strong>auraonlinebox@gmail.com</strong>.</p>
-          <p>AURA es una herramienta de gestión de reputación online para restaurantes. Los datos recogidos se utilizan exclusivamente para contactar con restaurantes interesados en nuestros servicios.</p>
+          <p>El responsable del tratamiento de los datos personales recogidos a través de esta web es <strong>AURA (Reputación Digital para Negocios)</strong>, con correo de contacto: <strong>auraonlinebox@gmail.com</strong>.</p>
+          <p>AURA es una herramienta de gestión de reputación online para negocios. Los datos recogidos se utilizan exclusivamente para contactar con empresas interesadas en nuestros servicios.</p>
 
           <h2 className="text-lg font-bold text-gray-900 mt-8">2. Finalidad del tratamiento</h2>
           <p>Los datos personales que nos proporciones a través del formulario de contacto se utilizarán únicamente para:</p>
@@ -41,7 +41,7 @@ export default function PrivacidadPage() {
           <ul className="list-disc pl-6 space-y-1">
             <li>Nombre</li>
             <li>Dirección de correo electrónico</li>
-            <li>Nombre del restaurante</li>
+            <li>Nombre del negocio</li>
             <li>Teléfono (si se proporciona)</li>
           </ul>
 
