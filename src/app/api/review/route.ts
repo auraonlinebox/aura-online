@@ -87,86 +87,79 @@ function pick<T>(arr: T[]): T {
 }
 
 const openerPos = (g: string) => pick([
-  `${g}anda, gracias`,
-  `${g}jo, gracias`,
-  `${g}ay, gracias`,
-  `${g}buf, gracias`,
-  `${g}vaya, gracias`,
-  `${g}hombre, gracias`,
-  `${g}pues nada, gracias`,
-  `${g}toma ya, gracias`,
-  `${g}jolín, gracias`,
-  `${g}qué alegría, gracias`,
-  `${g}cuánto me alegro, gracias`,
-  `${g}nada, gracias`,
+  `${g}gracias de corazón`,
+  `${g}qué alegría leer esto`,
+  `${g}nos llena de satisfacción tu comentario`,
+  `${g}gracias por tus palabras`,
+  `${g}cuánto nos alegramos de que así fuera`,
+  `${g}es un placer recibir reseñas como esta`,
+  `${g}de verdad, gracias por tu tiempo`,
+  `${g}gracias, qué bonito leer algo así`,
+  `${g}nos llega al alma tu comentario`,
+  `${g}mil gracias por compartirlo`,
 ]);
 const openerNeg = (g: string) => pick([
-  `${g}buf, lo siento`,
-  `${g}jolín, lo siento`,
-  `${g}vaya, lo siento`,
-  `${g}ay, lo siento`,
-  `${g}madre mía, lo siento`,
-  `${g}tela, lo siento`,
-  `${g}qué mal, lo siento`,
-  `${g}jo, lo siento mucho`,
-  `${g}pues nada, lo siento`,
-  `${g}hombre, lo siento de verdad`,
+  `${g}lamento sinceramente lo ocurrido`,
+  `${g}gracias por tu honestidad, la valoro profundamente`,
+  `${g}siento mucho que la experiencia no fuera la esperada`,
+  `${g}tienes toda la razón y te pido disculpas`,
+  `${g}lamento profundamente lo sucedido`,
+  `${g}gracias por decirlo con claridad, nos ayuda a mejorar`,
+  `${g}lo siento de verdad, no es lo que queremos`,
+  `${g}agradezco tu sinceridad y lamento lo que pasó`,
 ]);
 const openerNeu = (g: string) => pick([
-  `${g}gracias`,
-  `${g}pues nada, gracias`,
-  `${g}anda, gracias`,
-  `${g}jo, gracias por decirlo`,
-  `${g}vaya, gracias por la sinceridad`,
-  `${g}hombre, gracias por escribir`,
+  `${g}gracias por tu sinceridad`,
+  `${g}agradezco que te hayas tomado el tiempo`,
+  `${g}gracias por compartir tu experiencia con honestidad`,
+  `${g}valoro mucho tu opinión, gracias`,
+  `${g}gracias por escribirnos, nos ayuda a crecer`,
 ]);
 const close = () => pick([
-  '¡Un abrazo!', '¡Un saludo!', '¡Hasta pronto!', '¡Gracias!', '¡Nos vemos!',
-  '¡Esperamos verte pronto!', '¡Un abrazo grande!', '¡Nada, gracias!',
-  '¡Ahí estamos!', '¡Te esperamos!', '¡Gracias de corazón!',
+  'Un fuerte abrazo.', 'Recibe un cordial saludo.', 'Con afecto.',
+  'Hasta pronto.', 'Esperamos verte de nuevo.',
+  'Un abrazo muy sincero.', 'Gracias de nuevo.',
+  'Te esperamos con los brazos abiertos.', 'Un saludo afectuoso.',
 ]);
 
 function dishRef(d: string, art: string): string {
   return pick([
-    `lo de ${art} ${d}`,
     `que menciones ${art} ${d}`,
-    `que te gustara ${art} ${d}`,
-    `que probaras ${art} ${d}`,
-    `lo de ${art} ${d} que dices`,
+    `que hayas destacado ${art} ${d}`,
+    `lo que dices de ${art} ${d}`,
     `${art} ${d}`,
+    `haber disfrutado de ${art} ${d}`,
   ]);
 }
 function dishPos(d: string, art: string): string {
   return pick([
-    `tiene su cosa, esa receta`,
-    `es de los platos que más nos piden`,
-    `no sabes lo que nos gusta leer esto`,
-    `es de los que más nos enorgullecen`,
-    `la verdad, es un plato que nos encanta hacer`,
-    `tiene su historia detrás`,
-    `la cocina le echa horas a ese plato`,
-    `qué bien que lo digas, es un clásico aquí`,
-    `lo hacemos con ganas, la verdad`,
+    `es un plato que cuidamos con esmero`,
+    `es de los que más nos enorgullece ofrecer`,
+    `lo elaboramos con dedicación y los mejores productos`,
+    `es uno de los que más mimo requiere en cocina`,
+    `tiene un proceso que nos apasiona`,
+    `es de los que mejor representa nuestra cocina`,
+    `lo trabajamos con mucho respeto al producto`,
+    `es un clásico que nunca defrauda`,
+    `es un plato que llevamos años perfeccionando`,
+    `tiene un cariño especial por parte de todo el equipo`,
   ]);
 }
-
 function waiterPos(w: string): string {
   return pick([
-    `se lo voy a decir ahora mismo a ${w}`,
-    `${w} se va a poner contento cuando lo lea`,
-    `voy a leérselo a ${w}, se lo merece`,
-    `${w} va a flipar cuando se lo cuente`,
-    `al ${w} le voy a leer tu comentario, se va a alegrar`,
-    `se lo voy a pasar a ${w}, le hará ilusión`,
+    `se lo haré saber a ${w}, se alegrará mucho`,
+    `voy a trasladarle tu comentario a ${w}, se lo merece`,
+    `${w} es un gran profesional, le haré llegar tus palabras`,
+    `compartiré tu opinión con ${w}, le hará una ilusión enorme`,
+    `no sabes la alegría que le dará a ${w} leer esto`,
   ]);
 }
 function waiterNeg(w: string): string {
   return pick([
-    `lo que pasaste con ${w} no es normal, ya hemos hablado`,
-    `${w} no tendría que haber hecho eso, lo hemos tratado`,
-    `ya lo hemos hablado con ${w}, no te preocupes`,
-    `lo siento, con ${w} ya hemos hablado para que no se repita`,
-    `no tiene excusa lo de ${w}, ya está hablado`,
+    `hemos hablado con ${w} para que no se repita`,
+    `lo ocurrido con ${w} no nos representa. Ya está hablado`,
+    `ya hemos tratado el tema con ${w}. Gracias por señalarlo`,
+    `no es la actitud que queremos. ${w} lo sabe y lo hemos tratado`,
   ]);
 }
 function esperaRef(): string {
@@ -193,54 +186,53 @@ function buildFallback(review: string, author: string): string {
     }
     if (tiene('reserva')) {
       return pick([
-        `${openerNeg(g)}. Fallar con la reserva no tiene nombre. Ya hemos revisado el sistema para que no vuelva a pasar. ${close()}`,
-        `${openerNeg(g)}. Lo de la reserva es imperdonable, lo sé. Ya lo hemos arreglado. ${close()}`,
-        `${openerNeg(g)}. Con las reservas no se juega, y lo nuestro falló. Ya está solucionado. ${close()}`,
-        `${openerNeg(g)}. No hay excusa para lo de la reserva. Ya lo hemos hablado en equipo. ${close()}`,
+        `${openerNeg(g)}. Fallar con la reserva no tiene nombre. Hemos revisado el sistema para asegurarnos de que no vuelva a ocurrir. ${close()}`,
+        `${openerNeg(g)}. Lo de la reserva fue inaceptable, lo sé. Ya está solucionado. ${close()}`,
+        `${openerNeg(g)}. Una reserva confirmada debe honrarse. Ya hemos ajustado el proceso. ${close()}`,
+        `${openerNeg(g)}. No hay excusa. Hemos revisado el sistema de reservas para que no se repita. ${close()}`,
       ]);
     }
     if (tiene('espera')) {
       if (dishes.length > 0) {
         const d = dishes[0];
+        const art = d.startsWith('crema') || d.startsWith('tarta') || d.startsWith('ensal') ? 'la' : 'el';
         return pick([
-          `${openerNeg(g)}. ${esperaRef()} no es normal, menos para venir a tomar ${d}. Lo hemos hablado en sala. ${close()}`,
-          `${openerNeg(g)}. ${d} merece comerse sin prisas, pero no esperando tanto. Lo hablamos con el equipo. ${close()}`,
-          `${openerNeg(g)}. Con ${d} no se juega, y menos con la espera. Ya lo hemos tratado. ${close()}`,
+          `${openerNeg(g)}. ${esperaRef()} no es aceptable, menos cuando se viene a disfrutar de ${d}. Hemos hablado con el equipo de sala. ${close()}`,
+          `${openerNeg(g)}. ${d} merece comerse con calma, no después de esperar así. Ya lo hemos tratado internamente. ${close()}`,
+          `${openerNeg(g)}. No es justo. ${dishRef(d, art)} es algo que cuidamos, y la espera no estuvo a la altura. ${close()}`,
         ]);
       }
       return pick([
-        `${openerNeg(g)}. ${esperaRef()} fue demasiado. Lo hemos hablado con el equipo de sala. ${close()}`,
-        `${openerNeg(g)}. No es normal tener así a la gente. Ya hemos tomado nota. ${close()}`,
-        `${openerNeg(g)}. ${esperaRef()} no se le hace a nadie. Ya está hablado. ${close()}`,
-        `${openerNeg(g)}. Lo sé, fue mucho tiempo. Lo hemos tratado internamente. ${close()}`,
+        `${openerNeg(g)}. ${esperaRef()} fue excesiva. Ya hemos tomado medidas con el equipo. ${close()}`,
+        `${openerNeg(g)}. No es admisible tener a nadie esperando así. Está solucionado. ${close()}`,
+        `${openerNeg(g)}. ${esperaRef()} no refleja el servicio que queremos dar. Ya está hablado. ${close()}`,
       ]);
     }
     if (tiene('precio')) {
       return pick([
-        `${openerNeu(g)}. Tomamos nota de los precios. ${close()}`,
-        `${openerNeu(g)}. Lo de los precios lo revisamos. ${close()}`,
-        `${openerNeu(g)}. Gracias por decirlo, lo miramos. ${close()}`,
+        `${openerNeu(g)}. Tomamos nota de lo que comentas sobre los precios. Lo revisaremos. ${close()}`,
+        `${openerNeu(g)}. Agradecemos la observación sobre los precios, la tendremos en cuenta. ${close()}`,
+        `${openerNeu(g)}. Gracias por señalarlo. Evaluaremos los precios con atención. ${close()}`,
       ]);
     }
     if (tiene('racion')) {
       return pick([
-        `${openerNeu(g)}. Lo de las raciones lo miramos con cocina. ${close()}`,
-        `${openerNeu(g)}. Revisamos las raciones, tienes razón. ${close()}`,
-        `${openerNeu(g)}. Tomamos nota de las raciones, lo hablamos con el equipo. ${close()}`,
+        `${openerNeu(g)}. Revisaremos las raciones con el equipo de cocina. ${close()}`,
+        `${openerNeu(g)}. Tomamos nota de lo de las raciones. Lo hablaremos en cocina. ${close()}`,
+        `${openerNeu(g)}. Agradecemos tu comentario sobre las raciones. Lo tendremos muy presente. ${close()}`,
       ]);
     }
     if (tiene('ambiente')) {
       return pick([
-        `${openerNeg(g)}. Lo del ambiente lo hablamos para mejorarlo. ${close()}`,
-        `${openerNeu(g)}. Lo del local lo tenemos en cuenta. ${close()}`,
-        `${openerNeg(g)}. Tomamos nota de lo del ambiente. ${close()}`,
+        `${openerNeg(g)}. Lo del ambiente lo revisaremos para mejorarlo. ${close()}`,
+        `${openerNeu(g)}. Gracias por tu observación sobre el local. Trabajaremos en ello. ${close()}`,
+        `${openerNeg(g)}. Tomamos nota de lo que comentas del ambiente. Lo hablaremos en equipo. ${close()}`,
       ]);
     }
     return pick([
-      `${openerNeg(g)}. Hablamos con el equipo para que no se repita. ${close()}`,
-      `${openerNeu(g)}. Tomamos nota para mejorar. ${close()}`,
-      `${openerNeg(g)}. No es nuestra intención. Trabajamos en ello. ${close()}`,
-      `${openerNeg(g)}. De verdad, lo sentimos. Lo miramos. ${close()}`,
+      `${openerNeg(g)}. Hemos hablado con el equipo para que no se repita. ${close()}`,
+      `${openerNeu(g)}. Gracias por tu sinceridad. Trabajaremos en mejorar. ${close()}`,
+      `${openerNeg(g)}. Lamento que no fuera una buena experiencia. Tomamos nota. ${close()}`,
     ]);
   }
 
@@ -253,7 +245,6 @@ function buildFallback(review: string, author: string): string {
       const d = dishes[0];
       const art = d.startsWith('crema') || d.startsWith('tarta') || d.startsWith('ensal') ? 'la' : 'el';
       return pick([
-        `${openerPos(g)}. ${dishRef(d, art)} ${dishPos(d, art)}. ${close()}`,
         `${openerPos(g)}. ${dishRef(d, art)} — ${dishPos(d, art)}. ${close()}`,
         `${openerPos(g)}. ${dishPos(d, art)}. ${dishRef(d, art)}. ${close()}`,
         `${openerPos(g)}. ${dishRef(d, art)}, ${dishPos(d, art)}. ${close()}`,
@@ -261,24 +252,22 @@ function buildFallback(review: string, author: string): string {
     }
     if (tiene('camarero')) {
       return pick([
-        `${openerPos(g)}. Me alegra que el trato fuera bueno. Se lo digo al equipo. ${close()}`,
-        `${openerPos(g)}. El equipo se va a poner contento con esto. ${close()}`,
-        `${openerPos(g)}. Lo del servicio se lo paso al equipo, se lo merecen. ${close()}`,
-        `${openerPos(g)}. Qué bien que el servicio estuviera a la altura. Se lo digo. ${close()}`,
+        `${openerPos(g)}. El trato es tan importante como la comida. Se lo haré saber al equipo. ${close()}`,
+        `${openerPos(g)}. El equipo se merece leer comentarios como este. Se lo trasladaré. ${close()}`,
+        `${openerPos(g)}. Nos alegra que el servicio estuviera a la altura. Se lo haré llegar. ${close()}`,
       ]);
     }
     if (tiene('ambiente')) {
       return pick([
-        `${openerPos(g)}. Nos encanta que el sitio guste. ${close()}`,
-        `${openerPos(g)}. Me alegra que disfrutaras del ambiente. ${close()}`,
-        `${openerPos(g)}. El local es acogedor y nos gusta que se note. ${close()}`,
+        `${openerPos(g)}. Nos encanta que el ambiente haya sido de tu agrado. ${close()}`,
+        `${openerPos(g)}. El local lo cuidamos con esmero y alegra que se note. ${close()}`,
+        `${openerPos(g)}. Que disfrutaras del espacio nos llena de satisfacción. ${close()}`,
       ]);
     }
     return pick([
-      `${openerPos(g)}. Me alegra que lo pasaras bien. ${close()}`,
-      `${openerPos(g)}. Nos alegra que todo fuera bien. ${close()}`,
-      `${openerPos(g)}. Gracias por venir y por tu comentario. ${close()}`,
-      `${openerPos(g)}. Qué bien que la experiencia fuera buena. ${close()}`,
+      `${openerPos(g)}. Nos alegra profundamente que la experiencia fuera positiva. ${close()}`,
+      `${openerPos(g)}. Gracias por tu visita y por compartirlo. ${close()}`,
+      `${openerPos(g)}. Ojalá verte de nuevo por aquí. ${close()}`,
     ]);
   }
 
@@ -301,21 +290,21 @@ function buildFallback(review: string, author: string): string {
   }
   if (tiene('espera')) return pick([
     `${openerNeu(g)}. Tomamos nota de la espera. ${close()}`,
-    `${openerNeu(g)}. Lo de la espera lo hablamos con el equipo. ${close()}`,
+    `${openerNeu(g)}. Lo de la espera lo trataremos con el equipo. ${close()}`,
   ]);
   if (tiene('precio')) return pick([
     `${openerNeu(g)}. Tomamos nota de los precios. ${close()}`,
-    `${openerNeu(g)}. Lo de los precios lo revisamos. ${close()}`,
+    `${openerNeu(g)}. Lo de los precios lo revisaremos. ${close()}`,
   ]);
   if (tiene('racion')) return pick([
-    `${openerNeu(g)}. Revisamos las raciones. ${close()}`,
-    `${openerNeu(g)}. Lo de las raciones lo miramos con cocina. ${close()}`,
+    `${openerNeu(g)}. Revisamos las raciones con cocina. ${close()}`,
+    `${openerNeu(g)}. Lo de las raciones lo tendremos en cuenta. ${close()}`,
   ]);
 
   return pick([
     `${openerNeu(g)}. Tomamos nota. ${close()}`,
-    `${openerNeu(g)}. Lo tenemos en cuenta. ${close()}`,
-    `${openerNeu(g)}. Cada opinión nos ayuda. ${close()}`,
+    `${openerNeu(g)}. Lo tendremos muy en cuenta. ${close()}`,
+    `${openerNeu(g)}. Cada opinión nos ayuda a mejorar. ${close()}`,
   ]);
 }
 
@@ -334,31 +323,32 @@ function buildPrompt(review: string, author: string): string {
 
 ${sentGuide}
 
-CADA VEZ escribe algo DISTINTO: cambia la estructura, las palabras, el cierre. No repitas frases.
+CADA RESPUESTA debe ser ÚNICA, elegante y memorable. No repitas estructuras ni palabras.
 
 REGLAS:
 - Busca QUÉ menciona (un plato, un camarero, espera, precio, reserva...) y responde a ESO.
-- Si habla de un plato → habla de ESE plato. Si se queja de algo → discúlpate por ESO.
+- Si habla de un plato → habla de ESE plato. Si se queja de algo → discúlpate por ESO concretamente.
 - Usa el nombre si está:${name ? ` "${name}"` : ''}
 - MÁXIMO 3 frases. Directo. Sin introducciones.
 
-PROHIBIDO: "agradecemos su preferencia", "nos complace", "valoramos su opinión", "te invito a cenar", "para demostrártelo", "ajustar lo que no funcionó", "cuidamos con cariño", "lo mimamos", "me alegra un montón".
-USA variedad: "buf", "jolín", "anda", "vaya", "hombre", "jo", "madre mía", "tela" según el caso.
+TONO: cercano pero elegante. Dueño de restaurante con clase, que habla desde el corazón pero con estilo. Nada de "buf", "jolín", "tela", "flipar" — eso es demasiado vulgar. Usa expresiones como "gracias de corazón", "nos llena de satisfacción", "lamento sinceramente", "lo trabajamos con dedicación".
 
-VARIACIÓN OBLIGATORIA: cada respuesta debe sonar distinta. Cambia el arranque, el desarrollo y el cierre.
+PROHIBIDO: "agradecemos su preferencia", "nos complace", "valoramos su opinión", "te invito a cenar", "para demostrártelo", "ajustar lo que no funcionó", "cuidamos con cariño", "lo mimamos", "me alegra un montón", "buf", "jolín", "anda", "jo", "tela", "madre mía", "flipar".
 
-EJEMPLOS (son solo para orientación, no copies):
+VARIACIÓN OBLIGATORIA: cada respuesta debe ser completamente distinta a la anterior. Cambia el arranque, el desarrollo y el cierre.
+
+EJEMPLOS (son solo orientación, cada respuesta debe ser única):
 
 María | "La crema de calabaza increíble. El camarero Javier fenomenal."
-→ "María, jo, gracias. Lo de la crema de calabaza tiene su cosa. Y a Javier le voy a leer tu comentario. ¡Un abrazo!"
+→ "María, gracias de corazón. La crema de calabaza es un plato que cuidamos con esmero, y alegra que lo hayas disfrutado. Se lo haré saber a Javier, se lo merece. Un fuerte abrazo."
 
 Carlos | "Comida buena pero 40 minutos esperando. Servicio nefasto."
-→ "Carlos, madre mía, lo siento. 40 minutos esperando no se le hace a nadie. Ya lo hemos hablado en sala. ¡Un saludo!"
+→ "Carlos, lamento sinceramente la espera. No es el servicio que queremos ofrecer. Ya hemos hablado con el equipo de sala para que no se repita. Recibe un cordial saludo."
 
 Antonio | "La comida buena pero Juan el camarero es muy desagradable. No volveré."
-→ "Antonio, buf, lo siento. Lo de Juan no es normal. Ya lo hemos tratado. Gracias por decirlo."
+→ "Antonio, gracias por tu honestidad, la valoro profundamente. Lo ocurrido con Juan no nos representa. Ya hemos tratado el tema con él. Esperamos verte de nuevo."
 
-AHORA ESCRIBE UNA RESPUESTA NUEVA Y DISTINTA (no copies ningún ejemplo anterior):
+AHORA ESCRIBE UNA RESPUESTA ÚNICA Y ELEGANTE (no copies ningún ejemplo anterior, sé original):
 
 ${author}: "${review}"
 
