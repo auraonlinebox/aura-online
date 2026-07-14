@@ -230,10 +230,36 @@ export default function Home() {
           </div>
 
           <div className="bg-orange-50 rounded-2xl border border-orange-200 p-6 sm:p-8 text-center">
-            <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto mb-6">
               <strong className="text-gray-900">Cada reseña sin responder</strong> es una mesa vacía. Con AURA, respondes en segundos, mejoras tu reputación y duermes tranquilo mientras la IA trabaja por ti. <strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
             </p>
+            <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all shadow-lg shadow-gray-900/10">
+              Solicitar 7 días gratis
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </button>
+            <p className="text-xs text-gray-500 mt-3">Sin compromiso · Sin tarjeta · Sin spam</p>
           </div>
+        </div>
+      </section>
+
+      {/* CTA trial */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-center">
+        <div className="max-w-2xl mx-auto px-4">
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+            Prueba AURA gratis durante 7 días
+          </h2>
+          <p className="text-gray-400 text-base sm:text-lg mb-3 max-w-lg mx-auto">
+            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu restaurante y la IA más avanzada para responder reseñas.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500 mb-8">
+            <span className="flex items-center gap-1">✓ Configuración en 5 minutos</span>
+            <span className="flex items-center gap-1">✓ IA entrena con tu estilo</span>
+            <span className="flex items-center gap-1">✓ Cancela cuando quieras</span>
+          </div>
+          <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-10 py-5 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all text-lg shadow-xl shadow-orange-500/20">
+            Empezar prueba gratuita
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </button>
         </div>
       </section>
 
@@ -359,13 +385,13 @@ export default function Home() {
           <h2 className="text-3xl sm:text-4xl font-black text-white" style={{ fontFamily: 'Playfair Display, serif' }}>
             ¿Cuánto cuesta AURA?
           </h2>
-          <p className="text-gray-400 text-lg">
-            Menos de lo que cuesta un café al día. Y la primera semana es gratis.
+          <p className="text-gray-400 text-base sm:text-lg">
+            Desde <strong className="text-white">19€/mes</strong>. La primera semana es gratis. Sin permanencia.
           </p>
           <button onClick={() => setShowContact(true)} className="inline-block px-8 py-4 bg-white text-gray-900 font-semibold rounded-full hover:bg-gray-100 transition-all">
-            Solicitar acceso anticipado
+            Probar 7 días gratis
           </button>
-          <p className="text-xs text-gray-600">Sin compromiso. Sin tarjeta. 7 días gratis.</p>
+          <p className="text-xs text-gray-600 mt-3">Sin compromiso. Sin tarjeta. Cancela cuando quieras.</p>
         </div>
       </section>
 
