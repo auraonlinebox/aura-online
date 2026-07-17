@@ -189,9 +189,9 @@ function buildFallback(review: string, author: string): string {
     const invitar = pick([
       ' Si quieres, escríbenos a nuestro email y hablamos con más calma.',
       ' Me gustaría que hablaras conmigo directamente en tu próxima visita.',
-      ' Me encantaría que le comentaras esto a [Nombre del dueño] cuando vuelvas.',
+      ' Me encantaría que me lo comentaras en persona cuando vuelvas.',
       ' Si te parece, hablamos en persona la próxima vez que vengas.',
-      ' Estoy a tu disposición en el restaurante para hablarlo cuando quieras.',
+      ' Estoy a tu disposición en el local para hablarlo cuando quieras.',
     ]);
     if (waiter) {
       return `${openerNeg(g)}. ${capitalize(waiterNeg(waiter))}.${invitar} ${close()}.`;

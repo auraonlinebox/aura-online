@@ -3,12 +3,14 @@
 import { useState, FormEvent } from 'react';
 
 const reviews = [
-  { name: 'María González', review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. Volveremos sin duda.', rating: 5 },
-  { name: 'Carlos Martínez', review: 'La comida buena pero el servicio muy lento. Estuvimos 40 minutos esperando para que nos tomaran nota.', rating: 2 },
-  { name: 'Laura Pérez', review: 'Muy buena experiencia. El pulpo a la gallega espectacular. El único pero es que el local se queda pequeño.', rating: 4 },
-  { name: 'Javier Ruiz', review: 'La mejor paella que he probado fuera de Valencia. Trato excelente y terraza encantadora. Recomendado 100%.', rating: 5 },
-  { name: 'Ana Sánchez', review: 'Bien pero caro para lo que ofrece. Las raciones son pequeñas y los precios algo elevados.', rating: 3 },
-  { name: 'David López', review: 'Un desastre. Teníamos reserva confirmada y cuando llegamos no había mesa. Muy mala organización.', rating: 1 },
+  { name: 'María González', review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. Volveremos sin duda.', rating: 5, label: 'Restaurante' },
+  { name: 'Carlos Martínez', review: 'El corte está bien pero tardaron más de una hora en atenderme. La peluquería no parece organizada.', rating: 2, label: 'Peluquería' },
+  { name: 'Laura Pérez', review: 'Muy buena experiencia. El pulpo a la gallega espectacular. El único pero es que el local se queda pequeño.', rating: 4, label: 'Restaurante' },
+  { name: 'Javier Ruiz', review: 'Me arreglaron el coche en tiempo récord y el presupuesto fue exacto. Trato excelente y muy profesional. Recomendado.', rating: 5, label: 'Taller' },
+  { name: 'Ana Sánchez', review: 'La ropa es bonita pero los precios han subido mucho. La dependienta fue amable aunque tardó en atenderme.', rating: 3, label: 'Tienda de ropa' },
+  { name: 'David López', review: 'Un desastre. Pedí cita online, me confirmaron y cuando llegué no tenían mi cita. Muy mala organización.', rating: 1, label: 'Clínica dental' },
+  { name: 'Sara Ruiz', review: 'Vinieron a limpiar mi casa y dejaron todo impecable. Puntuales, rápidos y muy profesionales. Repetiré sin duda.', rating: 5, label: 'Limpiezas' },
+  { name: 'Pedro Gómez', review: 'El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy recomendable.', rating: 5, label: 'Fisioterapia' },
 ];
 
 const example = "Comida excelente pero el servicio fue muy lento. Estuvimos esperando 30 minutos para que nos tomaran nota y otro tanto para el postre. La comida compensa pero la espera es demasiado.";
@@ -126,7 +128,7 @@ export default function Home() {
             <div className="flex flex-wrap gap-2">
               {reviews.map((r, i) => (
                 <button key={i} onClick={() => loadExample(r)} className="text-xs bg-white border border-gray-200 hover:border-orange-300 px-3 py-1.5 rounded-full text-gray-600 hover:text-orange-600 transition-all">
-                  {r.name} {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                  {r.label} · {r.name} {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
                 </button>
               ))}
             </div>
@@ -352,6 +354,24 @@ export default function Home() {
                 review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.',
                 response: 'David, lamento sinceramente lo ocurrido. La puntualidad es fundamental y no estuvo a la altura. Ya hemos hablado con el equipo para que no se repita. Esperamos una nueva oportunidad para demostrártelo.',
                 label: 'Limpiezas',
+              },
+              {
+                name: 'Pedro Gómez',
+                initial: 'P',
+                stars: 5,
+                date: 'hace 1 día',
+                review: 'El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy profesional y trato cercano. Lo recomiendo a todos.',
+                response: 'Pedro, gracias por tu confianza, la recibimos con alegría. Nuestro equipo de fisioterapia se esfuerza cada día y leer esto lo confirma. Te esperamos si necesitas algo más. Un saludo afectuoso.',
+                label: 'Fisioterapia',
+              },
+              {
+                name: 'Elena Martín',
+                initial: 'E',
+                stars: 3,
+                date: 'hace 4 días',
+                review: 'El jardín quedó bonito pero tardaron casi 3 semanas en venir a hacer el presupuesto. Una vez contratado, el trabajo bien, pero la espera fue excesiva.',
+                response: 'Elena, gracias por tu sinceridad. Tomamos nota de la demora en el presupuesto y hemos agilizado el proceso para que no vuelva a ocurrir. Nos alegra que el resultado final fuera de tu agrado. Un abrazo.',
+                label: 'Jardinería',
               },
             ].map((r, i) => (
               <div key={i} className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
