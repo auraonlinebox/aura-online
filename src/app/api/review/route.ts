@@ -365,6 +365,8 @@ Está estrictamente prohibido el uso de emojis.
 
 Longitud: Máximo 4-5 frases. Las respuestas deben ser breves y fáciles de leer.
 
+Variación obligatoria: Cada respuesta debe ser completamente distinta a la anterior. Cambia la estructura, el arranque y el cierre. No repitas ni una misma frase de una respuesta a otra.
+
 Idioma: Escribe en un español impecable, natural y adaptado al tono de España.
 
 Nombre del negocio: ${businessName || '[Nombre del Negocio]'}

@@ -4,13 +4,13 @@ import { useState, FormEvent } from 'react';
 
 const reviews = [
   { name: 'María González', review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. Volveremos sin duda.', rating: 5, label: 'Restaurante' },
-  { name: 'Carlos Martínez', review: 'El corte está bien pero tardaron más de una hora en atenderme. La peluquería no parece organizada.', rating: 2, label: 'Peluquería' },
-  { name: 'Laura Pérez', review: 'Muy buena experiencia. El pulpo a la gallega espectacular. El único pero es que el local se queda pequeño.', rating: 4, label: 'Restaurante' },
-  { name: 'Javier Ruiz', review: 'Me arreglaron el coche en tiempo récord y el presupuesto fue exacto. Trato excelente y muy profesional. Recomendado.', rating: 5, label: 'Taller' },
-  { name: 'Ana Sánchez', review: 'La ropa es bonita pero los precios han subido mucho. La dependienta fue amable aunque tardó en atenderme.', rating: 3, label: 'Tienda de ropa' },
-  { name: 'David López', review: 'Un desastre. Pedí cita online, me confirmaron y cuando llegué no tenían mi cita. Muy mala organización.', rating: 1, label: 'Clínica dental' },
-  { name: 'Sara Ruiz', review: 'Vinieron a limpiar mi casa y dejaron todo impecable. Puntuales, rápidos y muy profesionales. Repetiré sin duda.', rating: 5, label: 'Limpiezas' },
-  { name: 'Pedro Gómez', review: 'El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy recomendable.', rating: 5, label: 'Fisioterapia' },
+  { name: 'Sara Ruiz', review: 'Muy contenta con el corte. Patricia entendió exactamente lo que quería y me dio buenos consejos para el mantenimiento en casa. El trato fue súper agradable. Repetiré sin duda.', rating: 4, label: 'Peluquería' },
+  { name: 'Javier Ruiz', review: 'Dejé el coche por una revisión y tardaron 3 días en decirme qué tenía. El presupuesto final duplicó el inicial y encima no quedó bien arreglado del todo. Mala comunicación.', rating: 1, label: 'Taller mecánico' },
+  { name: 'Laura Pérez', review: 'La mejor clínica dental en la que he estado. La dra. Martínez es un encanto y me explicó todo el tratamiento paso a paso. Cero dolor y resultados increíbles. 100% recomendable.', rating: 5, label: 'Clínica dental' },
+  { name: 'Ana Sánchez', review: 'El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena.', rating: 3, label: 'Tienda de ropa' },
+  { name: 'David López', review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.', rating: 2, label: 'Limpiezas' },
+  { name: 'Pedro Gómez', review: 'El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy profesional y trato cercano. Lo recomiendo a todos.', rating: 5, label: 'Fisioterapia' },
+  { name: 'Elena Martín', review: 'El jardín quedó bonito pero tardaron casi 3 semanas en venir a hacer el presupuesto. Una vez contratado, el trabajo bien, pero la espera fue excesiva.', rating: 3, label: 'Jardinería' },
 ];
 
 const example = "Comida excelente pero el servicio fue muy lento. Estuvimos esperando 30 minutos para que nos tomaran nota y otro tanto para el postre. La comida compensa pero la espera es demasiado.";
@@ -54,7 +54,6 @@ export default function Home() {
     setReviewAuthor(r.name);
     setRating(r.rating);
     setResponse('');
-    setTimeout(() => generateResponse(), 300);
   };
 
   return (
