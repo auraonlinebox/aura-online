@@ -166,7 +166,7 @@ export default function Home() {
 
             {/* Output */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-              <div className="text-sm font-semibold text-gray-700 mb-3">Respuesta generada por AURA</div>
+              <div className="text-sm font-semibold text-gray-700 mb-3">Respuesta de AURA</div>
               {response ? (
                 <div className="space-y-3">
                   <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
@@ -229,7 +229,7 @@ export default function Home() {
 
           <div className="bg-orange-50 rounded-2xl border border-orange-200 p-6 sm:p-8 text-center">
             <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto mb-4">
-              <strong className="text-gray-900">Cada reseña sin responder</strong> es una mesa vacía. Con AURA, respondes en segundos, mejoras tu reputación y duermes tranquilo mientras la AURA trabaja por ti. <strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
+              <strong className="text-gray-900">Cada reseña sin responder</strong> es una mesa vacía. Con AURA, respondes en segundos, mejoras tu reputación y olvídate de las preocupaciones mientras nosotros nos encargamos. <strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
             </p>
             <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all shadow-lg shadow-gray-900/10">
               Solicitar 7 días gratis
@@ -247,11 +247,11 @@ export default function Home() {
             Prueba AURA gratis durante 7 días
           </h2>
           <p className="text-gray-400 text-base sm:text-lg mb-3 max-w-lg mx-auto">
-            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu negocio y la AURA más avanzada para responder reseñas.
+            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu negocio y el mejor servicio para responder reseñas.
           </p>
           <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500 mb-6">
             <span className="flex items-center gap-1">✓ Configuración en 5 minutos</span>
-            <span className="flex items-center gap-1">✓ AURA entrena con tu estilo</span>
+            <span className="flex items-center gap-1">✓ AURA se adapta a tu estilo</span>
             <span className="flex items-center gap-1">✓ Cancela cuando quieras</span>
           </div>
           <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20">
@@ -270,8 +270,8 @@ export default function Home() {
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               { n: '01', icon: '🔗', t: 'Conecta tu Google', d: 'Añades tu negocio. Nos encargamos de monitorizar tus reseñas en tiempo real.' },
-              { n: '02', icon: '🤖', t: 'AURA responde por ti', d: 'Cada nueva reseña recibe una respuesta profesional, personalizada y humana generada por AURA.' },
-              { n: '03', icon: '✅', t: 'Tú apruebas o publicas', d: 'Revisas antes de publicar. O activas el modo automático y AURA responde al instante.' },
+              { n: '02', icon: '🤖', t: 'AURA responde por ti', d: 'Cada nueva reseña recibe una respuesta profesional, personalizada y humana redactada por AURA.' },
+              { n: '03', icon: '✅', t: 'Tú apruebas o publicas', d: 'Revisas antes de publicar. O activas la respuesta inmediata y AURA contesta al instante.' },
             ].map((s, i) => (
               <div key={i} className="text-center space-y-3">
                 <div className="text-4xl mb-2">{s.icon}</div>
@@ -476,7 +476,7 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>AURA <strong>personalizada</strong> que aprende de tus reseñas</span>
+                  <span>AURA <strong>personalizada</strong> que se adapta a tu negocio</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -512,11 +512,11 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>AURA <strong>personalizada</strong> que aprende de tus reseñas</span>
+                  <span>AURA <strong>personalizada</strong> que se adapta a tu negocio</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>Respuestas <strong>totalmente automatizadas</strong></span>
+                  <span>Respuestas <strong>sin que te preocupes</strong></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
