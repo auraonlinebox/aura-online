@@ -93,6 +93,7 @@ export default function DemoCortoYCambio() {
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [showContact, setShowContact] = useState(false);
+  const [showPlans, setShowPlans] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [restaurant, setRestaurant] = useState('');
@@ -192,7 +193,7 @@ export default function DemoCortoYCambio() {
               <span className="ml-2 text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">Demo</span>
             </div>
           </div>
-          <button onClick={() => setShowContact(true)} className="text-xs bg-gray-900 text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-all">
+          <button onClick={() => setShowPlans(true)} className="text-xs bg-gray-900 text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-all">
             Quiero AURA para mi negocio
           </button>
         </div>
@@ -266,7 +267,7 @@ export default function DemoCortoYCambio() {
       </div>
 
       {/* Expiry / Payment modal */}
-      {expired && (
+      {(expired || showPlans) && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 overflow-y-auto">
           <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-xl my-8" onClick={(e) => e.stopPropagation()}>
             <div className="text-center mb-6">
@@ -330,7 +331,7 @@ export default function DemoCortoYCambio() {
       )}
 
       {/* Contact modal */}
-      {showContact && !expired && (
+      {showContact && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowContact(false)}>
           <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
