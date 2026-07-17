@@ -3,12 +3,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "AURA | Reputación digital para restaurantes",
-  description: "Gestiona las reseñas de Google de tu restaurante con IA. Responde a cada cliente de forma profesional y humana. Mejora tu puntuación y atrae más clientes.",
+  description: "Gestiona las reseñas de Google de tu restaurante con AURA. Responde a cada cliente de forma profesional y humana. Mejora tu puntuación y atrae más clientes.",
   keywords: ["reseñas google", "reputación online", "restaurantes", "gestión reseñas", "IA", "AURA"],
   icons: { icon: "/icon.svg" },
   openGraph: {
     title: "AURA — Tu reputación en su mejor momento",
-    description: "Respondemos las reseñas de Google de tu restaurante con IA. Rápido, profesional, humano.",
+    description: "Respondemos las reseñas de Google de tu restaurante con AURA. Rápido, profesional, humano.",
     locale: "es_ES",
     type: "website",
   },

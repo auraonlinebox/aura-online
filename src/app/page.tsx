@@ -155,7 +155,7 @@ export default function Home() {
                 rows={4}
               />
               <button onClick={generateResponse} disabled={loading || review.length < 5} className="w-full mt-3 py-3 bg-gray-900 text-white font-medium rounded-xl hover:bg-gray-800 disabled:opacity-40 transition-all text-sm">
-                {loading ? 'Generando...' : 'Generar respuesta con IA'}
+                {loading ? 'Generando...' : 'Generar respuesta con AURA'}
               </button>
               {review.length > 5 && (
                 <button onClick={() => { setReview(''); setReviewAuthor(''); setResponse(''); setRating(0); }} className="text-xs text-gray-400 mt-2 hover:text-gray-600">
@@ -229,7 +229,7 @@ export default function Home() {
 
           <div className="bg-orange-50 rounded-2xl border border-orange-200 p-6 sm:p-8 text-center">
             <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto mb-4">
-              <strong className="text-gray-900">Cada reseña sin responder</strong> es una mesa vacía. Con AURA, respondes en segundos, mejoras tu reputación y duermes tranquilo mientras la IA trabaja por ti. <strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
+              <strong className="text-gray-900">Cada reseña sin responder</strong> es una mesa vacía. Con AURA, respondes en segundos, mejoras tu reputación y duermes tranquilo mientras la AURA trabaja por ti. <strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
             </p>
             <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all shadow-lg shadow-gray-900/10">
               Solicitar 7 días gratis
@@ -247,11 +247,11 @@ export default function Home() {
             Prueba AURA gratis durante 7 días
           </h2>
           <p className="text-gray-400 text-base sm:text-lg mb-3 max-w-lg mx-auto">
-            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu negocio y la IA más avanzada para responder reseñas.
+            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu negocio y la AURA más avanzada para responder reseñas.
           </p>
           <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500 mb-6">
             <span className="flex items-center gap-1">✓ Configuración en 5 minutos</span>
-            <span className="flex items-center gap-1">✓ IA entrena con tu estilo</span>
+            <span className="flex items-center gap-1">✓ AURA entrena con tu estilo</span>
             <span className="flex items-center gap-1">✓ Cancela cuando quieras</span>
           </div>
           <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20">
@@ -437,7 +437,7 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>Respuestas por IA <strong>genérica</strong></span>
+                  <span>Respuestas por AURA <strong>genérica</strong></span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -476,7 +476,7 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>IA <strong>personalizada</strong> que aprende de tus reseñas</span>
+                  <span>AURA <strong>personalizada</strong> que aprende de tus reseñas</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -512,7 +512,7 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>IA <strong>personalizada</strong> que aprende de tus reseñas</span>
+                  <span>AURA <strong>personalizada</strong> que aprende de tus reseñas</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>

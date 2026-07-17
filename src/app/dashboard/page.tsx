@@ -233,7 +233,7 @@ export default function DashboardPage() {
               <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">✓</div>
               <div>
                 <p className="text-sm font-medium text-emerald-900">Todo listo</p>
-                <p className="text-xs text-emerald-700">Google conectado · Notificaciones activas · IA operativa</p>
+                <p className="text-xs text-emerald-700">Google conectado · Notificaciones activas · AURA operativa</p>
               </div>
             </div>
             <Link href="/" className="text-xs text-emerald-700 underline hover:text-emerald-900">Ver perfil público</Link>
