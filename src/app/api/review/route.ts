@@ -402,6 +402,9 @@ export async function POST(req: Request) {
     const safeBusiness = typeof businessName === 'string' && businessName.trim() ? businessName.trim() : '';
     const prompt = buildPrompt(review, safeAuthor, safeBusiness);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 20000);
+
     const res = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
@@ -411,14 +414,15 @@ export async function POST(req: Request) {
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: { temperature: 1.0, maxOutputTokens: 400 },
         }),
-        signal: AbortSignal.timeout(10000),
+        signal: controller.signal,
       }
     );
+    clearTimeout(timeoutId);
 
     if (!res.ok) {
       const errBody = await res.text().catch(() => '');
       console.error('Gemini HTTP error:', res.status, errBody);
-      return Response.json({ error: `Gemini respondió con error (${res.status})` }, { status: 502 });
+      return Response.json({ error: `Gemini respondió con error (${res.status}): ${errBody.slice(0,200)}` }, { status: 502 });
     }
 
     const data = await res.json();
@@ -428,8 +432,8 @@ export async function POST(req: Request) {
     }
 
     return Response.json({ response: text.trim() });
-  } catch (e) {
-    console.error('AURA API error:', e);
-    return Response.json({ error: 'Error al generar respuesta' }, { status: 500 });
+  } catch (e: any) {
+    console.error('AURA API error:', e?.message || e);
+    return Response.json({ error: `Error al generar respuesta: ${e?.message || 'desconocido'}` }, { status: 500 });
   }
 }
