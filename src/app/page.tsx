@@ -181,7 +181,7 @@ export default function Home() {
               ) : (
                 <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 flex items-center justify-center min-h-[120px]">
                   <p className="text-sm text-gray-400 text-center">
-                    {loading ? '🤖 Analizando la reseña...' : 'Pega una reseña a la izquierda y genera tu primera respuesta'}
+                    {loading ? 'Analizando la reseña...' : 'Pega una reseña a la izquierda y genera tu primera respuesta'}
                   </p>
                 </div>
               )}
@@ -305,7 +305,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 3 días',
                 review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda.',
-                response: 'María, gracias de corazón 🙏 La crema de calabaza y el tartar son platos que cuidamos con esmero. Y a Javier le haré llegar tu comentario, se lo merece 👏 Un fuerte abrazo 🤗',
+                response: 'María, gracias por tus palabras, las recibo con alegría. La crema de calabaza y el tartar de atún son platos que cuidamos con esmero. Se lo haré saber a Javier, se alegrará mucho. Un fuerte abrazo.',
                 label: 'Restaurante',
               },
               {
@@ -314,7 +314,7 @@ export default function Home() {
                 stars: 4,
                 date: 'hace 5 días',
                 review: 'Muy contenta con el corte. Patricia entendió exactamente lo que quería y me dio buenos consejos para el mantenimiento en casa. El trato fue súper agradable. Repetiré sin duda.',
-                response: 'Sara, gracias por tus palabras ✨ Patricia se alegrará mucho de leer esto. Nos encanta que nuestros clientes salgan contentos 😊 Te esperamos cuando quieras 🤗',
+                response: 'Sara, gracias por compartirlo. Patricia es una gran profesional y se alegrará mucho de leer tus palabras. Nos encanta que nuestros clientes salgan contentos. Te esperamos cuando quieras.',
                 label: 'Peluquería',
               },
               {
@@ -323,7 +323,7 @@ export default function Home() {
                 stars: 1,
                 date: 'hace 1 semana',
                 review: 'Dejé el coche por una revisión y tardaron 3 días en decirme qué tenía. El presupuesto final duplicó el inicial y encima no quedó bien arreglado del todo. Mala comunicación.',
-                response: 'Javier, lamento profundamente la experiencia 🙏 No es la forma de trabajar que queremos. Hemos revisado el proceso para que los presupuestos sean más claros 💪 Gracias por tu sinceridad 🤝',
+                response: 'Javier, lamento profundamente lo sucedido. No es la forma de trabajar que queremos. Hemos revisado el proceso para que los presupuestos sean más claros. Si te parece, hablamos en persona cuando vuelvas. Recibe un cordial saludo.',
                 label: 'Taller mecánico',
               },
               {
@@ -332,7 +332,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 4 días',
                 review: 'La mejor clínica dental en la que he estado. La dra. Martínez es un encanto y me explicó todo el tratamiento paso a paso. Cero dolor y resultados increíbles. 100% recomendable.',
-                response: 'Laura, qué alegría leer esto 😊 La doctora Martínez se entrega a cada paciente y le haré llegar tu comentario ⭐ Nos llena de satisfacción saber que estás contenta ❤️ Hasta pronto 👋',
+                response: 'Laura, qué alegría leer un comentario como este. La doctora Martínez es una gran profesional y le haré llegar tus palabras. Nos llena de satisfacción saber que estás contenta. Hasta pronto.',
                 label: 'Clínica dental',
               },
               {
@@ -341,7 +341,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 1 semana',
                 review: 'El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena.',
-                response: 'Ana, gracias por tu sinceridad 🙏 Tomamos nota de los tiempos de espera y lo revisaremos 👍 Nos alegra que valores la calidad de nuestros productos ✨ Un saludo afectuoso 😊',
+                response: 'Ana, gracias por tu sinceridad. Tomamos nota de los tiempos de espera y lo revisaremos con atención. Nos alegra que valores la calidad de nuestros productos. Un saludo afectuoso.',
                 label: 'Tienda de ropa',
               },
               {
@@ -350,7 +350,7 @@ export default function Home() {
                 stars: 2,
                 date: 'hace 2 días',
                 review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.',
-                response: 'David, lamento mucho la tardanza 🙏 La puntualidad es fundamental y no estuvo a la altura. Ya hemos hablado con el equipo para que no se repita 💪 Esperamos una nueva oportunidad 🤝',
+                response: 'David, lamento sinceramente lo ocurrido. La puntualidad es fundamental y no estuvo a la altura. Ya hemos hablado con el equipo para que no se repita. Esperamos una nueva oportunidad para demostrártelo.',
                 label: 'Limpiezas',
               },
             ].map((r, i) => (
@@ -386,19 +386,128 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pricing teaser */}
-      <section className="bg-gray-900 py-16 text-center">
-        <div className="max-w-xl mx-auto px-4 space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-white" style={{ fontFamily: 'Playfair Display, serif' }}>
-            ¿Cuánto cuesta AURA?
+      {/* Pricing */}
+      <section className="bg-gray-50 py-16 sm:py-20">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+            Planes para cada negocio
           </h2>
-          <p className="text-gray-400 text-base sm:text-lg">
-            Desde <strong className="text-white">19€/mes</strong>. La primera semana es gratis. Sin permanencia.
+          <p className="text-gray-500 text-center max-w-lg mx-auto mb-12">
+            Elige el plan que mejor se adapte a tu volumen de reseñas y al nivel de personalización que necesites.
           </p>
-          <button onClick={() => setShowContact(true)} className="inline-block px-8 py-4 bg-white text-gray-900 font-semibold rounded-full hover:bg-gray-100 transition-all">
-            Probar 7 días gratis
-          </button>
-          <p className="text-xs text-gray-600 mt-3">Sin compromiso. Sin tarjeta. Cancela cuando quieras.</p>
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {/* Básico */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col shadow-sm">
+              <div className="mb-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-1">Básico</h3>
+                <p className="text-xs text-gray-400 mb-4">Para negocios que empiezan a cuidar su reputación</p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-gray-900">19,90</span>
+                  <span className="text-gray-400 text-sm">€/mes</span>
+                </div>
+              </div>
+              <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Respuestas por IA <strong>genérica</strong></span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Revisión manual antes de publicar</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Hasta 50 reseñas/mes</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Soporte por email</span>
+                </li>
+              </ul>
+              <button onClick={() => setShowContact(true)} className="w-full py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-full hover:border-gray-300 transition-all text-sm">
+                Elegir Básico
+              </button>
+            </div>
+
+            {/* Pro */}
+            <div className="bg-white rounded-2xl border-2 border-orange-400 p-6 sm:p-8 flex flex-col shadow-md relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-400 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-wider">
+                    Recomendado
+              </div>
+              <div className="mb-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-1">Pro</h3>
+                <p className="text-xs text-gray-400 mb-4">Para negocios con volumen y que quieren diferenciarse</p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-gray-900">29,90</span>
+                  <span className="text-gray-400 text-sm">€/mes</span>
+                </div>
+              </div>
+              <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>IA <strong>personalizada</strong> que aprende de tus reseñas anteriores</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Revisión manual antes de publicar</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Hasta 200 reseñas/mes</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Soporte prioritario</span>
+                </li>
+              </ul>
+              <button onClick={() => setShowContact(true)} className="w-full py-3 bg-orange-400 text-white font-semibold rounded-full hover:bg-orange-500 transition-all text-sm shadow-lg shadow-orange-200">
+                Elegir Pro
+              </button>
+            </div>
+
+            {/* Élite */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col shadow-sm">
+              <div className="mb-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-1">Élite</h3>
+                <p className="text-xs text-gray-400 mb-4">Para quienes quieren despreocuparse por completo</p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-gray-900">39,90</span>
+                  <span className="text-gray-400 text-sm">€/mes</span>
+                </div>
+              </div>
+              <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>IA <strong>personalizada</strong> que aprende de tus reseñas anteriores</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Respuestas <strong>totalmente automatizadas</strong></span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Revisadas por el <strong>equipo de AURA</strong></span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Reseñas ilimitadas</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Soporte 24/7 dedicado</span>
+                </li>
+              </ul>
+              <button onClick={() => setShowContact(true)} className="w-full py-3 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all text-sm">
+                Elegir Élite
+              </button>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-xs text-gray-400">
+              Todos los planes incluyen <strong>7 días de prueba gratuita</strong>. Sin permanencia. Cancela cuando quieras.
+            </p>
+          </div>
         </div>
       </section>
 
