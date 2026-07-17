@@ -1,0 +1,7 @@
+{
+  "name": "aura-proxy",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "account_id": "372c920787c90ea501201c21aefa4710"
+}
