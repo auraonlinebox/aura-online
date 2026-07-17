@@ -356,7 +356,7 @@ function sentimentPrompt(text: string): string {
   return 'TONO: opinión mezclada. Agradece la sinceridad y responde a lo que dice.';
 }
 
-function buildPrompt(review: string, author: string, businessName?: string): string {
+function buildPrompt(review: string, author: string, businessName?: string, variationSeed?: string): string {
   const name = getFirstName(author);
   const sentGuide = sentimentPrompt(review);
 
@@ -383,7 +383,9 @@ Nombre del cliente: ${name || 'Cliente'}
 Calificación: [disponible]
 Texto de la reseña: "${review}"
 
-Genera solo la respuesta, sin explicaciones ni notas previas.`;
+Genera solo la respuesta, sin explicaciones ni notas previas.
+
+Variación: ${variationSeed || '0000'}`;
 }
 
 export async function POST(req: Request) {
@@ -400,7 +402,8 @@ export async function POST(req: Request) {
 
     const safeAuthor = typeof author === 'string' && author.trim() ? author.trim() : 'Cliente';
     const safeBusiness = typeof businessName === 'string' && businessName.trim() ? businessName.trim() : '';
-    const prompt = buildPrompt(review, safeAuthor, safeBusiness);
+    const variationSeed = Math.random().toString(36).slice(2, 8);
+    const prompt = buildPrompt(review, safeAuthor, safeBusiness, variationSeed);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000);
@@ -412,7 +415,7 @@ export async function POST(req: Request) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 1.0, maxOutputTokens: 400 },
+          generationConfig: { temperature: 1.2, topP: 0.95, maxOutputTokens: 400 },
         }),
         signal: controller.signal,
       }
