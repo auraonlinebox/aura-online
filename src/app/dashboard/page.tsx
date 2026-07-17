@@ -302,14 +302,12 @@ function ReviewCard({
 }) {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(review.response);
-  const [prevResponse, setPrevResponse] = useState(review.response);
 
   useEffect(() => {
-    if (!prevResponse && review.response) {
-      setEditing(true);
+    if (review.response && review.response !== editText) {
       setEditText(review.response);
+      setEditing(true);
     }
-    setPrevResponse(review.response);
   }, [review.response]);
 
   const isNew = review.status === 'generating';
