@@ -261,7 +261,7 @@ export default function Home() {
 
           <div className="bg-orange-50 rounded-2xl border border-orange-200 p-6 sm:p-8 text-center">
             <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto mb-4">
-              <strong className="text-gray-900">Cada reseña sin responder es un cliente perdido.</strong> Con AURA, respondes en segundos, mejoras tu reputación y olvídate de las preocupaciones mientras nosotros nos encargamos. <strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
+               <strong className="text-gray-900">Cada reseña sin responder es un cliente perdido.</strong> Con AURA, respondes en segundos, mejoras tu reputación y <strong className="text-gray-900">te olvidas</strong> de las preocupaciones mientras nosotros nos encargamos.<br /><strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
             </p>
             <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all shadow-lg shadow-gray-900/10">
               Solicitar 7 días gratis
