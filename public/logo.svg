@@ -6,11 +6,21 @@
     </linearGradient>
   </defs>
 
-  <!-- Circular badge with star (Google-style) -->
-  <circle cx="55" cy="55" r="45" fill="url(#sg)"/>
-  <path d="M55 20 L63 44 L88 44 L68 59 L76 83 L55 68 L34 83 L42 59 L22 44 L47 44 Z" fill="white"/>
+  <circle cx="55" cy="55" r="38" fill="url(#sg)"/>
+
+  <!-- First A (upright) -->
+  <path d="M36 68 L55 24 L74 68" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 49 L66 49" stroke="white" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Second A (inverted) -->
+  <path d="M36 42 L55 86 L74 42" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 61 L66 61" stroke="white" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- U and R in center -->
+  <text x="45" y="58" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" fill="white">U</text>
+  <text x="56" y="58" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" fill="white">R</text>
 
   <!-- AURA text -->
-  <text x="115" y="62" font-family="'Playfair Display', Georgia, serif" font-size="52" font-weight="900" fill="#111" letter-spacing="1">AURA</text>
-  <text x="115" y="85" font-family="Inter, Arial, sans-serif" font-size="12" fill="#9ca3af" letter-spacing="3" font-weight="500">REPUTACIÓN DIGITAL</text>
+  <text x="108" y="62" font-family="'Playfair Display', Georgia, serif" font-size="52" font-weight="900" fill="#111" letter-spacing="1">AURA</text>
+  <text x="108" y="85" font-family="Inter, Arial, sans-serif" font-size="12" fill="#9ca3af" letter-spacing="3" font-weight="500">REPUTACIÓN DIGITAL</text>
 </svg>
