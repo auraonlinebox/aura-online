@@ -4,7 +4,7 @@ import { generateResponse } from '@/lib/gemini';
 
 export async function POST(req: NextRequest) {
   try {
-    const { businessName, businessEmail, reviews } = await req.json();
+    const { businessName, businessEmail, reviews, preview } = await req.json();
     if (!businessName || !businessEmail || !reviews?.length) {
       return NextResponse.json({ error: 'Faltan datos' }, { status: 400 });
     }
@@ -70,6 +70,10 @@ export async function POST(req: NextRequest) {
       </body>
       </html>
     `;
+
+    if (preview) {
+      return NextResponse.json({ preview: true, responses, html });
+    }
 
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',

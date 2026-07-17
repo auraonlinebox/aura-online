@@ -6,11 +6,26 @@ export default function NewProspect() {
   const [businessName, setBusinessName] = useState('');
   const [businessEmail, setBusinessEmail] = useState('');
   const [reviews, setReviews] = useState([{ author: '', text: '', rating: 5 }]);
-  const [slug, setSlug] = useState('');
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
   const [progress, setProgress] = useState('');
+  const [preview, setPreview] = useState<{ html: string; responses: any[]; subject: string } | null>(null);
+  const [sent, setSent] = useState(false);
+  const [slug, setSlug] = useState('');
   const [copied, setCopied] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const validate = () => {
+    const errs: string[] = [];
+    if (!businessName.trim()) errs.push('Nombre del negocio');
+    if (!businessEmail.trim()) errs.push('Email del negocio');
+    const valid = reviews.every((r, i) => {
+      if (!r.author.trim()) { errs.push(`Autor de la reseña #${i + 1}`); return false; }
+      if (!r.text.trim()) { errs.push(`Texto de la reseña #${i + 1}`); return false; }
+      return true;
+    });
+    setErrors(errs);
+    return errs.length === 0;
+  };
 
   const addReview = () => {
     if (reviews.length >= 6) return;
@@ -28,13 +43,45 @@ export default function NewProspect() {
     setReviews(copy);
   };
 
-  const sendDemo = async () => {
-    if (!businessName.trim()) return alert('Introduce el nombre del negocio');
-    if (!businessEmail.trim()) return alert('Introduce el email del negocio');
-    const valid = reviews.every((r) => r.author.trim() && r.text.trim());
-    if (!valid) return alert('Todas las reseñas necesitan autor y texto');
+  const generatePreview = async () => {
+    if (!validate()) return;
     setLoading(true);
-    setProgress('Generando respuestas...');
+    setProgress('Generando respuestas con IA...');
+    setPreview(null);
+    setSent(false);
+    try {
+      const res = await fetch('/api/send-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: businessName.trim(),
+          businessEmail: businessEmail.trim(),
+          reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
+          preview: true,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Error');
+      }
+      const data = await res.json();
+      setPreview({
+        html: data.html,
+        responses: data.responses,
+        subject: `${businessName.trim()} — tus reseñas de Google respondidas con AURA`,
+      });
+    } catch (err: any) {
+      alert('Error: ' + err.message);
+    } finally {
+      setLoading(false);
+      setProgress('');
+    }
+  };
+
+  const sendEmail = async () => {
+    if (!preview) return;
+    setLoading(true);
+    setProgress('Enviando email...');
     try {
       const res = await fetch('/api/send-demo', {
         method: 'POST',
@@ -50,7 +97,6 @@ export default function NewProspect() {
         throw new Error(err.error || 'Error');
       }
       setSent(true);
-      setProgress('');
 
       const data = await res.json();
       const slugRes = await fetch('/api/prospect', {
@@ -79,10 +125,10 @@ export default function NewProspect() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
-      <div className="max-w-2xl mx-auto px-4 py-12">
+      <div className="max-w-3xl mx-auto px-4 py-12">
         <a href="/" className="text-orange-500 text-sm hover:underline">&larr; Volver</a>
         <h1 className="text-3xl font-bold text-gray-900 mt-4 mb-2">Nuevo prospecto</h1>
-        <p className="text-gray-500 mb-8">Introduce los datos del negocio y sus reseñas sin contestar. Enviaremos un email automático con las respuestas generadas por AURA.</p>
+        <p className="text-gray-500 mb-8">Introduce los datos del negocio, genera una preview del email y envíalo cuando estés conforme.</p>
 
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
@@ -122,9 +168,49 @@ export default function NewProspect() {
             ))}
           </div>
 
-          <button onClick={sendDemo} disabled={loading} className="w-full py-3 bg-orange-500 text-white font-medium rounded-xl hover:bg-orange-600 transition-all disabled:opacity-50 text-base">
-            {loading ? (progress || 'Enviando...') : '🚀 Enviar demo por email'}
-          </button>
+          {errors.length > 0 && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
+              <p className="text-xs text-red-600 font-medium mb-1">Completa los siguientes campos:</p>
+              <ul className="list-disc list-inside text-xs text-red-500 space-y-0.5">
+                {errors.map((e, i) => <li key={i}>{e}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {!preview && !sent && (
+            <button onClick={generatePreview} disabled={loading} className="w-full py-3 bg-orange-500 text-white font-medium rounded-xl hover:bg-orange-600 transition-all disabled:opacity-50 text-base">
+              {loading ? (progress || 'Generando...') : '🚀 Generar preview del email'}
+            </button>
+          )}
+
+          {preview && !sent && (
+            <div className="space-y-3">
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                <p className="text-sm text-blue-800 font-medium">✅ Preview generada — revisa el email antes de enviarlo</p>
+                <p className="text-xs text-blue-600 mt-1">Asunto: {preview.subject}</p>
+                <p className="text-xs text-blue-600">Para: {businessEmail}</p>
+              </div>
+              <div className="border border-gray-200 rounded-xl overflow-hidden max-h-[500px] overflow-y-auto bg-white">
+                <iframe srcDoc={preview.html} className="w-full h-[500px]" title="Preview del email" />
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={sendEmail}
+                  disabled={loading}
+                  className="flex-1 py-3 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 transition-all disabled:opacity-50"
+                >
+                  {loading ? (progress || 'Enviando...') : '📤 Enviar email'}
+                </button>
+                <button
+                  onClick={generatePreview}
+                  disabled={loading}
+                  className="px-6 py-3 border border-gray-200 text-gray-600 font-medium rounded-xl hover:bg-gray-50 transition-all disabled:opacity-50 text-sm"
+                >
+                  Regenerar
+                </button>
+              </div>
+            </div>
+          )}
 
           {sent && (
             <div className="p-4 bg-green-50 border border-green-200 rounded-xl space-y-3">
