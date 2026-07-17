@@ -388,11 +388,47 @@ Genera solo la respuesta, sin explicaciones ni notas previas.
 Variación: ${variationSeed || '0000'}`;
 }
 
+const generationCounts = new Map<string, { count: number; resetAt: number }>();
+const MAX_FREE = 3;
+const WINDOW_MS = 24 * 60 * 60 * 1000; // reset every 24h
+
+function getDemoCount(ip: string): number {
+  const now = Date.now();
+  const entry = generationCounts.get(ip);
+  if (!entry || now > entry.resetAt) {
+    generationCounts.set(ip, { count: 0, resetAt: now + WINDOW_MS });
+    return 0;
+  }
+  return entry.count;
+}
+
+function incrementDemoCount(ip: string): void {
+  const now = Date.now();
+  const entry = generationCounts.get(ip);
+  if (!entry || now > entry.resetAt) {
+    generationCounts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+  } else {
+    entry.count++;
+  }
+}
+
 export async function POST(req: Request) {
   try {
-    const { review, rating, author, businessName } = await req.json();
+    const { review, rating, author, businessName, source: reqSource } = await req.json();
     if (!review || typeof review !== 'string' || review.length < 5) {
       return Response.json({ error: 'Escribe la reseña para generar una respuesta.' }, { status: 400 });
+    }
+
+    const source = typeof reqSource === 'string' ? reqSource : 'demo';
+    if (source === 'demo') {
+      const ip = req.headers.get('cf-connecting-ip')
+        || req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+        || 'unknown';
+      const count = getDemoCount(ip);
+      if (count >= MAX_FREE) {
+        return Response.json({ error: 'Has agotado tus 3 generaciones gratuitas. Prueba AURA gratis 7 días sin tarjeta.', limitExceeded: true }, { status: 429 });
+      }
+      incrementDemoCount(ip);
     }
 
     const apiKey = process.env.GOOGLE_AI_API_KEY;

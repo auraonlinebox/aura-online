@@ -29,6 +29,15 @@ const REVIEWS: Review[] = [
   { id: 'spam2', author: 'Juan T.', rating: 1, date: 'hace 1 hora', text: 'pesimo pesimo pesimo pesimo pesimo nada recomendable llamar antes de ir pesimo', response: '', status: 'pending', spam: 'suspicious', spamReason: 'Texto repetitivo, parece falso.' },
 ];
 
+const HIDDEN_REVIEWS: Review[] = [
+  { id: '7', author: 'Raquel H.', rating: 4, date: 'hace 2 min', text: 'Pedimos para llevar y todo llegó caliente y bien empaquetado. El arroz estaba espectacular. Solo pondría una pega: tardaron 10 min más de lo que dijeron. Por lo demás genial.', response: '', status: 'pending', spam: 'none' },
+  { id: '8', author: 'Diego M.', rating: 2, date: 'hace 5 min', text: 'La comida bien pero el envase venía medio abierto y se derramó parte en la bolsa. Para el precio que tiene el menú esperas más cuidado en el delivery.', response: '', status: 'pending', spam: 'none' },
+  { id: '9', author: 'Sofía L.', rating: 5, date: 'hace 8 min', text: 'Descubrimos este sitio por casualidad y ya es nuestro favorito. El trato es familiar, la comida casera y los precios muy razonables. El flan de la abuela, IMPRESIONANTE. Volveremos cada semana.', response: '', status: 'pending', spam: 'none' },
+  { id: '10', author: 'Jorge A.', rating: 3, date: 'hace 15 min', text: 'Correcto sin más. La carne estaba buena pero los acompañamientos muy justos. La atención fue rápida pero muy fría. Esperaba algo más de ambiente.', response: '', status: 'pending', spam: 'none' },
+  { id: '11', author: 'Elena R.', rating: 1, date: 'hace 20 min', text: 'Hicimos una reserva para 8 personas y cuando llegamos nos dijeron que no tenían constancia. Al final nos colocaron pero separados en dos mesas. La cena incómoda y la organización nefasta.', response: '', status: 'pending', spam: 'none' },
+  { id: '12', author: 'Pablo G.', rating: 5, date: 'hace 30 min', text: 'Espectacular. Todo. La atención, la comida, el lugar. El camarero Iván nos hizo sentir como en casa. El solomillo estaba perfecto y los postres caseros son una locura. Volveremos sin ninguna duda.', response: '', status: 'pending', spam: 'none' },
+];
+
 const STARS = [1, 2, 3, 4, 5];
 
 function StarRating({ rating }: { rating: number }) {
@@ -70,6 +79,10 @@ export default function DashboardPage() {
     const t = tips.generadas;
     return t[Math.floor(Math.random() * t.length)];
   });
+  const [trialEnd, setTrialEnd] = useState<Date | null>(null);
+  const [daysLeft, setDaysLeft] = useState(7);
+  const [hiddenQueue, setHiddenQueue] = useState<Review[]>([]);
+  const [nextReviewTimer, setNextReviewTimer] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
@@ -82,6 +95,69 @@ export default function DashboardPage() {
       });
     }).catch(() => setPushStatus('unsupported'));
   }, []);
+
+  // Trial mode: check URL param and localStorage
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const isTrial = params.get('trial') === '1' || localStorage.getItem('aura_trial') === '1';
+    if (isTrial) {
+      localStorage.setItem('aura_trial', '1');
+      let start = localStorage.getItem('aura_trial_start');
+      if (!start) {
+        start = Date.now().toString();
+        localStorage.setItem('aura_trial_start', start);
+      }
+      const end = parseInt(start, 10) + 7 * 24 * 60 * 60 * 1000;
+      setTrialEnd(new Date(end));
+
+      // Initialize hidden queue
+      setHiddenQueue([...HIDDEN_REVIEWS]);
+
+      // Schedule next review reveal
+      scheduleNextReview();
+    }
+  }, []);
+
+  // Trial countdown tick
+  useEffect(() => {
+    if (!trialEnd) return;
+    const tick = () => {
+      const now = Date.now();
+      const left = Math.max(0, Math.ceil((trialEnd.getTime() - now) / (24 * 60 * 60 * 1000)));
+      setDaysLeft(left);
+    };
+    tick();
+    const id = setInterval(tick, 60000);
+    return () => clearInterval(id);
+  }, [trialEnd]);
+
+  const scheduleNextReview = useCallback(() => {
+    const delays = [30000, 60000, 120000, 300000, 600000];
+    const delay = delays[Math.floor(Math.random() * delays.length)];
+    const timer = setTimeout(() => {
+      setHiddenQueue((prev) => {
+        if (prev.length === 0) return prev;
+        const [next, ...rest] = prev;
+        setReviews((r) => [...r, next]);
+        // Send push notification
+        if (pushSub) {
+          fetch('/api/push/trigger', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              subscription: pushSub.toJSON(),
+              title: `⭐ ${next.rating}★ Nueva reseña de ${next.author}`,
+              body: next.text.slice(0, 80) + (next.text.length > 80 ? '...' : ''),
+              url: '/dashboard',
+            }),
+          });
+        }
+        if (rest.length > 0) scheduleNextReview();
+        return rest;
+      });
+    }, delay);
+    setNextReviewTimer(timer);
+  }, [pushSub]);
 
   const subscribePush = useCallback(async () => {
     try {
@@ -201,6 +277,24 @@ export default function DashboardPage() {
       </header>
 
       <div className="max-w-5xl mx-auto px-4 pt-6">
+        {/* Trial banner */}
+        {trialEnd && (
+          <div className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl p-4 mb-6 text-white flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <div>
+                <p className="text-sm font-semibold">Periodo de prueba gratis</p>
+                <p className="text-xs text-white/80">Te quedan <strong>{daysLeft} días</strong> de prueba gratuita. {hiddenQueue.length > 0 && `${hiddenQueue.length} reseñas simuladas pendientes de recibir.`}</p>
+              </div>
+            </div>
+            <button onClick={() => window.location.href = '/#planes'} className="text-xs bg-white text-orange-600 font-semibold px-4 py-2 rounded-full hover:bg-orange-50 transition-all shrink-0">
+              Ver planes
+            </button>
+          </div>
+        )}
+
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
             <div className="text-xs text-gray-400 mb-1">Valoración media</div>

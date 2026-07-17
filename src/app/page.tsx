@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 
 const quickExamples = [
   { name: 'Carlos Mendoza', review: 'Servicio rápido y profesional. Repetiré seguro.', rating: 5, label: 'Hotel' },
@@ -25,19 +25,40 @@ export default function Home() {
   const [phone, setPhone] = useState('');
   const [sending, setSending] = useState(false);
   const [accepted, setAccepted] = useState(false);
+  const [showLimit, setShowLimit] = useState(false);
+  const [generationsLeft, setGenerationsLeft] = useState(3);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('aura_generations');
+    if (stored) {
+      const left = Math.max(0, 3 - parseInt(stored, 10));
+      setGenerationsLeft(left);
+      if (left <= 0) setShowLimit(true);
+    }
+  }, []);
 
   const generateResponse = async (e?: FormEvent) => {
     if (e) e.preventDefault();
     if (review.trim().length < 5) return;
+    if (generationsLeft <= 0) { setShowLimit(true); return; }
     setLoading(true);
     setResponse('');
     try {
       const res = await fetch('/api/review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ review: review.trim(), rating: rating || undefined, author: reviewAuthor || undefined }),
+        body: JSON.stringify({ review: review.trim(), rating: rating || undefined, author: reviewAuthor || undefined, source: 'demo' }),
       });
       const data = await res.json();
+      if (res.status === 429 && data.limitExceeded) {
+        setShowLimit(true);
+        setGenerationsLeft(0);
+        localStorage.setItem('aura_generations', '3');
+        return;
+      }
+      const used = parseInt(localStorage.getItem('aura_generations') || '0', 10);
+      localStorage.setItem('aura_generations', String(used + 1));
+      setGenerationsLeft(Math.max(0, 2 - used));
       setResponse(data.response || data.error || 'Error');
     } catch {
       setResponse('Error al generar respuesta');
@@ -54,6 +75,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      <div className={`${showLimit ? 'blur-sm pointer-events-none select-none' : ''}`}>
       {/* Header */}
       <header className="border-b border-gray-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -115,6 +137,9 @@ export default function Home() {
             </h2>
             <p className="text-gray-500 max-w-md mx-auto">
               Pega una reseña real y ve cómo AURA la respondería. Sin registro, sin compromiso.
+              {generationsLeft > 0 && generationsLeft < 3 && (
+                <span className="block text-xs text-orange-500 mt-1">Te quedan {generationsLeft} generaciones gratuitas</span>
+              )}
             </p>
           </div>
 
@@ -563,6 +588,31 @@ export default function Home() {
         </div>
       </section>
 
+      </div>
+
+      {/* Limit upsell */}
+      {showLimit && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={() => setShowLimit(false)}>
+          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-xl text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0" /></svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Generaciones agotadas
+            </h3>
+            <p className="text-sm text-gray-500 mb-6">
+              Has probado AURA. Ahora es el momento de llevarlo a tu negocio. <strong>7 días gratis, sin tarjeta.</strong>
+            </p>
+            <button onClick={() => { setShowLimit(false); window.location.href = '/dashboard?trial=1'; }} className="w-full py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-all mb-2">
+              Probar AURA gratis 7 días
+            </button>
+            <button onClick={() => setShowLimit(false)} className="w-full py-2 text-sm text-gray-400 hover:text-gray-600 transition-all">
+              Seguir explorando
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Contact modal */}
       {showContact && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowContact(false)}>
@@ -571,7 +621,7 @@ export default function Home() {
               <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
               <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
-            <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setEmail(''); setRestaurant(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
+              <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); window.location.href = '/dashboard?trial=1'; } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
               <div>
                 <label className="text-xs text-gray-500 font-medium">Nombre</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Tu nombre" />
