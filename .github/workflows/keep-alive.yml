@@ -1,0 +1,13 @@
+name: Keep Alive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -s --max-time 15 "https://aura-online-y1k8.onrender.com" > /dev/null
+      - run: curl -s --max-time 15 "https://aura-online-y1k8.onrender.com/api/review" -X POST -H "Content-Type: application/json" -d '{"review":"ok","author":"Sistema"}' > /dev/null
