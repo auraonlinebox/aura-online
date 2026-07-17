@@ -270,7 +270,7 @@ export default function Home() {
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               { n: '01', icon: '🔗', t: 'Conecta tu Google', d: 'Añades tu negocio. Nos encargamos de monitorizar tus reseñas en tiempo real.' },
-              { n: '02', icon: '🤖', t: 'IA responde por ti', d: 'Cada nueva reseña recibe una respuesta profesional, personalizada y humana generada por AURA.' },
+              { n: '02', icon: '🤖', t: 'AURA responde por ti', d: 'Cada nueva reseña recibe una respuesta profesional, personalizada y humana generada por AURA.' },
               { n: '03', icon: '✅', t: 'Tú apruebas o publicas', d: 'Revisas antes de publicar. O activas el modo automático y AURA responde al instante.' },
             ].map((s, i) => (
               <div key={i} className="text-center space-y-3">
