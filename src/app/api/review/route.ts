@@ -284,9 +284,9 @@ function buildFallback(review: string, author: string): string {
     }
     if (tiene('camarero')) {
       return pick([
-        `${openerPos(g)}. El trato es tan importante como la comida. Se lo haré saber al equipo. ${close()}.`,
-        `${openerPos(g)}. El equipo se merece leer comentarios como este. Se lo trasladaré. ${close()}.`,
-        `${openerPos(g)}. Nos alegra que el servicio estuviera a la altura. Se lo haré llegar. ${close()}.`,
+        `${openerPos(g)}. El trato es tan importante como el servicio que ofrecemos. Se lo haré saber al equipo. ${close()}.`,
+        `${openerPos(g)}. El equipo se merece leer comentarios como este. Se lo trasladaré encantado. ${close()}.`,
+        `${openerPos(g)}. Nos alegra que el trato estuviera a la altura de tus expectativas. ${close()}.`,
       ]);
     }
     if (tiene('ambiente')) {
