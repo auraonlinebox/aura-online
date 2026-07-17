@@ -417,12 +417,15 @@ export async function POST(req: Request) {
           const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
           if (text) return Response.json({ response: text.trim() });
         }
-      } catch {}
+      } catch (e) {
+        console.error('Gemini API error:', e);
+      }
     }
 
     const response = contract(buildFallback(review, safeAuthor));
     return Response.json({ response });
-  } catch {
+  } catch (e) {
+    console.error('AURA API error:', e);
     return Response.json({ error: 'Error al generar respuesta' }, { status: 500 });
   }
 }
