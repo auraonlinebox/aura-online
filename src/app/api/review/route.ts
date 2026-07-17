@@ -76,9 +76,9 @@ function hasTopic(text: string, patterns: RegExp[]): boolean {
 const topics = {
   espera: [/espera/, /esperando/, /minuto/, /tarde\b/, /lento/, /cola/],
   precio: [/caro\b/, /cara\b/, /precio/, /barato/, /factura/, /cuenta\b/],
-  reserva: [/reserva/, /reservado/, /no había mesa/, /confirmad/],
-  racion: [/ración/, /racion/, /poco\b/, /escaso/, /cantidad/, /pequeñ/],
-  ambiente: [/ambiente/, /local/, /sitio/, /terraza/, /música/, /ruido/, /limpio/, /sucia/, /frío/, /calor/, /decoración/],
+  reserva: [/reserva/, /reservado/, /no había (mesa|cita)/, /confirmad/],
+  racion: [/ración/, /racion/, /poco\b/, /escaso/, /cantidad/],
+  ambiente: [/ambiente/, /local/, /sitio/, /terraza/, /música/, /ruido/, /limpio/, /sucia/, /frío/, /calor/, /decoración/, /pequeñ/],
   camarero: [/camarero/, /camarera/, /encargado/, /servicio/, /trato/, /atento/, /borde/, /desagradable/],
 };
 
@@ -229,8 +229,8 @@ function buildFallback(review: string, author: string): string {
     }
     if (tiene('racion')) {
       return pick([
-        `${openerNeu(g)}. Revisaremos las raciones con el equipo de cocina.${invitar} ${close()}.`,
-        `${openerNeu(g)}. Tomamos nota de lo de las raciones y lo hablaremos en cocina.${invitar} ${close()}.`,
+        `${openerNeu(g)}. Revisaremos las raciones, tomamos nota.${invitar} ${close()}.`,
+        `${openerNeu(g)}. Tomamos nota de lo de las raciones y lo tendremos en cuenta.${invitar} ${close()}.`,
         `${openerNeu(g)}. Agradecemos tu comentario sobre las raciones. Lo tendremos presente.${invitar} ${close()}.`,
       ]);
     }
@@ -329,7 +329,7 @@ function buildFallback(review: string, author: string): string {
     `${openerNeu(g)}. Lo de los precios lo revisaremos. ${close()}.`,
   ]);
   if (tiene('racion')) return pick([
-    `${openerNeu(g)}. Revisamos las raciones con cocina. ${close()}.`,
+    `${openerNeu(g)}. Revisamos las raciones, tomamos nota. ${close()}.`,
     `${openerNeu(g)}. Lo de las raciones lo tendremos en cuenta. ${close()}.`,
   ]);
 
