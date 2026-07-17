@@ -57,7 +57,7 @@ export default function ClientDashboard({ params }: { params: Promise<{ clientId
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(
             process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || ''
-          ),
+          ) as any,
         });
         await fetch('/api/push/subscribe', {
           method: 'POST',

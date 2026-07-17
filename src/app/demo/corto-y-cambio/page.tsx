@@ -48,6 +48,8 @@ const REVIEWS = [
   },
 ];
 
+const BUSINESS_TYPES = ['Restaurante', 'Peluquería', 'Taller mecánico', 'Clínica dental', 'Fisioterapia', 'Inmobiliaria', 'Hotel', 'Tienda', 'Academia', 'Veterinario', 'Jardinería', 'Limpiezas', 'Otros'];
+
 const PLANS = [
   {
     id: 'basico',
@@ -95,8 +97,11 @@ export default function DemoCortoYCambio() {
   const [showContact, setShowContact] = useState(false);
   const [showPlans, setShowPlans] = useState(false);
   const [name, setName] = useState('');
+  const [apellido1, setApellido1] = useState('');
+  const [apellido2, setApellido2] = useState('');
   const [email, setEmail] = useState('');
-  const [restaurant, setRestaurant] = useState('');
+  const [tipoNegocio, setTipoNegocio] = useState('');
+  const [otroTipo, setOtroTipo] = useState('');
   const [phone, setPhone] = useState('');
   const [sending, setSending] = useState(false);
   const [accepted, setAccepted] = useState(false);
@@ -364,22 +369,39 @@ export default function DemoCortoYCambio() {
               <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
               <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
-            <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setEmail(''); setRestaurant(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
+            <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, apellido1, apellido2, email, tipoNegocio: tipoNegocio === 'Otros' ? otroTipo : tipoNegocio, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setApellido1(''); setApellido2(''); setEmail(''); setTipoNegocio(''); setOtroTipo(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
               <div>
                 <label className="text-xs text-gray-500 font-medium">Nombre</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Tu nombre" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Primer apellido</label>
+                <input type="text" value={apellido1} onChange={(e) => setApellido1(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Primer apellido" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Segundo apellido <span className="text-gray-300">(opcional)</span></label>
+                <input type="text" value={apellido2} onChange={(e) => setApellido2(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Segundo apellido" />
               </div>
               <div>
                 <label className="text-xs text-gray-500 font-medium">Email</label>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="tu@email.com" />
               </div>
               <div>
-                <label className="text-xs text-gray-500 font-medium">Negocio</label>
-                <input type="text" value={restaurant} onChange={(e) => setRestaurant(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Nombre de tu negocio" />
+                <label className="text-xs text-gray-500 font-medium">Tipo de negocio</label>
+                <select value={tipoNegocio} onChange={(e) => setTipoNegocio(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100 bg-white">
+                  <option value="">Selecciona...</option>
+                  {BUSINESS_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+                </select>
               </div>
+              {tipoNegocio === 'Otros' && (
+                <div>
+                  <label className="text-xs text-gray-500 font-medium">Especifica tu tipo de negocio</label>
+                  <input type="text" value={otroTipo} onChange={(e) => setOtroTipo(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Ej: Agencia de marketing" />
+                </div>
+              )}
               <div>
-                <label className="text-xs text-gray-500 font-medium">Teléfono <span className="text-gray-300">(opcional)</span></label>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="+34 600 000 000" />
+                <label className="text-xs text-gray-500 font-medium">Teléfono (WhatsApp)</label>
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="+34 600 000 000" />
               </div>
               <label className="flex items-start gap-2 text-xs text-gray-500">
                 <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-0.5" />
