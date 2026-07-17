@@ -394,36 +394,40 @@ export async function POST(req: Request) {
     }
 
     const apiKey = process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey) {
+      return Response.json({ error: 'API key de Gemini no configurada. Añade GOOGLE_AI_API_KEY en las variables de entorno.' }, { status: 500 });
+    }
+
     const safeAuthor = typeof author === 'string' && author.trim() ? author.trim() : 'Cliente';
     const safeBusiness = typeof businessName === 'string' && businessName.trim() ? businessName.trim() : '';
     const prompt = buildPrompt(review, safeAuthor, safeBusiness);
 
-    if (apiKey) {
-      try {
-        const res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: { temperature: 1.0, maxOutputTokens: 400 },
-            }),
-            signal: AbortSignal.timeout(20000),
-          }
-        );
-        if (res.ok) {
-          const data = await res.json();
-          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (text) return Response.json({ response: text.trim() });
-        }
-      } catch (e) {
-        console.error('Gemini API error:', e);
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 1.0, maxOutputTokens: 400 },
+        }),
+        signal: AbortSignal.timeout(10000),
       }
+    );
+
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '');
+      console.error('Gemini HTTP error:', res.status, errBody);
+      return Response.json({ error: `Gemini respondió con error (${res.status})` }, { status: 502 });
     }
 
-    const response = contract(buildFallback(review, safeAuthor));
-    return Response.json({ response });
+    const data = await res.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) {
+      return Response.json({ error: 'Gemini no generó texto de respuesta' }, { status: 502 });
+    }
+
+    return Response.json({ response: text.trim() });
   } catch (e) {
     console.error('AURA API error:', e);
     return Response.json({ error: 'Error al generar respuesta' }, { status: 500 });
