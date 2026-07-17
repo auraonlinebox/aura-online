@@ -1,20 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" fill="none">
   <defs>
-    <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#f97316"/>
-      <stop offset="100%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
   </defs>
 
-  <!-- Star glow -->
-  <path d="M55 6 L64 33 L93 33 L70 50 L79 78 L55 61 L31 78 L40 50 L17 33 L46 33 Z"
-        fill="url(#sg)" opacity="0.08"/>
+  <!-- Circular badge with star (Google-style) -->
+  <circle cx="55" cy="55" r="45" fill="url(#sg)"/>
+  <path d="M55 20 L63 44 L88 44 L68 59 L76 83 L55 68 L34 83 L42 59 L22 44 L47 44 Z" fill="white"/>
 
-  <!-- Star -->
-  <path d="M55 12 L62 35 L87 35 L67 50 L74 74 L55 59 L36 74 L43 50 L23 35 L48 35 Z"
-        fill="url(#sg)"/>
-
-  <!-- Text -->
-  <text x="105" y="65" font-family="'Playfair Display', Georgia, serif" font-size="52" font-weight="900" fill="#111" letter-spacing="1">AURA</text>
-  <text x="105" y="88" font-family="Inter, Arial, sans-serif" font-size="12" fill="#9ca3af" letter-spacing="3" font-weight="500">REPUTACIÓN DIGITAL</text>
+  <!-- AURA text -->
+  <text x="115" y="62" font-family="'Playfair Display', Georgia, serif" font-size="52" font-weight="900" fill="#111" letter-spacing="1">AURA</text>
+  <text x="115" y="85" font-family="Inter, Arial, sans-serif" font-size="12" fill="#9ca3af" letter-spacing="3" font-weight="500">REPUTACIÓN DIGITAL</text>
 </svg>
