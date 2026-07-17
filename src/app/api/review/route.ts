@@ -174,6 +174,15 @@ function esperaRef(): string {
   ]);
 }
 
+function placeWord(text: string): string {
+  const t = text.toLowerCase();
+  if (/\btaller\b/.test(t)) return 'taller';
+  if (/\brestaurante\b/.test(t)) return 'restaurante';
+  if (/\bclínica\b|\bconsulta\b/.test(t)) return 'clínica';
+  if (/\bpeluquería\b|\bsalón\b/.test(t)) return 'peluquería';
+  return 'local';
+}
+
 function buildFallback(review: string, author: string): string {
   const name = getFirstName(author);
   const g = name ? `${name}, ` : '';
@@ -186,12 +195,13 @@ function buildFallback(review: string, author: string): string {
 
   // --- NEGATIVAS ---
   if (sentiment === 'negative') {
+    const p = placeWord(review);
     const invitar = pick([
       ' Si quieres, escríbenos a nuestro email y hablamos con más calma.',
       ' Me gustaría que hablaras conmigo directamente en tu próxima visita.',
       ' Me encantaría que me lo comentaras en persona cuando vuelvas.',
       ' Si te parece, hablamos en persona la próxima vez que vengas.',
-      ' Estoy a tu disposición en el local para hablarlo cuando quieras.',
+      ` Estoy a tu disposición en el ${p} para hablarlo cuando quieras.`,
     ]);
     if (waiter) {
       return `${openerNeg(g)}. ${capitalize(waiterNeg(waiter))}.${invitar} ${close()}.`;
