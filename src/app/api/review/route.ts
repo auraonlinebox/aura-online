@@ -116,7 +116,7 @@ const openerNeu = (g: string) => pick([
   `${g}agradezco que te hayas tomado el tiempo de escribir`,
   `${g}gracias por compartir tu experiencia con honestidad`,
   `${g}valoro mucho tu opinión`,
-  `${g}gracias por escribirnos, cada opinión nos ayuda a mejorar`,
+  `${g}gracias por escribirnos, valoramos tu opinión`,
 ]);
 const close = () => pick([
   'Un fuerte abrazo', 'Recibe un cordial saludo', 'Con afecto',
