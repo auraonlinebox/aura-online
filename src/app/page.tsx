@@ -63,6 +63,7 @@ export default function Home() {
           <nav className="flex items-center gap-6 text-sm">
             <a href="#demo" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Demo</a>
             <a href="#ejemplos" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Ejemplos</a>
+            <a href="#planes" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Planes</a>
             <a href="#como-funciona" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Cómo funciona</a>
             <button onClick={() => setShowContact(true)} className="bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-all">
               Quiero AURA
@@ -402,7 +403,7 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section className="bg-gray-50 py-10 sm:py-14">
+      <section id="planes" className="bg-gray-50 py-10 sm:py-14">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
             Planes para cada negocio
