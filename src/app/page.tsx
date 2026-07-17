@@ -395,15 +395,27 @@ export default function Home() {
           <p className="text-gray-500 text-center max-w-lg mx-auto mb-12">
             Elige el plan que mejor se adapte a tu volumen de reseñas y al nivel de personalización que necesites.
           </p>
+
+          {/* Annual badge */}
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-4 py-2 rounded-full border border-emerald-200">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              Contratación anual: <strong>2 meses gratis</strong>
+            </span>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {/* Básico */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col shadow-sm">
               <div className="mb-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-1">Básico</h3>
                 <p className="text-xs text-gray-400 mb-4">Para negocios que empiezan a cuidar su reputación</p>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-gray-900">19,90</span>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-4xl font-black text-gray-900">29,90</span>
                   <span className="text-gray-400 text-sm">€/mes</span>
+                </div>
+                <div className="text-xs text-emerald-600 font-medium">
+                  <span className="text-gray-400 line-through">358,80 €/año</span> 299 €/año (17 % dto.)
                 </div>
               </div>
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
@@ -417,7 +429,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>Hasta 50 reseñas/mes</span>
+                  <span>Hasta 100 reseñas/mes</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -436,16 +448,19 @@ export default function Home() {
               </div>
               <div className="mb-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-1">Pro</h3>
-                <p className="text-xs text-gray-400 mb-4">Para negocios con volumen y que quieren diferenciarse</p>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-gray-900">29,90</span>
+                <p className="text-xs text-gray-400 mb-4">Para negocios con volumen que quieren diferenciarse</p>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-4xl font-black text-gray-900">39,90</span>
                   <span className="text-gray-400 text-sm">€/mes</span>
+                </div>
+                <div className="text-xs text-emerald-600 font-medium">
+                  <span className="text-gray-400 line-through">478,80 €/año</span> 399 €/año (17 % dto.)
                 </div>
               </div>
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>IA <strong>personalizada</strong> que aprende de tus reseñas anteriores</span>
+                  <span>IA <strong>personalizada</strong> que aprende de tus reseñas</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -453,7 +468,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>Hasta 200 reseñas/mes</span>
+                  <span>Hasta 500 reseñas/mes</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -465,20 +480,23 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Élite */}
+            {/* Premium */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 flex flex-col shadow-sm">
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-1">Élite</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">Premium</h3>
                 <p className="text-xs text-gray-400 mb-4">Para quienes quieren despreocuparse por completo</p>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-gray-900">39,90</span>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-4xl font-black text-gray-900">49,90</span>
                   <span className="text-gray-400 text-sm">€/mes</span>
+                </div>
+                <div className="text-xs text-emerald-600 font-medium">
+                  <span className="text-gray-400 line-through">598,80 €/año</span> 499 €/año (17 % dto.)
                 </div>
               </div>
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>IA <strong>personalizada</strong> que aprende de tus reseñas anteriores</span>
+                  <span>IA <strong>personalizada</strong> que aprende de tus reseñas</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -498,7 +516,7 @@ export default function Home() {
                 </li>
               </ul>
               <button onClick={() => setShowContact(true)} className="w-full py-3 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all text-sm">
-                Elegir Élite
+                Elegir Premium
               </button>
             </div>
           </div>
