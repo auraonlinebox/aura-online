@@ -305,7 +305,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 3 días',
                 review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda.',
-                response: 'María, gracias por tus palabras, las recibo con alegría. La crema de calabaza y el tartar de atún son platos que cuidamos con esmero. Se lo haré saber a Javier, se alegrará mucho. Un fuerte abrazo.',
+                response: 'María, gracias por tus palabras, las recibimos con alegría. La crema de calabaza y el tartar de atún son platos que cuidamos con esmero. Se lo haré saber a Javier, se alegrará mucho. Un fuerte abrazo.',
                 label: 'Restaurante',
               },
               {

@@ -90,7 +90,7 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const contract = (s: string) => s.replace(/\bde\s+el\b/g, 'del');
 
 const openerPos = (g: string) => pick([
-  `${g}gracias por tus palabras, las recibo con alegría`,
+  `${g}gracias por tus palabras, las recibimos con alegría`,
   `${g}qué bonito leer un comentario como este`,
   `${g}nos alegra profundamente tu visita`,
   `${g}agradezco que te hayas tomado el tiempo de compartirlo`,
