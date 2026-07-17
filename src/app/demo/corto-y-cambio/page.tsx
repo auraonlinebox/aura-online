@@ -105,6 +105,7 @@ export default function DemoCortoYCambio() {
   const [paying, setPaying] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     const start = localStorage.getItem('aura_trial_start');
@@ -266,6 +267,9 @@ export default function DemoCortoYCambio() {
                             <button onClick={() => { setEditText(responses[id]); setEditingId(id); }} className="text-xs px-3 py-1.5 border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-100 transition-all">
                               Editar
                             </button>
+                            <button onClick={async () => { try { await navigator.clipboard.writeText(responses[id]); setCopiedId(id); setTimeout(() => setCopiedId(null), 2000); } catch {} }} className="text-xs px-3 py-1.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-all">
+                              {copiedId === id ? '¡Copiado!' : 'Publicar'}
+                            </button>
                             <button onClick={() => generateResponse(id, review)} disabled={isLoading} className="text-xs px-3 py-1.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-all">
                               {isLoading ? 'Generando...' : 'Generar otra'}
                             </button>
@@ -386,6 +390,13 @@ export default function DemoCortoYCambio() {
               </button>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* Toast */}
+      {copiedId && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white text-sm px-5 py-3 rounded-xl shadow-lg">
+          Respuesta copiada al portapapeles. Pégala en Google Business Profile para publicarla.
         </div>
       )}
     </div>
