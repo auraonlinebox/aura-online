@@ -2,15 +2,13 @@
 
 import { useState, FormEvent } from 'react';
 
-const reviews = [
-  { name: 'María González', review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. Volveremos sin duda.', rating: 5, label: 'Restaurante' },
-  { name: 'Sara Ruiz', review: 'Muy contenta con el corte. Patricia entendió exactamente lo que quería y me dio buenos consejos para el mantenimiento en casa. El trato fue súper agradable. Repetiré sin duda.', rating: 4, label: 'Peluquería' },
-  { name: 'Javier Ruiz', review: 'Dejé el coche por una revisión y tardaron 3 días en decirme qué tenía. El presupuesto final duplicó el inicial y encima no quedó bien arreglado del todo. Mala comunicación.', rating: 1, label: 'Taller mecánico' },
-  { name: 'Laura Pérez', review: 'La mejor clínica dental en la que he estado. La dra. Martínez es un encanto y me explicó todo el tratamiento paso a paso. Cero dolor y resultados increíbles. 100% recomendable.', rating: 5, label: 'Clínica dental' },
-  { name: 'Ana Sánchez', review: 'El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena.', rating: 3, label: 'Tienda de ropa' },
-  { name: 'David López', review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.', rating: 2, label: 'Limpiezas' },
-  { name: 'Pedro Gómez', review: 'El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy profesional y trato cercano. Lo recomiendo a todos.', rating: 5, label: 'Fisioterapia' },
-  { name: 'Elena Martín', review: 'El jardín quedó bonito pero tardaron casi 3 semanas en venir a hacer el presupuesto. Una vez contratado, el trabajo bien, pero la espera fue excesiva.', rating: 3, label: 'Jardinería' },
+const quickExamples = [
+  { name: 'Carlos Mendoza', review: 'Servicio rápido y profesional. Repetiré seguro.', rating: 5, label: 'Hotel' },
+  { name: 'Rosa Castillo', review: 'Muy caro para lo que ofrecen. No volveré.', rating: 1, label: 'Barbería' },
+  { name: 'Luis Ferrer', review: 'Bien pero la espera fue muy larga. Mejorarían la organización.', rating: 3, label: 'Óptica' },
+  { name: 'Teresa Ruiz', review: 'Excelente atención. Mi perro salió feliz y bien cuidado.', rating: 5, label: 'Veterinario' },
+  { name: 'Ángel Prieto', review: 'La casa es bonita pero el agente no sabía responder mis preguntas.', rating: 2, label: 'Inmobiliaria' },
+  { name: 'Nuria Soler', review: 'Buena relación calidad-precio. El monitor fue muy paciente con los niños.', rating: 4, label: 'Academia' },
 ];
 
 const example = "Comida excelente pero el servicio fue muy lento. Estuvimos esperando 30 minutos para que nos tomaran nota y otro tanto para el postre. La comida compensa pero la espera es demasiado.";
@@ -49,7 +47,7 @@ export default function Home() {
     setLoading(false);
   };
 
-  const loadExample = (r: typeof reviews[0]) => {
+  const loadExample = (r: typeof quickExamples[0]) => {
     setReview(r.review);
     setReviewAuthor(r.name);
     setRating(r.rating);
@@ -122,12 +120,12 @@ export default function Home() {
           </div>
 
           {/* Quick examples */}
-          <div className="mb-6">
-            <p className="text-xs text-gray-400 mb-2 font-medium uppercase tracking-wider">Ejemplos reales:</p>
-            <div className="flex flex-wrap gap-2">
-              {reviews.map((r, i) => (
-                <button key={i} onClick={() => loadExample(r)} className="text-xs bg-white border border-gray-200 hover:border-orange-300 px-3 py-1.5 rounded-full text-gray-600 hover:text-orange-600 transition-all">
-                  {r.label} · {r.name} {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+          <div className="mb-6 text-center">
+            <p className="text-xs text-gray-400 mb-3 font-medium uppercase tracking-wider">Selecciona un ejemplo:</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {quickExamples.map((r, i) => (
+                <button key={i} onClick={() => loadExample(r)} className="text-xs bg-white border border-gray-200 hover:border-orange-300 px-3 py-1.5 rounded-full text-gray-500 hover:text-orange-600 transition-all">
+                  {r.label}
                 </button>
               ))}
             </div>
@@ -289,7 +287,7 @@ export default function Home() {
 
       {/* Real examples */}
       <section id="ejemplos" className="py-16 sm:py-20 bg-gray-50">
-        <div className="max-w-3xl mx-auto px-4">
+        <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
               Así responde AURA
@@ -298,7 +296,7 @@ export default function Home() {
               Restaurantes, peluquerías, talleres, clínicas... Sea cual sea tu negocio, AURA responde por ti.
             </p>
           </div>
-          <div className="space-y-6">
+          <div className="grid sm:grid-cols-2 gap-6">
             {[
               {
                 name: 'María González',
