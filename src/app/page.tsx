@@ -603,8 +603,8 @@ export default function Home() {
             <p className="text-sm text-gray-500 mb-6">
               Has probado AURA. Ahora es el momento de llevarlo a tu negocio. <strong>7 días gratis, sin tarjeta.</strong>
             </p>
-            <button onClick={() => { setShowLimit(false); window.location.href = '/dashboard?trial=1'; }} className="w-full py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-all mb-2">
-              Probar AURA gratis 7 días
+            <button onClick={() => { setShowLimit(false); setShowContact(true); }} className="w-full py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-all mb-2">
+              Solicitar acceso a AURA
             </button>
             <button onClick={() => setShowLimit(false)} className="w-full py-2 text-sm text-gray-400 hover:text-gray-600 transition-all">
               Seguir explorando
@@ -621,7 +621,7 @@ export default function Home() {
               <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
               <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
-              <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); window.location.href = '/dashboard?trial=1'; } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
+              <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos en breve para darte acceso a tu prueba gratuita.'); setShowContact(false); setName(''); setEmail(''); setRestaurant(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
               <div>
                 <label className="text-xs text-gray-500 font-medium">Nombre</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Tu nombre" />
