@@ -103,6 +103,8 @@ export default function DemoCortoYCambio() {
   const [expired, setExpired] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ d: 7, h: 0, m: 0, s: 0 });
   const [paying, setPaying] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editText, setEditText] = useState('');
 
   useEffect(() => {
     const start = localStorage.getItem('aura_trial_start');
@@ -237,20 +239,40 @@ export default function DemoCortoYCambio() {
                 <p className="text-sm text-gray-700 leading-relaxed mb-4">{review.text}</p>
 
                 {hasResponse ? (
-                  <div className="border-t border-gray-100 pt-3">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center text-white text-[10px] font-bold">A</div>
-                      <span className="text-xs font-semibold text-gray-500 uppercase">Respuesta de AURA</span>
+                    <div className="border-t border-gray-100 pt-3">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center text-white text-[10px] font-bold">A</div>
+                        <span className="text-xs font-semibold text-gray-500 uppercase">Respuesta de AURA</span>
+                      </div>
+                      {editingId === id ? (
+                        <textarea value={editText} onChange={(e) => setEditText(e.target.value)} className="w-full text-sm text-gray-700 leading-relaxed bg-orange-50 rounded-lg p-3 border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-200 resize-y min-h-[80px]" rows={3} />
+                      ) : (
+                        <p className="text-sm text-gray-700 leading-relaxed bg-orange-50 rounded-lg p-3 border border-orange-100">
+                          {responses[id]}
+                        </p>
+                      )}
+                      <div className="flex gap-2 mt-2">
+                        {editingId === id ? (
+                          <>
+                            <button onClick={() => { setResponses((prev) => ({ ...prev, [id]: editText })); setEditingId(null); }} className="text-xs px-3 py-1.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-all">
+                              Guardar
+                            </button>
+                            <button onClick={() => setEditingId(null)} className="text-xs px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all">
+                              Cancelar
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button onClick={() => { setEditText(responses[id]); setEditingId(id); }} className="text-xs px-3 py-1.5 border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-100 transition-all">
+                              Editar
+                            </button>
+                            <button onClick={() => generateResponse(id, review)} disabled={isLoading} className="text-xs px-3 py-1.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-all">
+                              {isLoading ? 'Generando...' : 'Generar otra'}
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </div>
-                    <p className="text-sm text-gray-700 leading-relaxed bg-orange-50 rounded-lg p-3 border border-orange-100">
-                      {responses[id]}
-                    </p>
-                    <div className="flex gap-2 mt-2">
-                      <button onClick={() => generateResponse(id, review)} disabled={isLoading} className="text-xs px-3 py-1.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-all">
-                        {isLoading ? 'Generando...' : 'Generar otra respuesta'}
-                      </button>
-                    </div>
-                  </div>
                 ) : (
                   <button onClick={() => generateResponse(id, review)} disabled={isLoading} className="w-full py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800 disabled:opacity-40 transition-all">
                     {isLoading ? 'Generando respuesta...' : 'Ver cómo responde AURA'}
