@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const REVIEWS = [
@@ -48,6 +48,47 @@ const REVIEWS = [
   },
 ];
 
+const PLANS = [
+  {
+    id: 'basico',
+    name: 'Básico',
+    price: '29,90',
+    annual: '299 €/año',
+    desc: 'Para negocios que empiezan',
+    features: ['Respuestas personalizadas', 'Revisión manual', 'Hasta 100 reseñas/mes', 'Soporte email'],
+    popular: false,
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    price: '39,90',
+    annual: '399 €/año',
+    desc: 'Para negocios con volumen',
+    features: ['AURA personalizada', 'Revisión manual', 'Hasta 500 reseñas/mes', 'Soporte prioritario'],
+    popular: true,
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: '49,90',
+    annual: '499 €/año',
+    desc: 'Para despreocuparse',
+    features: ['AURA personalizada', 'Gestión delegada', 'Reseñas ilimitadas', 'Soporte 24/7'],
+    popular: false,
+  },
+];
+
+function formatTimeLeft(ms: number) {
+  if (ms <= 0) return { d: 0, h: 0, m: 0, s: 0 };
+  const total = Math.floor(ms / 1000);
+  return {
+    d: Math.floor(total / 86400),
+    h: Math.floor((total % 86400) / 3600),
+    m: Math.floor((total % 3600) / 60),
+    s: total % 60,
+  };
+}
+
 export default function DemoCortoYCambio() {
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -58,6 +99,60 @@ export default function DemoCortoYCambio() {
   const [phone, setPhone] = useState('');
   const [sending, setSending] = useState(false);
   const [accepted, setAccepted] = useState(false);
+  const [expired, setExpired] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ d: 7, h: 0, m: 0, s: 0 });
+  const [paying, setPaying] = useState<string | null>(null);
+
+  useEffect(() => {
+    const start = localStorage.getItem('aura_trial_start');
+    const now = Date.now();
+    let end: number;
+
+    if (start) {
+      end = parseInt(start, 10) + 7 * 24 * 60 * 60 * 1000;
+    } else {
+      const newStart = now.toString();
+      localStorage.setItem('aura_trial_start', newStart);
+      localStorage.setItem('aura_trial_visited', '1');
+      end = now + 7 * 24 * 60 * 60 * 1000;
+    }
+
+    const tick = () => {
+      const remaining = end - Date.now();
+      if (remaining <= 0) {
+        setExpired(true);
+        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
+        return;
+      }
+      setTimeLeft(formatTimeLeft(remaining));
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const handlePayment = async (planId: string) => {
+    setPaying(planId);
+    try {
+      const res = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: planId, businessName: 'Corto y Cambio', email }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else if (data.needSetup) {
+        alert(data.error);
+        setShowContact(true);
+      } else {
+        alert(data.error || 'Error al procesar el pago');
+      }
+    } catch {
+      alert('Error de conexión');
+    }
+    setPaying(null);
+  };
 
   const generateResponse = async (id: string, review: typeof REVIEWS[0]) => {
     setLoadingId(id);
@@ -65,7 +160,7 @@ export default function DemoCortoYCambio() {
       const res = await fetch('/api/review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ review: review.text, rating: review.rating, author: review.author }),
+        body: JSON.stringify({ review: review.text, rating: review.rating, author: review.author, source: 'demo' }),
       });
       const data = await res.json();
       setResponses((prev) => ({ ...prev, [id]: data.response || 'Error' }));
@@ -76,7 +171,15 @@ export default function DemoCortoYCambio() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-12">
+    <div className={`min-h-screen bg-gray-50 pb-12 ${expired ? 'blur-sm pointer-events-none select-none' : ''}`}>
+      {/* Trial banner */}
+      <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white text-center py-2 text-xs font-medium">
+        {expired
+          ? 'Periodo de prueba finalizado. Elige un plan para continuar.'
+          : `Prueba gratuita — te quedan ${timeLeft.d}d ${timeLeft.h}h ${timeLeft.m}m ${timeLeft.s}s`
+        }
+      </div>
+
       <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -142,21 +245,13 @@ export default function DemoCortoYCambio() {
                       {responses[id]}
                     </p>
                     <div className="flex gap-2 mt-2">
-                      <button
-                        onClick={() => generateResponse(id, review)}
-                        disabled={isLoading}
-                        className="text-xs px-3 py-1.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-all"
-                      >
+                      <button onClick={() => generateResponse(id, review)} disabled={isLoading} className="text-xs px-3 py-1.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 transition-all">
                         {isLoading ? 'Generando...' : 'Generar otra respuesta'}
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => generateResponse(id, review)}
-                    disabled={isLoading}
-                    className="w-full py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800 disabled:opacity-40 transition-all"
-                  >
+                  <button onClick={() => generateResponse(id, review)} disabled={isLoading} className="w-full py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800 disabled:opacity-40 transition-all">
                     {isLoading ? 'Generando respuesta...' : 'Ver cómo responde AURA'}
                   </button>
                 )}
@@ -165,56 +260,111 @@ export default function DemoCortoYCambio() {
           })}
         </div>
 
-        <div className="text-center mt-10">
-          <p className="text-sm text-gray-400 mb-4">¿Quieres lo mismo para tu negocio?</p>
-          <button
-            onClick={() => setShowContact(true)}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all shadow-lg"
-          >
-            Solicitar demo gratuita
-          </button>
-        </div>
-
-        {showContact && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowContact(false)}>
-            <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
-                <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
-              </div>
-              <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setEmail(''); setRestaurant(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
-                <div>
-                  <label className="text-xs text-gray-500 font-medium">Nombre</label>
-                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Tu nombre" />
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500 font-medium">Email</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="tu@email.com" />
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500 font-medium">Negocio</label>
-                  <input type="text" value={restaurant} onChange={(e) => setRestaurant(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Nombre de tu negocio" />
-                </div>
-                <div>
-                  <label className="text-xs text-gray-500 font-medium">Teléfono <span className="text-gray-300">(opcional)</span></label>
-                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="+34 600 000 000" />
-                </div>
-                <label className="flex items-start gap-2 text-xs text-gray-500">
-                  <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-0.5" />
-                  <span>He leído y acepto la <a href="/privacidad" target="_blank" className="text-orange-500 underline hover:text-orange-600">política de privacidad</a></span>
-                </label>
-                <button type="submit" disabled={sending || !accepted} className="w-full py-3 bg-gray-900 text-white font-medium rounded-xl hover:bg-gray-800 transition-all disabled:opacity-50">
-                  {sending ? 'Enviando...' : 'Enviar solicitud'}
-                </button>
-              </form>
-            </div>
-          </div>
-        )}
-
         <div className="text-center text-xs text-gray-400 mt-8 py-4 border-t border-gray-200">
           <Link href="/" className="text-orange-500 hover:text-orange-600 underline">AURA</Link> &middot; Demo para Corto y Cambio
         </div>
       </div>
+
+      {/* Expiry / Payment modal */}
+      {expired && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-xl my-8" onClick={(e) => e.stopPropagation()}>
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+                Prueba finalizada
+              </h2>
+              <p className="text-sm text-gray-500">
+                Elige el plan que mejor se adapte a tu negocio y sigue gestionando tus reseñas con AURA.
+              </p>
+            </div>
+
+            <div className="space-y-4 mb-6">
+              {PLANS.map((plan) => (
+                <div key={plan.id} className={`relative rounded-xl border p-4 ${plan.popular ? 'border-orange-400 bg-orange-50/30' : 'border-gray-200'}`}>
+                  {plan.popular && (
+                    <span className="absolute -top-2.5 right-4 bg-orange-400 text-white text-[10px] font-bold px-3 py-0.5 rounded-full">Recomendado</span>
+                  )}
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="font-bold text-gray-900">{plan.name}</h3>
+                      <p className="text-xs text-gray-400">{plan.desc}</p>
+                      <ul className="mt-2 space-y-1">
+                        {plan.features.map((f, fi) => (
+                          <li key={fi} className="text-xs text-gray-600 flex items-center gap-1">
+                            <span className="text-emerald-500">✓</span> {f}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="text-2xl font-black text-gray-900">{plan.price}<span className="text-xs font-normal text-gray-400">€/mes</span></div>
+                      <div className="text-[10px] text-emerald-600 font-medium">{plan.annual}</div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handlePayment(plan.id)}
+                    disabled={paying === plan.id}
+                    className={`w-full mt-3 py-2.5 text-sm font-semibold rounded-xl transition-all ${
+                      plan.popular
+                        ? 'bg-orange-400 text-white hover:bg-orange-500 shadow-lg shadow-orange-200'
+                        : 'bg-gray-900 text-white hover:bg-gray-800'
+                    } disabled:opacity-50`}
+                  >
+                    {paying === plan.id ? 'Procesando...' : 'Contratar'}
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <p className="text-[10px] text-gray-400 mb-3">Pago seguro con tarjeta. Cancela cuando quieras.</p>
+              <button onClick={() => setShowContact(true)} className="text-xs text-gray-500 underline hover:text-gray-700">
+                ¿Dudas? Contáctanos
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Contact modal */}
+      {showContact && !expired && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowContact(false)}>
+          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
+              <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+            </div>
+            <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setEmail(''); setRestaurant(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Nombre</label>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Tu nombre" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Email</label>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="tu@email.com" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Negocio</label>
+                <input type="text" value={restaurant} onChange={(e) => setRestaurant(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Nombre de tu negocio" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Teléfono <span className="text-gray-300">(opcional)</span></label>
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="+34 600 000 000" />
+              </div>
+              <label className="flex items-start gap-2 text-xs text-gray-500">
+                <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-0.5" />
+                <span>He leído y acepto la <a href="/privacidad" target="_blank" className="text-orange-500 underline hover:text-orange-600">política de privacidad</a></span>
+              </label>
+              <button type="submit" disabled={sending || !accepted} className="w-full py-3 bg-gray-900 text-white font-medium rounded-xl hover:bg-gray-800 transition-all disabled:opacity-50">
+                {sending ? 'Enviando...' : 'Enviar solicitud'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

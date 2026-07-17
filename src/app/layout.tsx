@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
-  title: "AURA | Reputación digital para restaurantes",
-  description: "Gestiona las reseñas de Google de tu restaurante con AURA. Responde a cada cliente de forma profesional y humana. Mejora tu puntuación y atrae más clientes.",
-  keywords: ["reseñas google", "reputación online", "restaurantes", "gestión reseñas", "IA", "AURA"],
+  title: "AURA | Reputación digital para tu negocio",
+  description: "Gestiona las reseñas de Google de tu negocio con AURA. Responde a cada cliente de forma profesional y humana. Mejora tu puntuación y atrae más clientes.",
+  keywords: ["reseñas google", "reputación online", "gestión reseñas", "AURA"],
   icons: { icon: "/icon.svg" },
   openGraph: {
     title: "AURA — Tu reputación en su mejor momento",
-    description: "Respondemos las reseñas de Google de tu restaurante con AURA. Rápido, profesional, humano.",
+    description: "Respondemos las reseñas de Google de tu negocio con AURA. Rápido, profesional, humano.",
     locale: "es_ES",
     type: "website",
   },

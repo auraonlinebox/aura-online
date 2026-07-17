@@ -87,8 +87,9 @@ export default function Home() {
             <a href="#ejemplos" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Ejemplos</a>
             <a href="#planes" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Planes</a>
             <a href="#como-funciona" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Cómo funciona</a>
-            <button onClick={() => setShowContact(true)} className="bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-all">
+            <button onClick={() => setShowContact(true)} className="bg-gray-900 text-white px-7 py-3 rounded-full text-sm font-semibold hover:bg-gray-800 transition-all flex flex-col items-center leading-tight">
               Quiero AURA
+              <span className="text-[10px] font-normal text-gray-400">¡Pruébame gratis!</span>
             </button>
           </nav>
         </div>
