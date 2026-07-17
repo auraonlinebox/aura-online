@@ -195,13 +195,12 @@ function buildFallback(review: string, author: string): string {
 
   // --- NEGATIVAS ---
   if (sentiment === 'negative') {
-    const p = placeWord(review);
     const invitar = pick([
       ' Si quieres, escríbenos a nuestro email y hablamos con más calma.',
       ' Me gustaría que hablaras conmigo directamente en tu próxima visita.',
       ' Me encantaría que me lo comentaras en persona cuando vuelvas.',
       ' Si te parece, hablamos en persona la próxima vez que vengas.',
-      ` Estoy a tu disposición en el ${p} para hablarlo cuando quieras.`,
+      ' Estoy a tu disposición para hablarlo cuando quieras.',
     ]);
     if (waiter) {
       return `${openerNeg(g)}. ${capitalize(waiterNeg(waiter))}.${invitar} ${close()}.`;
