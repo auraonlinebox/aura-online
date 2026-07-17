@@ -421,19 +421,22 @@ export async function POST(req: Request) {
 
     if (!res.ok) {
       const errBody = await res.text().catch(() => '');
-      console.error('Gemini HTTP error:', res.status, errBody);
-      return Response.json({ error: `Gemini respondió con error (${res.status}): ${errBody.slice(0,200)}` }, { status: 502 });
+      return Response.json({ error: `Gemini respondió con error (${res.status})` }, { status: 502 });
     }
 
-    const data = await res.json();
+    let raw = await res.text();
+    const firstBrace = raw.indexOf('{');
+    if (firstBrace > 0) raw = raw.slice(firstBrace);
+
+    let data;
+    try { data = JSON.parse(raw); }
+    catch { return Response.json({ error: `Gemini: JSON inválido` }, { status: 502 }); }
+
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) {
-      return Response.json({ error: 'Gemini no generó texto de respuesta' }, { status: 502 });
-    }
+    if (!text) return Response.json({ error: 'Gemini no generó texto' }, { status: 502 });
 
     return Response.json({ response: text.trim() });
   } catch (e: any) {
-    console.error('AURA API error:', e?.message || e);
-    return Response.json({ error: `Error al generar respuesta: ${e?.message || 'desconocido'}` }, { status: 500 });
+    return Response.json({ error: `Error: ${e?.message || 'desconocido'}` }, { status: 500 });
   }
 }
