@@ -2,6 +2,7 @@ interface Review {
   author: string;
   text: string;
   rating: number;
+  response?: string;
 }
 
 interface ProspectData {
