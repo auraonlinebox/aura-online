@@ -100,6 +100,7 @@ export default function DemoCortoYCambio() {
   const [apellido1, setApellido1] = useState('');
   const [apellido2, setApellido2] = useState('');
   const [email, setEmail] = useState('');
+  const [businessName, setBusinessName] = useState('');
   const [tipoNegocio, setTipoNegocio] = useState('');
   const [otroTipo, setOtroTipo] = useState('');
   const [phone, setPhone] = useState('');
@@ -369,7 +370,7 @@ export default function DemoCortoYCambio() {
               <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
               <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
             </div>
-            <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, apellido1, apellido2, email, tipoNegocio: tipoNegocio === 'Otros' ? otroTipo : tipoNegocio, phone, fecha: new Date().toISOString(), accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setApellido1(''); setApellido2(''); setEmail(''); setTipoNegocio(''); setOtroTipo(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
+            <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, apellido1, apellido2, email, businessName, tipoNegocio: tipoNegocio === 'Otros' ? otroTipo : tipoNegocio, phone, fecha: new Date().toISOString(), accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setApellido1(''); setApellido2(''); setEmail(''); setBusinessName(''); setTipoNegocio(''); setOtroTipo(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
               <div>
                 <label className="text-xs text-gray-500 font-medium">Nombre</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Tu nombre" />
@@ -385,6 +386,10 @@ export default function DemoCortoYCambio() {
               <div>
                 <label className="text-xs text-gray-500 font-medium">Email</label>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="tu@email.com" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Nombre del negocio</label>
+                <input type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Nombre de tu negocio" />
               </div>
               <div>
                 <label className="text-xs text-gray-500 font-medium">Tipo de negocio</label>
