@@ -11,8 +11,6 @@ const quickExamples = [
   { name: 'Nuria Soler', review: 'Buena relación calidad-precio. El monitor fue muy paciente con los niños.', rating: 4, label: 'Academia' },
 ];
 
-const example = "Comida excelente pero el servicio fue muy lento. Estuvimos esperando 30 minutos para que nos tomaran nota y otro tanto para el postre. La comida compensa pero la espera es demasiado.";
-
 export default function Home() {
   const [review, setReview] = useState('');
   const [reviewAuthor, setReviewAuthor] = useState('');
@@ -76,8 +74,8 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-white to-amber-50 pointer-events-none" />
-        <div className="max-w-5xl mx-auto px-4 pt-12 pb-16 sm:pt-16 sm:pb-20 relative">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+        <div className="max-w-5xl mx-auto px-4 pt-10 pb-12 sm:pt-12 sm:pb-14 relative">
+          <div className="max-w-3xl mx-auto text-center space-y-5">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05]" style={{ fontFamily: 'Playfair Display, serif' }}>
               Tu negocio<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">
@@ -108,9 +106,9 @@ export default function Home() {
       </section>
 
       {/* Demo */}
-      <section id="demo" className="py-16 sm:py-20 bg-gray-50">
+      <section id="demo" className="py-10 sm:py-14 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-10">
+          <div className="text-center mb-6">
             <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
               Pruébalo tú mismo
             </h2>
@@ -190,16 +188,16 @@ export default function Home() {
       </section>
 
       {/* Why choose us */}
-      <section className="py-16 sm:py-20">
+      <section className="py-10 sm:py-14">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+          <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
             ¿Por qué elegir AURA?
           </h2>
-          <p className="text-gray-500 text-center max-w-xl mx-auto mb-12">
+          <p className="text-gray-500 text-center max-w-xl mx-auto mb-8">
             Responder reseñas no es un lujo. Es lo que separa un negocio con buena imagen de uno que pasa desapercibido.
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-6 mb-10">
+          <div className="grid sm:grid-cols-2 gap-5 mb-6">
             {[
               {
                 t: 'Responder rápido sube tu estrella',
@@ -229,7 +227,7 @@ export default function Home() {
           </div>
 
           <div className="bg-orange-50 rounded-2xl border border-orange-200 p-6 sm:p-8 text-center">
-            <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto mb-6">
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-3xl mx-auto mb-4">
               <strong className="text-gray-900">Cada reseña sin responder</strong> es una mesa vacía. Con AURA, respondes en segundos, mejoras tu reputación y duermes tranquilo mientras la IA trabaja por ti. <strong className="text-gray-900">Tus clientes hablan. AURA responde. Tú ganas.</strong>
             </p>
             <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all shadow-lg shadow-gray-900/10">
@@ -242,33 +240,33 @@ export default function Home() {
       </section>
 
       {/* CTA trial */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-center">
+      <section className="py-10 sm:py-14 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-center">
         <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
             Prueba AURA gratis durante 7 días
           </h2>
           <p className="text-gray-400 text-base sm:text-lg mb-3 max-w-lg mx-auto">
             Sin compromiso. Sin tarjeta de crédito. Solo tú, tu negocio y la IA más avanzada para responder reseñas.
           </p>
-          <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500 mb-8">
+          <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500 mb-6">
             <span className="flex items-center gap-1">✓ Configuración en 5 minutos</span>
             <span className="flex items-center gap-1">✓ IA entrena con tu estilo</span>
             <span className="flex items-center gap-1">✓ Cancela cuando quieras</span>
           </div>
-          <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-10 py-5 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all text-lg shadow-xl shadow-orange-500/20">
+          <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20">
             Empezar prueba gratuita
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </button>
         </div>
       </section>
 
       {/* How it works */}
-      <section id="como-funciona" className="py-16 sm:py-20">
+      <section id="como-funciona" className="py-10 sm:py-14">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-12" style={{ fontFamily: 'Playfair Display, serif' }}>
+          <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-8" style={{ fontFamily: 'Playfair Display, serif' }}>
             Cómo funciona AURA
           </h2>
-          <div className="grid sm:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-3 gap-6">
             {[
               { n: '01', icon: '🔗', t: 'Conecta tu Google', d: 'Añades tu negocio. Nos encargamos de monitorizar tus reseñas en tiempo real.' },
               { n: '02', icon: '🤖', t: 'IA responde por ti', d: 'Cada nueva reseña recibe una respuesta profesional, personalizada y humana generada por AURA.' },
@@ -286,9 +284,9 @@ export default function Home() {
       </section>
 
       {/* Real examples */}
-      <section id="ejemplos" className="py-16 sm:py-20 bg-gray-50">
+      <section id="ejemplos" className="py-10 sm:py-14 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
               Así responde AURA
             </h2>
@@ -404,12 +402,12 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section className="bg-gray-50 py-16 sm:py-20">
+      <section className="bg-gray-50 py-10 sm:py-14">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
             Planes para cada negocio
           </h2>
-          <p className="text-gray-500 text-center max-w-lg mx-auto mb-12">
+          <p className="text-gray-500 text-center max-w-lg mx-auto mb-8">
             Elige el plan que mejor se adapte a tu volumen de reseñas y al nivel de personalización que necesites.
           </p>
 
@@ -547,9 +545,9 @@ export default function Home() {
       </section>
 
       {/* Stats */}
-      <section className="py-12 border-b border-gray-100">
+      <section className="py-8 border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="grid grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-3 gap-6 text-center">
             {[
               { n: '280.000+', l: 'Negocios en España' },
               { n: '87%', l: 'No responden reseñas' },
@@ -602,7 +600,7 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="bg-white py-8 border-t border-gray-100">
+      <footer className="bg-white py-6 border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-4 text-center text-xs text-gray-400">
           <a href="/" className="inline-block mb-3">
             <img src="/logo.svg" alt="AURA" className="h-10 mx-auto" />
