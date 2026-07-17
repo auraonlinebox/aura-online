@@ -51,6 +51,13 @@ const REVIEWS = [
 export default function DemoCortoYCambio() {
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [showContact, setShowContact] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [restaurant, setRestaurant] = useState('');
+  const [phone, setPhone] = useState('');
+  const [sending, setSending] = useState(false);
+  const [accepted, setAccepted] = useState(false);
 
   const generateResponse = async (id: string, review: typeof REVIEWS[0]) => {
     setLoadingId(id);
@@ -82,9 +89,9 @@ export default function DemoCortoYCambio() {
               <span className="ml-2 text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">Demo</span>
             </div>
           </div>
-          <a href="https://wa.me/34600000000" target="_blank" className="text-xs bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition-all">
+          <button onClick={() => setShowContact(true)} className="text-xs bg-gray-900 text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-all">
             Quiero AURA para mi negocio
-          </a>
+          </button>
         </div>
       </header>
 
@@ -160,14 +167,49 @@ export default function DemoCortoYCambio() {
 
         <div className="text-center mt-10">
           <p className="text-sm text-gray-400 mb-4">¿Quieres lo mismo para tu negocio?</p>
-          <a
-            href="https://wa.me/34600000000"
-            target="_blank"
+          <button
+            onClick={() => setShowContact(true)}
             className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all shadow-lg"
           >
             Solicitar demo gratuita
-          </a>
+          </button>
         </div>
+
+        {showContact && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowContact(false)}>
+            <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
+                <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+              </div>
+              <form onSubmit={async (e) => { e.preventDefault(); if (!accepted) { alert('Debes aceptar la política de privacidad'); return; } setSending(true); try { const webhook = 'https://script.google.com/macros/s/AKfycbyNtOHk1u4HagOiIrMRzMa8L_yvzGQ6jxRSm9AEbmxkWGbBWY-VBiO8o66b9PVnMjc/exec'; const params = new URLSearchParams({ name, email, restaurant, phone, accepted: '1' }); await fetch(`${webhook}?${params}`, { mode: 'no-cors' }); alert('¡Gracias! Te contactaremos pronto.'); setShowContact(false); setName(''); setEmail(''); setRestaurant(''); setPhone(''); setAccepted(false); } catch { alert('Error al enviar. Inténtalo de nuevo.'); } finally { setSending(false); } }} className="space-y-3">
+                <div>
+                  <label className="text-xs text-gray-500 font-medium">Nombre</label>
+                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Tu nombre" />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 font-medium">Email</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="tu@email.com" />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 font-medium">Negocio</label>
+                  <input type="text" value={restaurant} onChange={(e) => setRestaurant(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Nombre de tu negocio" />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 font-medium">Teléfono <span className="text-gray-300">(opcional)</span></label>
+                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="+34 600 000 000" />
+                </div>
+                <label className="flex items-start gap-2 text-xs text-gray-500">
+                  <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-0.5" />
+                  <span>He leído y acepto la <a href="/privacidad" target="_blank" className="text-orange-500 underline hover:text-orange-600">política de privacidad</a></span>
+                </label>
+                <button type="submit" disabled={sending || !accepted} className="w-full py-3 bg-gray-900 text-white font-medium rounded-xl hover:bg-gray-800 transition-all disabled:opacity-50">
+                  {sending ? 'Enviando...' : 'Enviar solicitud'}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
 
         <div className="text-center text-xs text-gray-400 mt-8 py-4 border-t border-gray-200">
           <Link href="/" className="text-orange-500 hover:text-orange-600 underline">AURA</Link> &middot; Demo para Corto y Cambio
