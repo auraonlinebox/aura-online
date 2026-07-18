@@ -118,6 +118,7 @@ export default function NewProspect() {
           businessName: businessName.trim(),
           businessEmail: businessEmail.trim(),
           reviews: reviews.map(r => ({ author: r.author, text: r.text, rating: r.rating })),
+          slug: slugData.url,
           timestamp: new Date().toISOString(),
         }),
       }).catch(() => {});
