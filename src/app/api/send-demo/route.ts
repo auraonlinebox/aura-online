@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
 import { generateResponse } from '@/lib/gemini';
 
 export async function POST(req: NextRequest) {
@@ -177,22 +176,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ preview: true, responses, html });
     }
 
-    const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: parseInt(process.env.SMTP_PORT || '465'),
-      secure: true,
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-      connectionTimeout: 10000,
-      tls: { servername: smtpHost },
-    } as any);
+    const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+    const apiToken = process.env.CLOUDFLARE_EMAIL_TOKEN;
+    if (!accountId || !apiToken) {
+      return NextResponse.json({ error: 'Cloudflare email no configurado' }, { status: 500 });
+    }
 
-    await transporter.sendMail({
-      from: `"Ana de AURA" <${process.env.SMTP_USER}>`,
-      to: businessEmail,
-      subject: `${businessName} — vuestras reseñas de Google respondidas con AURA`,
-      html,
+    const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${accountId}/email/sending/send`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: businessEmail,
+        from: { address: 'hello@aura-online.es', name: 'Ana de AURA' },
+        subject: `${businessName} — vuestras reseñas de Google respondidas con AURA`,
+        html,
+        text: `Hola, soy Ana de AURA - Reputación Digital\n\nHe visto que gestionáis un volumen altísimo de clientes y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.\n\nMe dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.\n\nMirad cómo habríamos respondido a vuestras reseñas más recientes:\n\n${responses.map(r => `${r.author} (${'★'.repeat(r.rating)}): "${r.text}"\n→ ${r.response}`).join('\n\n')}\n\nProbad AURA gratis: https://aura-online.es\n\nCada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.\n\nTus clientes hablan. AURA responde. Tú ganas.`,
+      }),
     });
+
+    const data = await res.json();
+    if (!data.success) {
+      throw new Error(data.errors?.[0]?.message || 'Error al enviar email');
+    }
 
     return NextResponse.json({ success: true, responses });
   } catch (err: any) {
