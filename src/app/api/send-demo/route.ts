@@ -57,6 +57,97 @@ export async function POST(req: NextRequest) {
                 </a>
                 <p style="color:#9ca3af; font-size:13px; margin:12px 0 0;">Sin compromiso. Sin tarjeta.</p>
               </div>
+
+              <hr style="border:none; border-top:1px solid #e5e7eb; margin:32px 0;" />
+
+              <h2 style="color:#1f2937; font-size:22px; text-align:center; margin:0 0 8px;">¿Por qué usar AURA? ¿Por qué elegir AURA?</h2>
+              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 28px; text-align:center; font-style:italic;">
+                Responder reseñas no es un lujo. Es lo que separa un negocio con buena imagen de uno que pasa desapercibido.
+              </p>
+
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:0 0 20px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="32" style="vertical-align:top; text-align:center;">
+                          <span style="display:inline-block; width:28px; height:28px; background:#f97316; color:#fff; border-radius:50%; font-size:14px; font-weight:700; line-height:28px; text-align:center;">1</span>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">Responder rápido sube tu estrella</p>
+                          <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">Los negocios que responden a sus reseñas en menos de 24 horas mejoran su valoración media hasta un 0.3★. Google premia la actividad y posiciona mejor a quienes interactúan con sus clientes.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0 0 20px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="32" style="vertical-align:top; text-align:center;">
+                          <span style="display:inline-block; width:28px; height:28px; background:#f97316; color:#fff; border-radius:50%; font-size:14px; font-weight:700; line-height:28px; text-align:center;">2</span>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">El 89% de los clientes lee las respuestas</p>
+                          <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">Antes de elegir un negocio, la mayoría mira cómo el dueño responde. Una respuesta profesional y humana convierte a un indeciso en cliente. El silencio, en cambio, se interpreta como desinterés.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0 0 20px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="32" style="vertical-align:top; text-align:center;">
+                          <span style="display:inline-block; width:28px; height:28px; background:#f97316; color:#fff; border-radius:50%; font-size:14px; font-weight:700; line-height:28px; text-align:center;">3</span>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">Sin AURA, pierdes clientes cada día</p>
+                          <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">Cada reseña sin responder es una oportunidad perdida. Una crítica mal gestionada aleja a cientos de clientes potenciales. Una respuesta a tiempo puede recuperar a ese cliente y convencer a otros.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0 0 20px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="32" style="vertical-align:top; text-align:center;">
+                          <span style="display:inline-block; width:28px; height:28px; background:#f97316; color:#fff; border-radius:50%; font-size:14px; font-weight:700; line-height:28px; text-align:center;">4</span>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">El algoritmo de Google te favorece</p>
+                          <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">Google valora los perfiles activos. Cuantas más reseñas respondas, mejor apareces en las búsquedas locales. AURA te ayuda a mantener esa actividad sin esfuerzo.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
+                <tr>
+                  <td style="background:#fff7ed; border-left:3px solid #f97316; padding:16px 20px; border-radius:8px;">
+                    <p style="color:#1f2937; font-size:15px; line-height:1.6; margin:0; font-style:italic;">
+                      Cada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="color:#1f2937; font-size:16px; text-align:center; font-weight:600; margin:24px 0 20px;">
+                Tus clientes hablan. AURA responde. Tú ganas.
+              </p>
+
+              <div style="text-align:center; margin:0 0 8px;">
+                <a href="https://aura-online.es" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
+                  Probar AURA gratis
+                </a>
+                <p style="color:#9ca3af; font-size:13px; margin:12px 0 0;">Sin compromiso. Sin tarjeta.</p>
+              </div>
             </td>
           </tr>
           <tr>
