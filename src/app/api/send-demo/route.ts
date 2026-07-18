@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { generateResponse } from '@/lib/gemini';
+import dns from 'dns';
+
+const resolve4 = (host: string) => new Promise<string>((resolve, reject) => {
+  dns.resolve4(host, (err, addresses) => {
+    if (err) reject(err); else resolve(addresses[0]);
+  });
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -177,13 +184,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ preview: true, responses, html });
     }
 
+    const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const smtpIp = await resolve4(smtpHost);
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      host: smtpIp,
       port: parseInt(process.env.SMTP_PORT || '587'),
       secure: false,
       auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
       connectionTimeout: 10000,
-      family: 4,
+      servername: smtpHost,
     } as any);
 
     await transporter.sendMail({
