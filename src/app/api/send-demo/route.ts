@@ -33,13 +33,13 @@ export async function POST(req: NextRequest) {
       <body style="margin:0; padding:0; background:#f5f5f5; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; margin:0 auto; background:#fff;">
           <tr>
-            <td style="background:linear-gradient(135deg,#f97316,#ea580c); padding:32px 24px; text-align:center;">
-              <img src="https://aura-online.es/logo.svg" alt="AURA" style="height:48px; border:none;" />
+            <td style="background:#fff; padding:40px 24px 24px; text-align:center;">
+              <img src="https://aura-online.es/logo.svg" alt="AURA" style="height:64px; border:none;" />
             </td>
           </tr>
           <tr>
             <td style="padding:32px 24px; text-align:justify;">
-              <p style="color:#1f2937; font-size:18px; font-weight:600; margin:0 0 12px;">Hola,</p>
+              <p style="color:#1f2937; font-size:18px; font-weight:600; margin:0 0 12px;">Hola, soy Ana de AURA - Reputación Digital</p>
               <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 20px; text-align:justify;">
                 Hemos visto que <strong>${businessName}</strong> tiene reseñas en Google Maps sin responder. 
                 Responderlas mejora tu reputación online y ayuda a captar más clientes. 
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
     });
 
     await transporter.sendMail({
-      from: `"Jose de AURA" <${process.env.SMTP_USER}>`,
+      from: `"Ana de AURA" <${process.env.SMTP_USER}>`,
       to: businessEmail,
       subject: `${businessName} — tus reseñas de Google respondidas con AURA`,
       html,
