@@ -5,19 +5,24 @@ import dns from 'dns';
 
 export async function POST(req: NextRequest) {
   try {
-    const { businessName, businessEmail, reviews, preview } = await req.json();
+    const { businessName, businessEmail, reviews, preview, html: preHtml, responses: preResponses } = await req.json();
     if (!businessName || !businessEmail || !reviews?.length) {
       return NextResponse.json({ error: 'Faltan datos' }, { status: 400 });
     }
 
-    const responses: { author: string; text: string; rating: number; response: string }[] = [];
+    let responses: { author: string; text: string; rating: number; response: string }[] = preResponses;
+    let html = preHtml;
 
-    for (const r of reviews) {
-      const response = await generateResponse(r.text, r.author, businessName);
-      responses.push({ ...r, response });
+    if (!responses) {
+      responses = [];
+      for (const r of reviews) {
+        const response = await generateResponse(r.text, r.author, businessName);
+        responses.push({ ...r, response });
+      }
     }
 
-    const reviewRows = responses.map((r) => `
+    if (!html) {
+      const reviewRows = responses.map((r) => `
       <tr>
         <td style="padding: 16px 0; border-bottom: 1px solid #eee;">
           <div style="margin-bottom: 8px;"><strong style="color:#1f2937;">${r.author}</strong> <span style="color:#f59e0b;">${'★'.repeat(r.rating)}</span></div>
@@ -27,7 +32,7 @@ export async function POST(req: NextRequest) {
       </tr>
     `).join('');
 
-    const html = `
+      html = `
       <!DOCTYPE html>
       <html>
       <head><meta charset="utf-8"></head>
@@ -173,9 +178,22 @@ export async function POST(req: NextRequest) {
       </body>
       </html>
     `;
+    }
 
     if (preview) {
       return NextResponse.json({ preview: true, responses, html });
+    }
+
+    const relayUrl = process.env.EMAIL_RELAY_URL;
+    if (relayUrl) {
+      const relayRes = await fetch(relayUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessName, businessEmail, reviews, html, responses, preview: false }),
+      });
+      const relayData = await relayRes.json();
+      if (!relayRes.ok) throw new Error(relayData.error || 'Error en relay');
+      return NextResponse.json({ success: true, responses });
     }
 
     const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
