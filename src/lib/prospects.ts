@@ -1,24 +1,17 @@
-interface Review {
-  author: string;
-  text: string;
-  rating: number;
-  response?: string;
+const STORAGE_URL = process.env.PROSPECT_STORAGE_URL || 'https://aura-storage.entretorres1x2.workers.dev';
+
+export async function saveProspect(data: { businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[] }): Promise<string> {
+  const res = await fetch(`${STORAGE_URL}/prospect`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...data, createdAt: Date.now() }),
+  });
+  const json = await res.json();
+  return json.slug || '';
 }
 
-interface ProspectData {
-  businessName: string;
-  reviews: Review[];
-  createdAt: number;
-}
-
-const store = new Map<string, ProspectData>();
-
-export function saveProspect(data: ProspectData): string {
-  const slug = crypto.randomUUID().slice(0, 8);
-  store.set(slug, data);
-  return slug;
-}
-
-export function getProspect(slug: string): ProspectData | undefined {
-  return store.get(slug);
+export async function getProspect(slug: string): Promise<{ businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[]; createdAt: number } | null> {
+  const res = await fetch(`${STORAGE_URL}/prospect/${slug}`);
+  if (!res.ok) return null;
+  return res.json();
 }

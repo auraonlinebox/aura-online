@@ -1,0 +1,11 @@
+{
+  "name": "aura-storage",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-18",
+  "kv_namespaces": [
+    {
+      "binding": "aura_prospects",
+      "id": "9f47e4722d7046f4b74b3326e8f909df"
+    }
+  ]
+}
