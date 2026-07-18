@@ -131,23 +131,12 @@ export default function SocialCardPage() {
             <div id="card-preview" className="w-full max-w-[500px] bg-white overflow-hidden shadow-xl" style={{ aspectRatio: '1/1', borderRadius: 32 }}>
               <div className="h-full flex flex-col">
                 {/* Cabecera AURA */}
-                <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-8 py-5 flex items-center gap-4">
-                  <div className="w-11 h-11 bg-white/20 backdrop-blur rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg viewBox="0 0 200 200" className="w-7 h-7" style={{ fill: '#fff' }}>
-                      <circle cx="100" cy="100" r="100" />
-                      <path d="M 100 25 L 110 72 L 160 72 L 120 102 L 135 150 L 100 122 L 65 150 L 80 102 L 40 72 L 90 72 Z" />
-                    </svg>
+                <div className="bg-white px-8 py-5 flex items-center gap-3 border-b border-gray-100">
+                  <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" className="h-10" />
+                  <div className="ml-auto text-right">
+                    <div className="text-gray-300 text-[9px] tracking-[2px]">PARA</div>
+                    <div className="text-gray-800 text-sm font-semibold">{businessName || 'tu negocio'}</div>
                   </div>
-                  <div>
-                    <div className="text-white text-xl font-black tracking-wide" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>AURA</div>
-                    <div className="text-white/80 text-[10px] tracking-[3px] font-medium">REPUTACIÓN DIGITAL</div>
-                  </div>
-                  {businessName && (
-                    <div className="ml-auto text-right">
-                      <div className="text-white/60 text-[9px] tracking-[2px]">PARA</div>
-                      <div className="text-white text-sm font-semibold">{businessName}</div>
-                    </div>
-                  )}
                 </div>
 
                 {/* Contenido centrado */}
