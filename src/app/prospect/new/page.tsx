@@ -230,23 +230,23 @@ export default function NewProspect() {
               <p className="text-sm text-green-800 font-medium">✅ Email enviado a {businessEmail}</p>
               {slug && responses.length > 0 && (() => {
             const reviewBlocks = responses.map((r, i) =>
-              `${r.author} (${'★'.repeat(r.rating)})\n"${r.text}"\n→ ${r.response}`
+              `👤 ${r.author} ${'⭐'.repeat(r.rating)}\n"${r.text}"\n✅ ${r.response}`
             ).join('\n\n');
 
             const waText = encodeURIComponent(
-              `Hola, soy Ana de AURA - Reputación Digital\n\n` +
-              `He visto que gestionáis un volumen altísimo de clientes en ${businessName} y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.\n\n` +
-              `Me dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.\n\n` +
-              `Mirad cómo habríamos respondido a vuestras reseñas más recientes:\n\n${reviewBlocks}\n\n` +
-              `¿Por qué elegir AURA?\n` +
-              `1. Responder rápido sube tu estrella — los negocios que responden en menos de 24h mejoran su valoración media hasta un 0.3★.\n` +
-              `2. El 89% de los clientes lee las respuestas — una respuesta profesional convierte a un indeciso en cliente.\n` +
-              `3. Sin AURA, pierdes clientes cada día — cada reseña sin responder es una oportunidad perdida.\n` +
-              `4. El algoritmo de Google te favorece — cuantas más reseñas respondas, mejor apareces en búsquedas locales.\n\n` +
-              `Cada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.\n\n` +
-              `Tus clientes hablan. AURA responde. Tú ganas.\n\n` +
-              `Probar AURA gratis: https://aura-online.es\n\n` +
-              `Si tenéis cualquier duda, escribidnos: auraonlinebox@gmail.com`
+              `👋 Hola, soy Ana de AURA - Reputación Digital\n\n` +
+              `He visto que gestionáis un volumen altísimo de clientes en ${businessName} y que muchos se toman la molestia de dejaros una reseña. ¡Eso es señal de que hacéis un gran trabajo! 🎯\n\n` +
+              `Me dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga extra para vosotros.\n\n` +
+              `📋 Mirad cómo habríamos respondido a vuestras reseñas más recientes:\n\n${reviewBlocks}\n\n` +
+              `💡 ¿Por qué elegir AURA?\n` +
+              `1️⃣ Responder rápido sube tu estrella — los negocios que responden en menos de 24h mejoran su valoración media hasta un 0.3★\n` +
+              `2️⃣ El 89% de los clientes lee las respuestas — una respuesta profesional convierte a un indeciso en cliente\n` +
+              `3️⃣ Sin AURA, pierdes clientes cada día — cada reseña sin responder es una oportunidad perdida\n` +
+              `4️⃣ El algoritmo de Google te favorece — cuantas más reseñas respondas, mejor apareces en búsquedas locales\n\n` +
+              `🔍 Aquí podéis verlo todo en detalle:\n${slug}\n\n` +
+              `🔥 Tus clientes hablan. AURA responde. Tú ganas.\n\n` +
+              `👉 Probar AURA gratis: https://aura-online.es\n\n` +
+              `📧 Si tenéis cualquier duda, escribidnos: auraonlinebox@gmail.com`
             );
 
             return (
