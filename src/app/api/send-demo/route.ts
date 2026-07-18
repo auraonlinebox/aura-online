@@ -199,22 +199,17 @@ export async function POST(req: NextRequest) {
     }
 
     const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
-    const smtpPort = parseInt(process.env.SMTP_PORT || '587');
-
-    const addresses = await new Promise<string[]>((resolve, reject) => {
-      dns.resolve4(smtpHost, (err, addrs) => {
-        if (err) reject(err); else resolve(addrs);
-      });
-    });
+    const smtpPort = parseInt(process.env.SMTP_PORT || '465');
 
     const transporter = nodemailer.createTransport({
-      host: addresses[0],
+      host: smtpHost,
       port: smtpPort,
-      secure: smtpPort === 465,
+      secure: true,
       auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-      connectionTimeout: 10000,
-      tls: smtpPort === 465 ? { servername: smtpHost } : undefined,
-    });
+      connectionTimeout: 30000,
+      greetingTimeout: 30000,
+      servername: smtpHost,
+    } as any);
 
     await transporter.sendMail({
       from: `"Ana de AURA" <${process.env.SMTP_USER}>`,
