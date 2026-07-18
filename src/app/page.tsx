@@ -141,7 +141,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-6">
             <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Pruébalo tú mismo
+              Pruébalo tú mism@
             </h2>
             <p className="text-gray-500 max-w-md mx-auto">
               Pega una reseña real y ve cómo AURA la respondería. Sin registro, sin compromiso.
