@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^9.10.0",
+    "html2canvas": "^1.4.1",
     "next": "^16",
     "nodemailer": "^9.0.3",
     "react": "^19",
