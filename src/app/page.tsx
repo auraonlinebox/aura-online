@@ -92,6 +92,7 @@ export default function Home() {
             <a href="#demo" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Demo</a>
             <a href="#ejemplos" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Ejemplos</a>
             <a href="#planes" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Planes</a>
+            <a href="#por-que-elegirnos" className="text-gray-500 hover:text-gray-900 hidden sm:inline">¿Por qué elegirnos?</a>
             <a href="#como-funciona" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Cómo funciona</a>
             <button onClick={() => setShowContact(true)} className="bg-gray-900 text-white px-7 py-3 rounded-full text-sm font-semibold hover:bg-gray-800 transition-all flex flex-col items-center leading-tight">
               Quiero AURA
@@ -221,7 +222,7 @@ export default function Home() {
       </section>
 
       {/* Why choose us */}
-      <section className="py-10 sm:py-14">
+      <section id="por-que-elegirnos" className="py-10 sm:py-14">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl font-black text-center text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
             ¿Por qué elegir AURA?
