@@ -149,6 +149,17 @@ export async function POST(req: NextRequest) {
                 </a>
                 <p style="color:#9ca3af; font-size:13px; margin:12px 0 0;">Sin compromiso. Sin tarjeta.</p>
               </div>
+
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0 0;">
+                <tr>
+                  <td style="text-align:center;">
+                    <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0 0 12px;">Si tenéis cualquier duda o consulta, no dudéis en escribirnos:</p>
+                    <a href="mailto:auraonlinebox@gmail.com" style="display:inline-block; padding:12px 28px; border:1px solid #f97316; color:#f97316; text-decoration:none; border-radius:12px; font-size:14px; font-weight:600;">
+                      Contactar por email
+                    </a>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
           <tr>

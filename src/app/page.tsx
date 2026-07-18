@@ -94,6 +94,7 @@ export default function Home() {
             <a href="#planes" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Planes</a>
             <a href="#por-que-elegirnos" className="text-gray-500 hover:text-gray-900 hidden sm:inline">¿Por qué elegirnos?</a>
             <a href="#como-funciona" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Cómo funciona</a>
+            <a href="mailto:auraonlinebox@gmail.com" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Contacto</a>
             <button onClick={() => setShowContact(true)} className="bg-gray-900 text-white px-7 py-3 rounded-full text-sm font-semibold hover:bg-gray-800 transition-all flex flex-col items-center leading-tight">
               Quiero AURA
               <span className="text-[10px] font-normal text-gray-400">¡Pruébame gratis!</span>
@@ -685,7 +686,7 @@ export default function Home() {
           <a href="/" className="inline-block mb-3">
             <img src="/logo.svg?v=2" alt="AURA" className="h-10 mx-auto" />
           </a>
-          <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a> | <a href="/privacidad" className="hover:text-gray-600 underline">Privacidad</a></p>
+          <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a> | <a href="mailto:auraonlinebox@gmail.com" className="hover:text-gray-600 underline">Contacto</a> | <a href="/privacidad" className="hover:text-gray-600 underline">Privacidad</a></p>
         </div>
       </footer>
     </div>
