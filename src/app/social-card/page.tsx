@@ -2,9 +2,16 @@
 
 import { useState } from 'react';
 
+const EXAMPLES = [
+  { author: 'Laura M.', rating: 5, text: 'Comida espectacular y trato increíble. Volveremos sin duda. El mejor restaurante de la zona.', response: 'Laura, muchísimas gracias por tus palabras. Nos alegra saber que disfrutasteis de la experiencia. Trabajamos cada día para que cada visita sea especial. ¡Os esperamos de nuevo muy pronto!' },
+  { author: 'Carlos R.', rating: 4, text: 'Buen servicio, rápido y profesional. La única pega es que tardaron un poco en traer la cuenta.', response: 'Carlos, gracias por tu sinceridad. Nos alegra que valorases positivamente el servicio. Tomamos nota de lo del tiempo de espera, mejoraremos para ofreceros una experiencia aún mejor. ¡Un saludo!' },
+  { author: 'Ana S.', rating: 5, text: 'Me encanta este sitio. Voy cada semana y nunca me defrauda. El personal es súamable.', response: 'Ana, es un placer leerte. Que nos elijas cada semana es el mejor cumplido que podemos recibir. Todo el equipo te manda un abrazo y te espera la próxima semana con una sonrisa 😊' },
+  { author: 'Miguel Á.', rating: 3, text: 'Bien pero esperaba más. La comida estaba buena pero el sitio es ruidoso y tardaron en servirnos.', response: 'Miguel, gracias por tomarte el tiempo de compartir tu experiencia. Nos alegra que la comida fuese de tu agrado, y lamentamos los inconvenientes con el ruido y la demora. Estamos trabajando en ello para mejorar. Esperamos darte una mejor experiencia la próxima vez.' },
+];
+
 export default function SocialCardPage() {
-  const [businessName, setBusinessName] = useState('');
-  const [cards, setCards] = useState([{ author: '', rating: 5, text: '', response: '' }]);
+  const [businessName, setBusinessName] = useState('Restaurante La Esquina');
+  const [cards, setCards] = useState(EXAMPLES);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const addCard = () => {
@@ -91,9 +98,32 @@ export default function SocialCardPage() {
               onClick={downloadCard}
               className="w-full py-3 bg-orange-500 text-white font-medium rounded-xl hover:bg-orange-600 transition-all text-sm"
             >
-              Descargar PNG
+              Descargar esta tarjeta
             </button>
-            <p className="text-xs text-gray-400 text-center">Necesitas instalar html2canvas (primera vez tarda unos segundos)</p>
+            <button
+              onClick={() => {
+                const downloadAll = async () => {
+                  const h2c = await import('html2canvas');
+                  for (let i = 0; i < cards.length; i++) {
+                    setActiveIndex(i);
+                    await new Promise(r => setTimeout(r, 300));
+                    const el = document.getElementById('card-preview');
+                    if (!el) continue;
+                    const canvas = await h2c.default(el, { scale: 2, backgroundColor: '#fff', useCORS: true });
+                    const link = document.createElement('a');
+                    link.download = `aura-${businessName || 'card'}-${i + 1}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    await new Promise(r => setTimeout(r, 500));
+                  }
+                };
+                downloadAll();
+              }}
+              className="w-full py-3 bg-gray-800 text-white font-medium rounded-xl hover:bg-gray-900 transition-all text-sm"
+            >
+              Descargar todas ({cards.length})
+            </button>
+            <p className="text-xs text-gray-400 text-center">Solo visible en desktop. En móvil, haz screenshot.</p>
           </div>
 
           {/* Preview de la tarjeta */}
