@@ -4,13 +4,13 @@ import { useState } from 'react';
 
 const EXAMPLES = [
   { author: 'Laura M.', rating: 5, text: 'Comida espectacular y trato increíble. Volveremos sin duda. El mejor restaurante de la zona.', response: 'Laura, muchísimas gracias por tus palabras. Nos alegra saber que disfrutasteis de la experiencia. Trabajamos cada día para que cada visita sea especial. ¡Os esperamos de nuevo muy pronto!' },
-  { author: 'Carlos R.', rating: 4, text: 'Buen servicio, rápido y profesional. La única pega es que tardaron un poco en traer la cuenta.', response: 'Carlos, gracias por tu sinceridad. Nos alegra que valorases positivamente el servicio. Tomamos nota de lo del tiempo de espera, mejoraremos para ofreceros una experiencia aún mejor. ¡Un saludo!' },
-  { author: 'Ana S.', rating: 5, text: 'Me encanta este sitio. Voy cada semana y nunca me defrauda. El personal es súamable.', response: 'Ana, es un placer leerte. Que nos elijas cada semana es el mejor cumplido que podemos recibir. Todo el equipo te manda un abrazo y te espera la próxima semana con una sonrisa 😊' },
-  { author: 'Miguel Á.', rating: 3, text: 'Bien pero esperaba más. La comida estaba buena pero el sitio es ruidoso y tardaron en servirnos.', response: 'Miguel, gracias por tomarte el tiempo de compartir tu experiencia. Nos alegra que la comida fuese de tu agrado, y lamentamos los inconvenientes con el ruido y la demora. Estamos trabajando en ello para mejorar. Esperamos darte una mejor experiencia la próxima vez.' },
+  { author: 'Jorge T.', rating: 5, text: 'Dejé el coche por una revisión y quedó como nuevo. Precio justo y me lo dejaron listo en el día. Muy recomendable.', response: 'Jorge, gracias por confiar en nosotros. Nos alegra que el trabajo fuese de tu agrado y que todo quedase a tu gusto. Somos un taller de toda la vida y nos encanta cuidar los detalles. ¡Un saludo!' },
+  { author: 'Marta F.', rating: 5, text: 'Me hicieron un corte y un brushing espectacular. Salí como nueva. El trato increíble, volveré sin duda.', response: 'Marta, nos encanta leerte. Saber que saliste contenta es lo más importante para nosotras. Todo el equipo se esfuerza cada día para que te sientas mimada. ¡Te esperamos pronto!' },
+  { author: 'Raúl G.', rating: 4, text: 'Habitación limpia, cama cómoda y buen desayuno. La única pega es que el aire acondicionado hacía ruido.', response: 'Raúl, gracias por tu reseña. Nos alegra que disfrutases de tu estancia y del desayuno. Tomamos nota de lo del aire acondicionado, lo revisaremos para que no vuelva a ocurrir. ¡Esperamos verte de nuevo!' },
 ];
 
 export default function SocialCardPage() {
-  const [businessName, setBusinessName] = useState('Restaurante La Esquina');
+  const [businessName, setBusinessName] = useState('');
   const [cards, setCards] = useState(EXAMPLES);
   const [activeIndex, setActiveIndex] = useState(0);
 
