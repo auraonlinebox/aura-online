@@ -186,6 +186,8 @@ export async function POST(req: NextRequest) {
 
     const relayUrl = process.env.EMAIL_RELAY_URL;
     if (relayUrl) {
+      // Wake Render up before sending
+      await fetch(relayUrl.replace('/api/send-demo', ''), { signal: AbortSignal.timeout(30000) }).catch(() => {});
       const relayRes = await fetch(relayUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

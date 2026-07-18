@@ -7,7 +7,7 @@ export default {
 
     const results = await Promise.allSettled(
       urls.map((url) =>
-        fetch(url, { method: "GET", signal: AbortSignal.timeout(15000) })
+        fetch(url, { method: "GET", signal: AbortSignal.timeout(30000) })
       )
     );
 

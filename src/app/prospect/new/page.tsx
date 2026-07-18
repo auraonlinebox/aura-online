@@ -84,7 +84,7 @@ export default function NewProspect() {
     setProgress('Enviando email...');
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000);
+      const timeout = setTimeout(() => controller.abort(), 120000);
       const res = await fetch('/api/send-demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
