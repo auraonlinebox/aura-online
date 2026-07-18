@@ -118,7 +118,7 @@ export default function ClientDashboard({ params }: { params: Promise<{ clientId
       <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/logo.svg" alt="AURA" className="h-10" />
+            <img src="/logo.svg?v=2" alt="AURA" className="h-10" />
           </Link>
           <div className="flex items-center gap-3">
             {!notificationGranted && 'Notification' in window && (

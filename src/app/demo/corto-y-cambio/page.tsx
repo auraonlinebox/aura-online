@@ -194,7 +194,7 @@ export default function DemoCortoYCambio() {
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/">
-              <img src="/logo.svg" alt="AURA" className="h-10" />
+              <img src="/logo.svg?v=2" alt="AURA" className="h-10" />
             </Link>
             <span className="text-gray-200">|</span>
             <div>

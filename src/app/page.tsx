@@ -86,7 +86,7 @@ export default function Home() {
       <header className="border-b border-gray-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2">
-            <img src="/logo.svg" alt="AURA" className="h-12 sm:h-16" />
+            <img src="/logo.svg?v=2" alt="AURA" className="h-12 sm:h-16" />
           </a>
           <nav className="flex items-center gap-6 text-sm">
             <a href="#demo" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Demo</a>
@@ -683,7 +683,7 @@ export default function Home() {
       <footer className="bg-white py-6 border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-4 text-center text-xs text-gray-400">
           <a href="/" className="inline-block mb-3">
-            <img src="/logo.svg" alt="AURA" className="h-10 mx-auto" />
+            <img src="/logo.svg?v=2" alt="AURA" className="h-10 mx-auto" />
           </a>
           <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a> | <a href="/privacidad" className="hover:text-gray-600 underline">Privacidad</a></p>
         </div>

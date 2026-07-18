@@ -8,7 +8,7 @@ export default function PrivacidadPage() {
       <header className="border-b border-gray-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/logo.svg" alt="AURA" className="h-12 sm:h-14" />
+            <img src="/logo.svg?v=2" alt="AURA" className="h-12 sm:h-14" />
           </Link>
         </div>
       </header>
@@ -74,7 +74,7 @@ export default function PrivacidadPage() {
       <footer className="bg-white py-8 border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-4 text-center text-xs text-gray-400">
           <a href="/" className="inline-block mb-3">
-            <img src="/logo.svg" alt="AURA" className="h-10 mx-auto" />
+            <img src="/logo.svg?v=2" alt="AURA" className="h-10 mx-auto" />
           </a>
           <Link href="/" className="hover:text-gray-600">Volver a AURA</Link>
         </div>
