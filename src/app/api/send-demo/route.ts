@@ -41,12 +41,13 @@ export async function POST(req: NextRequest) {
             <td style="padding:32px 24px; text-align:justify;">
               <p style="color:#1f2937; font-size:18px; font-weight:600; margin:0 0 12px;">Hola, soy Ana de AURA - Reputación Digital</p>
               <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 20px; text-align:justify;">
-                Hemos visto que <strong>${businessName}</strong> tiene reseñas en Google Maps sin responder. 
-                Responderlas mejora tu reputación online y ayuda a captar más clientes. 
-                Nosotros podemos hacerlo por ti de forma automática.
+                He visto que gestionáis un volumen altísimo de clientes y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.
+              </p>
+              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 20px; text-align:justify;">
+                Me dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.
               </p>
               <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 24px;">
-                Así es como habríamos respondido a tus reseñas más recientes:
+                Mirad cómo habríamos respondido a vuestras reseñas más recientes:
               </p>
               <table width="100%" cellpadding="0" cellspacing="0">
                 ${reviewRows}
@@ -175,7 +176,7 @@ export async function POST(req: NextRequest) {
     await transporter.sendMail({
       from: `"Ana de AURA" <${process.env.SMTP_USER}>`,
       to: businessEmail,
-      subject: `${businessName} — tus reseñas de Google respondidas con AURA`,
+      subject: `${businessName} — vuestras reseñas de Google respondidas con AURA`,
       html,
     });
 
