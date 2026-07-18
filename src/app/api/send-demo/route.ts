@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
               </table>
               <div style="text-align:center; margin:32px 0;">
                 <a href="https://aura-online.es" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
-                  Probar AURA gratis 7 días
+                  Probar AURA gratis
                 </a>
                 <p style="color:#9ca3af; font-size:13px; margin:12px 0 0;">Sin compromiso. Sin tarjeta.</p>
               </div>
