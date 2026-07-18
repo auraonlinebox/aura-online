@@ -6,15 +6,26 @@ import { useParams } from 'next/navigation';
 export default function ProspectPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const [readAt, setReadAt] = useState<number | null>(null);
+  const [showStatus, setShowStatus] = useState(false);
 
   const [data, setData] = useState<{ businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[] } | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
+    const isStatusCheck = window.location.search.includes('status=1');
+    setShowStatus(isStatusCheck);
+
     fetch(`/api/prospect?slug=${slug}`)
       .then((r) => { if (!r.ok) throw new Error('not_found'); return r.json(); })
-      .then((d) => setData(d))
+      .then((d) => {
+        setData(d);
+        if (d.readAt) setReadAt(d.readAt);
+        if (!isStatusCheck) {
+          fetch(`https://aura-storage.entretorres1x2.workers.dev/prospect/${slug}/read`, { method: 'POST' }).catch(() => {});
+        }
+      })
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
   }, [slug]);
@@ -56,6 +67,11 @@ export default function ProspectPage() {
         <tbody>
           <tr>
             <td style={{ background: '#fff', padding: '40px 24px 24px', textAlign: 'center' }}>
+              {showStatus && (
+                <div style={{ marginBottom: 16, padding: '8px 16px', borderRadius: 8, fontSize: 13, fontWeight: 600, background: readAt ? '#dcfce7' : '#fef3c7', color: readAt ? '#166534' : '#92400e' }}>
+                  {readAt ? `✅ Leído — ${new Date(readAt).toLocaleString('es-ES')}` : '⏳ No leído aún'}
+                </div>
+              )}
               <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" style={{ height: 64, border: 'none', display: 'block', margin: '0 auto' }} />
             </td>
           </tr>

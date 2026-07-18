@@ -15,5 +15,8 @@ export async function GET(req: NextRequest) {
   if (!slug) return NextResponse.json({ error: 'Falta slug' }, { status: 400 });
   const data = await getProspect(slug);
   if (!data) return NextResponse.json({ error: 'No encontrado' }, { status: 404 });
-  return NextResponse.json(data);
+  const storageUrl = process.env.PROSPECT_STORAGE_URL || 'https://aura-storage.entretorres1x2.workers.dev';
+  const readRes = await fetch(`${storageUrl}/prospect/${slug}`).catch(() => null);
+  const readData = readRes?.ok ? await readRes.json() : null;
+  return NextResponse.json({ ...data, readAt: readData?.readAt || 0 });
 }
