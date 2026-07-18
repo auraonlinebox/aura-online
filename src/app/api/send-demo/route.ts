@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; margin:0 auto; background:#fff;">
           <tr>
             <td style="background:#fff; padding:40px 24px 24px; text-align:center;">
-              <img src="https://aura-online.es/logo.svg" alt="AURA" style="height:64px; border:none;" />
+              <img src="https://aura-online.es/logo.svg" alt="AURA" style="height:64px; border:none; display:block; margin:0 auto;" />
             </td>
           </tr>
           <tr>
