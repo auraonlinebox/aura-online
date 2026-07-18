@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
 import { generateResponse } from '@/lib/gemini';
-import dns from 'dns';
 
 export async function POST(req: NextRequest) {
   try {
@@ -198,25 +196,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, responses });
     }
 
-    const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
-    const smtpPort = parseInt(process.env.SMTP_PORT || '465');
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'Email no configurado (falta RESEND_API_KEY)' }, { status: 500 });
+    }
 
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: true,
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-      connectionTimeout: 30000,
-      greetingTimeout: 30000,
-      servername: smtpHost,
-    } as any);
+    const text = `Hola, soy Ana de AURA - Reputación Digital\n\nHe visto que gestionáis un volumen altísimo de clientes y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.\n\nMe dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.\n\nMirad cómo habríamos respondido a vuestras reseñas más recientes:\n\n${responses.map(r => `${r.author} (${'★'.repeat(r.rating)}): "${r.text}"\n→ ${r.response}`).join('\n\n')}\n\nProbad AURA gratis: https://aura-online.es\n\nCada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.\n\nTus clientes hablan. AURA responde. Tú ganas.`;
 
-    await transporter.sendMail({
-      from: `"Ana de AURA" <${process.env.SMTP_USER}>`,
-      to: businessEmail,
-      subject: `${businessName} — vuestras reseñas de Google respondidas con AURA`,
-      html,
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Ana de AURA <hello@aura-online.es>',
+        to: [businessEmail],
+        subject: `${businessName} — vuestras reseñas de Google respondidas con AURA`,
+        html,
+        text,
+      }),
     });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error?.message || data?.message || 'Error al enviar email');
 
     return NextResponse.json({ success: true, responses });
   } catch (err: any) {
