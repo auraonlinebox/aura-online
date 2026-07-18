@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
           timestamp: timestamp || new Date().toISOString(),
           businessName: businessName || '',
           businessEmail: businessEmail || '',
-          reviews: JSON.stringify(reviews || []),
+          reviews: (reviews || []).map((r: any) => `${r.author}: "${r.text}" (${r.rating}★)`).join(' | '),
           slug: slug || '',
         }),
       }).catch(() => {});
