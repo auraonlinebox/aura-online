@@ -111,6 +111,16 @@ export default function NewProspect() {
       });
       const slugData = await slugRes.json();
       setSlug(slugData.url);
+      await fetch('/api/log-prospect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: businessName.trim(),
+          businessEmail: businessEmail.trim(),
+          reviews: reviews.map(r => ({ author: r.author, text: r.text, rating: r.rating })),
+          timestamp: new Date().toISOString(),
+        }),
+      }).catch(() => {});
       setSent(true);
     } catch (err: any) {
       if (err.name === 'AbortError') {
