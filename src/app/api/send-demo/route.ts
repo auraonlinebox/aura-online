@@ -34,14 +34,13 @@ export async function POST(req: NextRequest) {
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; margin:0 auto; background:#fff;">
           <tr>
             <td style="background:linear-gradient(135deg,#f97316,#ea580c); padding:32px 24px; text-align:center;">
-              <h1 style="color:#fff; font-size:28px; margin:0; font-weight:800; letter-spacing:-0.5px;">AURA</h1>
-              <p style="color:#ffedd5; margin:8px 0 0; font-size:15px;">Reputación online inteligente</p>
+              <img src="https://aura-online.es/logo.svg" alt="AURA" style="height:48px; border:none;" />
             </td>
           </tr>
           <tr>
-            <td style="padding:32px 24px;">
+            <td style="padding:32px 24px; text-align:justify;">
               <p style="color:#1f2937; font-size:18px; font-weight:600; margin:0 0 12px;">Hola,</p>
-              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 20px;">
+              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 20px; text-align:justify;">
                 Hemos visto que <strong>${businessName}</strong> tiene reseñas en Google Maps sin responder. 
                 Responderlas mejora tu reputación online y ayuda a captar más clientes. 
                 Nosotros podemos hacerlo por ti de forma automática.
@@ -62,7 +61,7 @@ export async function POST(req: NextRequest) {
           </tr>
           <tr>
             <td style="background:#f9fafb; padding:24px; text-align:center; border-top:1px solid #e5e7eb;">
-              <p style="color:#9ca3af; font-size:13px; margin:0 0 4px;">AURA · Reputación online para tu negocio</p>
+              <p style="color:#9ca3af; font-size:13px; margin:0 0 4px;">AURA - Reputación Digital</p>
               <p style="color:#9ca3af; font-size:13px; margin:0;">Si prefieres no recibir más correos, responde a este email.</p>
             </td>
           </tr>
