@@ -196,13 +196,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, responses });
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
+    const apiKey = process.env.RESEND_API_KEY?.trim();
     if (!apiKey) {
       return NextResponse.json({ error: 'Email no configurado (falta RESEND_API_KEY)' }, { status: 500 });
     }
 
     const text = `Hola, soy Ana de AURA - Reputación Digital\n\nHe visto que gestionáis un volumen altísimo de clientes y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.\n\nMe dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.\n\nMirad cómo habríamos respondido a vuestras reseñas más recientes:\n\n${responses.map(r => `${r.author} (${'★'.repeat(r.rating)}): "${r.text}"\n→ ${r.response}`).join('\n\n')}\n\nProbad AURA gratis: https://aura-online.es\n\nCada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.\n\nTus clientes hablan. AURA responde. Tú ganas.`;
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -216,7 +218,9 @@ export async function POST(req: NextRequest) {
         html,
         text,
       }),
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const data = await res.json();
     if (!res.ok) throw new Error(data?.error?.message || data?.message || 'Error al enviar email');
