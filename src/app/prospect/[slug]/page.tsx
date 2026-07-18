@@ -111,7 +111,7 @@ export default function ProspectPage() {
             href="/"
             className="inline-block px-8 py-3 bg-orange-500 text-white font-medium rounded-xl hover:bg-orange-600 transition-all text-base"
           >
-            Probar AURA gratis 7 días
+            Probar AURA gratis
           </a>
           <p className="text-xs text-gray-400 mt-3">Sin compromiso. Sin tarjeta.</p>
         </div>
