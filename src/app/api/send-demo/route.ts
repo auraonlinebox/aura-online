@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
               <hr style="border:none; border-top:1px solid #e5e7eb; margin:32px 0;" />
 
-              <h2 style="color:#1f2937; font-size:22px; text-align:center; margin:0 0 8px;">¿Por qué usar AURA? ¿Por qué elegir AURA?</h2>
+              <h2 style="color:#1f2937; font-size:22px; text-align:center; margin:0 0 8px;">¿Por qué elegir AURA?</h2>
               <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 28px; text-align:center; font-style:italic;">
                 Responder reseñas no es un lujo. Es lo que separa un negocio con buena imagen de uno que pasa desapercibido.
               </p>
