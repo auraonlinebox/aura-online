@@ -623,7 +623,7 @@ export default function Home() {
       {/* Contact modal */}
       {showContact && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowContact(false)}>
-          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-xl overflow-y-auto max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-gray-900">Solicitar acceso a AURA</h3>
               <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
