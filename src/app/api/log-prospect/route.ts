@@ -13,7 +13,16 @@ export async function POST(req: NextRequest) {
         reviews: JSON.stringify(reviews || []),
         timestamp: timestamp || new Date().toISOString(),
       });
-      await fetch(`${webhook}?${params}`, { method: 'GET', redirect: 'follow' }).catch(() => {});
+      await fetch(webhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: businessName || '',
+          businessEmail: businessEmail || '',
+          reviews: JSON.stringify(reviews || []),
+          timestamp: timestamp || new Date().toISOString(),
+        }),
+      }).catch(() => {});
     }
 
     return NextResponse.json({ success: true });
