@@ -83,6 +83,8 @@ export default function NewProspect() {
     setLoading(true);
     setProgress('Enviando email...');
     try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000);
       const res = await fetch('/api/send-demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,13 +93,13 @@ export default function NewProspect() {
           businessEmail: businessEmail.trim(),
           reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err.error || 'Error');
       }
-      setSent(true);
-
       const data = await res.json();
       const slugRes = await fetch('/api/prospect', {
         method: 'POST',
@@ -109,8 +111,13 @@ export default function NewProspect() {
       });
       const slugData = await slugRes.json();
       setSlug(slugData.url);
+      setSent(true);
     } catch (err: any) {
-      alert('Error: ' + err.message);
+      if (err.name === 'AbortError') {
+        alert('Error: Tiempo de espera agotado. Revisa las credenciales SMTP en Render.');
+      } else {
+        alert('Error: ' + err.message);
+      }
     } finally {
       setLoading(false);
       setProgress('');

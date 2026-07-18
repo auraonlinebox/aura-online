@@ -182,7 +182,9 @@ export async function POST(req: NextRequest) {
       port: parseInt(process.env.SMTP_PORT || '587'),
       secure: false,
       auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-    });
+      connectionTimeout: 10000,
+      family: 4,
+    } as any);
 
     await transporter.sendMail({
       from: `"Ana de AURA" <${process.env.SMTP_USER}>`,
