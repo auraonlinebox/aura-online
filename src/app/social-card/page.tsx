@@ -131,11 +131,11 @@ export default function SocialCardPage() {
             <div id="card-preview" className="w-full max-w-[500px] bg-white overflow-hidden shadow-xl" style={{ aspectRatio: '1/1', borderRadius: 32 }}>
               <div className="h-full flex flex-col">
                 {/* Cabecera AURA */}
-                <div className="bg-white px-8 py-5 flex items-center gap-3 border-b border-gray-100">
-                  <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" className="h-10" />
+                <div className="bg-white px-8 py-6 flex items-center gap-4 border-b border-gray-100">
+                  <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" className="h-14" />
                   <div className="ml-auto text-right">
-                    <div className="text-gray-300 text-[9px] tracking-[2px]">PARA</div>
-                    <div className="text-gray-800 text-sm font-semibold">{businessName || 'tu negocio'}</div>
+                    <div className="text-gray-300 text-[10px] tracking-[2px]">PARA</div>
+                    <div className="text-gray-800 text-base font-semibold">{businessName || 'tu negocio'}</div>
                   </div>
                 </div>
 
