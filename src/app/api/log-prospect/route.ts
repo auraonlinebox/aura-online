@@ -13,10 +13,10 @@ export async function POST(req: NextRequest) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          via: via || 'email',
           timestamp: timestamp || new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid', dateStyle: 'long', timeStyle: 'medium' }),
           businessName: businessName || '',
           businessEmail: businessEmail || '',
-          via: via || 'email',
           reviews: (reviews || []).map((r: any) => `${r.author}: "${r.text}" (${r.rating}★)`).join(' | '),
           slug: `https://aura-online.es/prospect/${slugId}?status=1`,
         }),
