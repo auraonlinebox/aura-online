@@ -56,7 +56,7 @@ export default function NewProspect() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           businessName: businessName.trim(),
-          businessEmail: businessEmail.trim(),
+          businessEmail: businessEmail.trim() || 'demo@example.com',
           reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
           preview: true,
         }),
@@ -80,77 +80,56 @@ export default function NewProspect() {
     }
   };
 
-  const createProspect = async (responsesData: any[], keywordsData?: any) => {
-    const slugRes = await fetch('/api/prospect', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        businessName: businessName.trim(),
-        reviews: reviews.map((r, i) => ({ ...r, rating: Number(r.rating), response: responsesData[i]?.response })),
-        keywords: keywordsData || null,
-      }),
-    });
-    const slugData = await slugRes.json();
-    setSlug(slugData.url);
-    await fetch('/api/log-prospect', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        businessName: businessName.trim(),
-        businessEmail: businessEmail.trim(),
-        reviews: reviews.map(r => ({ author: r.author, text: r.text, rating: r.rating })),
-        slug: slugData.url,
-        via,
-        timestamp: new Date().toISOString(),
-      }),
-    }).catch(() => {});
-  };
-
-  const sendEmail = async () => {
+  const finish = async () => {
     if (!preview) return;
     setLoading(true);
-    setProgress('Enviando email...');
+    setProgress('Guardando...');
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 120000);
-      const res = await fetch('/api/send-demo', {
+      const responsesData = preview.responses;
+
+      // 1. Create prospect in KV
+      const slugRes = await fetch('/api/prospect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: businessName.trim(),
+          reviews: reviews.map((r, i) => ({ ...r, rating: Number(r.rating), response: responsesData[i]?.response })),
+          keywords: preview.keywords || null,
+        }),
+      });
+      const slugData = await slugRes.json();
+      setSlug(slugData.url);
+      setResponses(responsesData);
+
+      // 2. Log to GSheet
+      await fetch('/api/log-prospect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           businessName: businessName.trim(),
           businessEmail: businessEmail.trim(),
-          reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
+          reviews: reviews.map(r => ({ author: r.author, text: r.text, rating: r.rating })),
+          slug: slugData.url,
+          via,
+          timestamp: new Date().toISOString(),
         }),
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Error');
-      }
-      const data = await res.json();
-      setResponses(data.responses || []);
-      await createProspect(data.responses || [], data.keywords);
-      setSent(true);
-    } catch (err: any) {
-      if (err.name === 'AbortError') {
-        alert('Error: Tiempo de espera agotado.');
-      } else {
-        alert('Error: ' + err.message);
-      }
-    } finally {
-      setLoading(false);
-      setProgress('');
-    }
-  };
+      }).catch(() => {});
 
-  const createLinkOnly = async () => {
-    if (!preview) return;
-    setLoading(true);
-    setProgress('Creando enlace...');
-    try {
-      setResponses(preview.responses);
-      await createProspect(preview.responses, preview.keywords);
+      // 3. If via is email and email exists, send email (non-blocking)
+      if (via === 'email' && businessEmail.trim()) {
+        setProgress('Enviando email...');
+        await fetch('/api/send-demo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            businessName: businessName.trim(),
+            businessEmail: businessEmail.trim(),
+            reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
+          }),
+          signal: AbortSignal.timeout(120000),
+        }).catch(() => {});
+      }
+
       setSent(true);
     } catch (err: any) {
       alert('Error: ' + err.message);
@@ -165,7 +144,7 @@ export default function NewProspect() {
       <div className="max-w-3xl mx-auto px-4 py-12">
         <a href="/" className="text-orange-500 text-sm hover:underline">&larr; Volver</a>
         <h1 className="text-3xl font-bold text-gray-900 mt-4 mb-2">Nuevo prospecto</h1>
-        <p className="text-gray-500 mb-8">Introduce los datos del negocio, genera una preview del email y envíalo cuando estés conforme.</p>
+        <p className="text-gray-500 mb-8">Introduce los datos del negocio, genera las respuestas y compártelas.</p>
 
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
@@ -174,7 +153,7 @@ export default function NewProspect() {
               <input type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="Ej: Corto y Cambio" />
             </div>
             <div>
-              <label className="text-xs text-gray-500 font-medium">Email del negocio</label>
+              <label className="text-xs text-gray-500 font-medium">Email (opcional)</label>
               <input type="email" value={businessEmail} onChange={(e) => setBusinessEmail(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="info@negocio.com" />
             </div>
             <div>
@@ -226,7 +205,7 @@ export default function NewProspect() {
 
           {!preview && !sent && (
             <button onClick={generatePreview} disabled={loading} className="w-full py-3 bg-orange-500 text-white font-medium rounded-xl hover:bg-orange-600 transition-all disabled:opacity-50 text-base">
-              {loading ? (progress || 'Generando...') : '🚀 Generar preview del email'}
+              {loading ? (progress || 'Generando...') : '🚀 Generar preview'}
             </button>
           )}
 
@@ -234,7 +213,7 @@ export default function NewProspect() {
             <div className="space-y-3">
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
                 <p className="text-sm text-blue-800 font-medium">✅ Preview generada</p>
-                {businessEmail && (
+                {via === 'email' && businessEmail && (
                   <>
                     <p className="text-xs text-blue-600 mt-1">Asunto: {preview.subject}</p>
                     <p className="text-xs text-blue-600">Para: {businessEmail}</p>
@@ -245,23 +224,13 @@ export default function NewProspect() {
                 <iframe srcDoc={preview.html} className="w-full h-[500px]" title="Preview del email" />
               </div>
               <div className="flex gap-3">
-                {businessEmail ? (
-                  <button
-                    onClick={sendEmail}
-                    disabled={loading}
-                    className="flex-1 py-3 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 transition-all disabled:opacity-50"
-                  >
-                    {loading ? (progress || 'Enviando...') : '📤 Enviar email'}
-                  </button>
-                ) : (
-                  <button
-                    onClick={createLinkOnly}
-                    disabled={loading}
-                    className="flex-1 py-3 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 transition-all disabled:opacity-50"
-                  >
-                    {loading ? (progress || 'Creando...') : '🔗 Crear enlace para compartir'}
-                  </button>
-                )}
+                <button
+                  onClick={finish}
+                  disabled={loading}
+                  className="flex-1 py-3 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 transition-all disabled:opacity-50"
+                >
+                  {loading ? (progress || 'Guardando...') : '✅ Generar respuestas'}
+                </button>
                 <button
                   onClick={generatePreview}
                   disabled={loading}
@@ -270,15 +239,15 @@ export default function NewProspect() {
                   Regenerar
                 </button>
               </div>
-              {!businessEmail && (
-                <p className="text-xs text-gray-400 text-center">Sin email — genera un enlace para compartir por WhatsApp, redes sociales, etc.</p>
-              )}
             </div>
           )}
 
           {sent && (
             <div className="p-4 bg-green-50 border border-green-200 rounded-xl space-y-3">
-              <p className="text-sm text-green-800 font-medium">✅ {businessEmail ? `Email enviado a ${businessEmail}` : 'Enlace creado correctamente'}</p>
+              <p className="text-sm text-green-800 font-medium">
+                ✅ Respuestas generadas para {businessName}
+                {via === 'email' && businessEmail ? ` — email enviado a ${businessEmail}` : ''}
+              </p>
               {slug && responses.length > 0 && (() => {
             const reviewBlocks = responses.map((r, i) =>
               `👤 ${r.author} ${'⭐'.repeat(r.rating)}\n"${r.text}"\n✅ ${r.response}`
