@@ -1,30 +1,45 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const EXAMPLES = [
-  { business: 'Restaurante Casa Blanca', author: 'Laura M.', rating: 5, text: 'Comida espectacular y trato increíble. Volveremos sin duda. El mejor restaurante de la zona.', response: 'Laura, muchísimas gracias por tus palabras. Nos alegra saber que disfrutasteis de la experiencia. Trabajamos cada día para que cada visita sea especial. ¡Os esperamos de nuevo muy pronto!' },
-  { business: 'Taller Mecánico Pérez', author: 'Jorge T.', rating: 5, text: 'Dejé el coche por una revisión y quedó como nuevo. Precio justo y me lo dejaron listo en el día. Muy recomendable.', response: 'Jorge, gracias por confiar en nosotros. Nos alegra que el trabajo fuese de tu agrado y que todo quedase a tu gusto. Somos un taller de toda la vida y nos encanta cuidar los detalles. ¡Un saludo!' },
-  { business: 'Peluquería Carmen', author: 'Marta F.', rating: 5, text: 'Me hicieron un corte y un brushing espectacular. Salí como nueva. El trato increíble, volveré sin duda.', response: 'Marta, nos encanta leerte. Saber que saliste contenta es lo más importante para nosotras. Todo el equipo se esfuerza cada día para que te sientas mimada. ¡Te esperamos pronto!' },
-  { business: 'Hotel Miramar', author: 'Raúl G.', rating: 4, text: 'Habitación limpia, cama cómoda y buen desayuno. La única pega es que el aire acondicionado hacía ruido.', response: 'Raúl, gracias por tu reseña. Nos alegra que disfrutases de tu estancia y del desayuno. Tomamos nota de lo del aire acondicionado, lo revisaremos para que no vuelva a ocurrir. ¡Esperamos verte de nuevo!' },
-  { business: 'Clínica Dental Soriano', author: 'Elena V.', rating: 5, text: 'Muy profesionales y cercanos. Me hicieron un blanqueamiento y el resultado es increíble. Sin dolor y muy rápido.', response: 'Elena, nos alegra muchísimo que estés contenta con el resultado. Nuestro objetivo es que te sientas cómoda desde el primer momento. ¡Gracias por confiar en nosotros!' },
-  { business: 'Cafetería La Central', author: 'David P.', rating: 4, text: 'El mejor café del barrio. Las tostadas enormes y el personal muy simpático. A veces hay cola pero merece la pena.', response: 'David, gracias por tu visita y por tomarte el tiempo de valorarnos. Nos encanta saber que el café y las tostadas fueron de tu agrado. Trabajamos para que la espera merezca la pena. ¡Te esperamos!' },
-  { business: 'Clínica FisioSalud', author: 'Sofía R.', rating: 5, text: 'Llevaba meses con dolor de espalda y en 4 sesiones noté una mejoría increíble. Muy agradecida con todo el equipo.', response: 'Sofía, nos alegra muchísimo que hayas notado mejoría tan pronto. Trabajamos cada día para ayudar a nuestros pacientes a recuperar su bienestar. ¡Gracias por tu confianza!' },
-  { business: 'Lavandería EcoClean', author: 'Antonio L.', rating: 3, text: 'Ropa limpia y bien doblada, pero tardaron un día más de lo prometido. Me avisaron pero igualmente incómodo.', response: 'Antonio, gracias por tu sinceridad. Nos alegra que el servicio fuese correcto, pero lamentamos el retraso. Estamos revisando nuestros procesos para que no vuelva a pasar. Esperamos darte un mejor servicio la próxima vez.' },
-  { business: 'Tienda de Mascotas Patitas', author: 'Cristina B.', rating: 5, text: 'Compré comida para mi perro y me asesoraron genial. Precios buenos y atención excelente. Mi perro alucina con el pienso.', response: 'Cristina, gracias por tu visita. Nos encanta saber que tanto tú como tu perro estáis contentos. Nuestro equipo disfruta aconsejando a cada cliente. ¡Os esperamos a los dos!' },
-  { business: 'Barbería King\'s', author: 'Álvaro M.', rating: 5, text: 'Me arreglaron la barba y el pelo de 10. Ambiente chulo, música guay y te atienden genial. Mi barbería de confianza ya.', response: 'Álvaro, gracias por tu reseña. Nos mola saber que te gusta el ambiente y el trabajo. Ese es el estilo que buscamos. ¡Te esperamos cuando quieras, máquina!' },
+const BASE_EXAMPLES = [
+  { business: 'Restaurante Casa Blanca', author: 'Laura M.', rating: 5, text: 'Comida espectacular y trato increíble. Volveremos sin duda. El mejor restaurante de la zona.', response: '' },
+  { business: 'Taller Mecánico Pérez', author: 'Jorge T.', rating: 5, text: 'Dejé el coche por una revisión y quedó como nuevo. Precio justo y me lo dejaron listo en el día. Muy recomendable.', response: '' },
+  { business: 'Peluquería Carmen', author: 'Marta F.', rating: 5, text: 'Me hicieron un corte y un brushing espectacular. Salí como nueva. El trato increíble, volveré sin duda.', response: '' },
+  { business: 'Hotel Miramar', author: 'Raúl G.', rating: 4, text: 'Habitación limpia, cama cómoda y buen desayuno. La única pega es que el aire acondicionado hacía ruido.', response: '' },
+  { business: 'Clínica Dental Soriano', author: 'Elena V.', rating: 5, text: 'Muy profesionales y cercanos. Me hicieron un blanqueamiento y el resultado es increíble. Sin dolor y muy rápido.', response: '' },
+  { business: 'Cafetería La Central', author: 'David P.', rating: 4, text: 'El mejor café del barrio. Las tostadas enormes y el personal muy simpático. A veces hay cola pero merece la pena.', response: '' },
+  { business: 'Clínica FisioSalud', author: 'Sofía R.', rating: 5, text: 'Llevaba meses con dolor de espalda y en 4 sesiones noté una mejoría increíble. Muy agradecida con todo el equipo.', response: '' },
+  { business: 'Lavandería EcoClean', author: 'Antonio L.', rating: 3, text: 'Ropa limpia y bien doblada, pero tardaron un día más de lo prometido. Me avisaron pero igualmente incómodo.', response: '' },
+  { business: 'Tienda de Mascotas Patitas', author: 'Cristina B.', rating: 5, text: 'Compré comida para mi perro y me asesoraron genial. Precios buenos y atención excelente. Mi perro alucina con el pienso.', response: '' },
+  { business: 'Barbería King\'s', author: 'Álvaro M.', rating: 5, text: 'Me arreglaron la barba y el pelo de 10. Ambiente chulo, música guay y te atienden genial. Mi barbería de confianza ya.', response: '' },
 ];
 
 export default function SocialCardPage() {
-  const [cards, setCards] = useState(EXAMPLES.slice(0, 5));
+  const [examples, setExamples] = useState(BASE_EXAMPLES);
+  const [generating, setGenerating] = useState(true);
+  const [cards, setCards] = useState(BASE_EXAMPLES.slice(0, 5));
   const [activeIndex, setActiveIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
 
-  const displayCards = showAll ? EXAMPLES : cards;
+  useEffect(() => {
+    fetch('/api/generate-examples', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ examples: BASE_EXAMPLES }),
+    }).then(r => r.json()).then(data => {
+      if (data.examples) {
+        setExamples(data.examples);
+        setCards(data.examples.slice(0, showAll ? 10 : 5));
+      }
+    }).catch(() => {}).finally(() => setGenerating(false));
+  }, []);
+
+  const displayCards = showAll ? examples : cards;
 
   const addCard = () => {
     if (displayCards.length >= 10) return;
-    const next = EXAMPLES[displayCards.length];
+    const next = examples[displayCards.length];
     if (next) {
       setCards([...displayCards, next]);
     } else {
@@ -136,6 +151,9 @@ export default function SocialCardPage() {
               </>
             )}
 
+            {generating && (
+              <p className="text-xs text-orange-500 text-center py-2 animate-pulse">Generando respuestas con AURA...</p>
+            )}
             {showAll && (
               <p className="text-sm text-gray-500 text-center py-4">Modo vista — los 10 ejemplos. Haz screenshot desde el móvil o vuelve a "Modo edición" para descargar.</p>
             )}
