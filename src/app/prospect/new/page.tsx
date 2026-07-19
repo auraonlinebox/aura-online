@@ -14,6 +14,7 @@ export default function NewProspect() {
   const [responses, setResponses] = useState<any[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const [copiedText, setCopiedText] = useState(false);
+  const [via, setVia] = useState('email');
 
   const validate = () => {
     const errs: string[] = [];
@@ -97,6 +98,7 @@ export default function NewProspect() {
         businessEmail: businessEmail.trim(),
         reviews: reviews.map(r => ({ author: r.author, text: r.text, rating: r.rating })),
         slug: slugData.url,
+        via,
         timestamp: new Date().toISOString(),
       }),
     }).catch(() => {});
@@ -172,6 +174,16 @@ export default function NewProspect() {
             <div>
               <label className="text-xs text-gray-500 font-medium">Email del negocio</label>
               <input type="email" value={businessEmail} onChange={(e) => setBusinessEmail(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="info@negocio.com" />
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 font-medium">Método de envío</label>
+              <select value={via} onChange={(e) => setVia(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100">
+                <option value="email">Email</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="formulario_contacto">Formulario de contacto</option>
+                <option value="instagram_dm">Instagram DM</option>
+                <option value="otro">Otros</option>
+              </select>
             </div>
           </div>
 

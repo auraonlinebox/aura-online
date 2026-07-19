@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { businessName, businessEmail, reviews, timestamp } = body;
+    const { businessName, businessEmail, reviews, timestamp, via } = body;
     let slug = body.slug || '';
     const slugId = slug.split('/').pop() || slug;
 
@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
           timestamp: timestamp || new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid', dateStyle: 'long', timeStyle: 'medium' }),
           businessName: businessName || '',
           businessEmail: businessEmail || '',
+          via: via || 'email',
           reviews: (reviews || []).map((r: any) => `${r.author}: "${r.text}" (${r.rating}★)`).join(' | '),
           slug: `https://aura-online.es/prospect/${slugId}?status=1`,
         }),
