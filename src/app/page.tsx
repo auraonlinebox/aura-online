@@ -260,7 +260,59 @@ export default function Home() {
                   {i + 1}
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{item.t}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{item.d}</p>
+                <p className="text-sm text-gray-500 leading-relaxed mb-4">{item.d}</p>
+                {i === 4 && (
+                  <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                    <div className="grid grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-xs font-semibold text-emerald-600 mb-3 flex items-center gap-1">
+                          <span>👍</span> Lo que alaban
+                        </p>
+                        <div className="space-y-2.5">
+                          {[
+                            { k: 'Buen trato', v: 8, c: 'bg-emerald-500' },
+                            { k: 'Comida', v: 6, c: 'bg-emerald-400' },
+                            { k: 'Ambiente', v: 4, c: 'bg-emerald-300' },
+                            { k: 'Precio', v: 3, c: 'bg-emerald-200' },
+                          ].map((b) => (
+                            <div key={b.k}>
+                              <div className="flex justify-between text-[11px] mb-0.5">
+                                <span className="text-gray-700 font-medium">{b.k}</span>
+                                <span className="text-gray-400">{b.v}</span>
+                              </div>
+                              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className={`h-full rounded-full ${b.c}`} style={{ width: `${(b.v / 8) * 100}%` }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="border-l border-gray-200 pl-6">
+                        <p className="text-xs font-semibold text-red-500 mb-3 flex items-center gap-1">
+                          <span>👎</span> Lo que critican
+                        </p>
+                        <div className="space-y-2.5">
+                          {[
+                            { k: 'Espera', v: 5, c: 'bg-red-400' },
+                            { k: 'Aparcamiento', v: 3, c: 'bg-red-300' },
+                            { k: 'Ruido', v: 2, c: 'bg-red-200' },
+                          ].map((b) => (
+                            <div key={b.k}>
+                              <div className="flex justify-between text-[11px] mb-0.5">
+                                <span className="text-gray-700 font-medium">{b.k}</span>
+                                <span className="text-gray-400">{b.v}</span>
+                              </div>
+                              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className={`h-full rounded-full ${b.c}`} style={{ width: `${(b.v / 5) * 100}%` }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-gray-400 text-center mt-4 italic">* Datos de ejemplo — AURA genera este análisis con tus reseñas reales</p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
