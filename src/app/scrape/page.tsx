@@ -3,7 +3,9 @@
 import { useState } from 'react';
 
 export default function ScrapePage() {
-  const [query, setQuery] = useState('');
+  const [businessType, setBusinessType] = useState('restaurantes');
+  const [customType, setCustomType] = useState('');
+  const [location, setLocation] = useState('');
   const [minRating, setMinRating] = useState('0');
   const [minReviews, setMinReviews] = useState('0');
   const [maxResults, setMaxResults] = useState('60');
@@ -12,12 +14,14 @@ export default function ScrapePage() {
   const [error, setError] = useState('');
 
   const search = async () => {
-    if (!query.trim()) return;
+    const type = businessType === 'otro' ? customType.trim() : businessType;
+    const q = `${type} ${location.trim()}`.trim();
+    if (!q) return;
     setLoading(true);
     setError('');
     try {
       const params = new URLSearchParams({
-        q: query.trim(),
+        q,
         min_rating: minRating,
         min_reviews: minReviews,
         max: maxResults,
@@ -46,11 +50,13 @@ export default function ScrapePage() {
       r.place_id,
       `https://www.google.com/maps/place/?q=place_id:${r.place_id}`,
     ]);
+    const type = businessType === 'otro' ? customType.trim() : businessType;
+    const label = `${type}-${location.trim() || 'sin-localidad'}`.replace(/\s+/g, '-');
     const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `places-${query.trim().replace(/\s+/g, '-')}.csv`;
+    link.download = `places-${label}.csv`;
     link.click();
   };
 
@@ -64,12 +70,43 @@ export default function ScrapePage() {
 
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 space-y-4">
           <div className="grid sm:grid-cols-4 gap-3">
-            <div className="sm:col-span-2">
-              <label className="text-xs text-gray-500 font-medium">Búsqueda</label>
-              <input type="text" value={query} onChange={e => setQuery(e.target.value)}
-                placeholder="Ej: restaurantes Madrid, peluquerías Barcelona"
+            <div>
+              <label className="text-xs text-gray-500 font-medium">Tipo de negocio</label>
+              <select value={businessType} onChange={e => setBusinessType(e.target.value)}
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:border-orange-300">
+                <option value="restaurantes">Restaurantes</option>
+                <option value="bares">Bares / Cafeterías</option>
+                <option value="peluquerías">Peluquerías / Barberías</option>
+                <option value="talleres mecánicos">Talleres mecánicos</option>
+                <option value="clínicas dentales">Clínicas dentales</option>
+                <option value="fisioterapeutas">Fisioterapeutas</option>
+                <option value="hoteles">Hoteles</option>
+                <option value="veterinarios">Veterinarios</option>
+                <option value="inmobiliarias">Inmobiliarias</option>
+                <option value="academias">Academias / Autoescuelas</option>
+                <option value="tiendas de mascotas">Tiendas de mascotas</option>
+                <option value="lavanderías">Lavanderías</option>
+                <option value="jardinería">Jardinería</option>
+                <option value="limpiezas">Limpiezas</option>
+                <option value="otro">Otros...</option>
+              </select>
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-4 gap-3">
+            <div className={businessType === 'otro' ? 'sm:col-span-2' : 'sm:col-span-3'}>
+              <label className="text-xs text-gray-500 font-medium">Localidad</label>
+              <input type="text" value={location} onChange={e => setLocation(e.target.value)}
+                placeholder="Ej: Madrid, Barcelona, ..."
                 className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300" />
             </div>
+            {businessType === 'otro' && (
+              <div>
+                <label className="text-xs text-gray-500 font-medium">Tipo personalizado</label>
+                <input type="text" value={customType} onChange={e => setCustomType(e.target.value)}
+                  placeholder="Ej: floristerías"
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 bg-yellow-50" />
+              </div>
+            )}
             <div>
               <label className="text-xs text-gray-500 font-medium">Rating mínimo</label>
               <select value={minRating} onChange={e => setMinRating(e.target.value)}
