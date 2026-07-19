@@ -1,0 +1,10 @@
+{"examples":[
+{"business":"Restaurante","author":"María González","rating":5,"text":"Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda."},
+{"business":"Peluquería","author":"Sara Ruiz","rating":4,"text":"Muy contenta con el corte. Patricia entendió exactamente lo que quería y me dio buenos consejos para el mantenimiento en casa. El trato fue súper agradable. Repetiré sin duda."},
+{"business":"Taller mecánico","author":"Javier Ruiz","rating":1,"text":"Dejé el coche por una revisión y tardaron 3 días en decirme qué tenía. El presupuesto final duplicó el inicial y encima no quedó bien arreglado del todo. Mala comunicación."},
+{"business":"Clínica dental","author":"Laura Pérez","rating":5,"text":"La mejor clínica dental en la que he estado. La dra. Martínez es un encanto y me explicó todo el tratamiento paso a paso. Cero dolor y resultados increíbles. 100% recomendable."},
+{"business":"Tienda de ropa","author":"Ana Sánchez","rating":3,"text":"El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena."},
+{"business":"Limpiezas","author":"David López","rating":2,"text":"Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora."},
+{"business":"Fisioterapia","author":"Pedro Gómez","rating":5,"text":"El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy profesional y trato cercano. Lo recomiendo a todos."},
+{"business":"Jardinería","author":"Elena Martín","rating":3,"text":"El jardín quedó bonito pero tardaron casi 3 semanas en venir a hacer el presupuesto. Una vez contratado, el trabajo bien, pero la espera fue excesiva."}
+]}
