@@ -210,7 +210,7 @@ export default function SocialCardPage() {
                 <div className="px-10 py-3 border-t border-gray-100 flex items-center justify-between">
                   <span className="text-[10px] text-gray-400 font-medium tracking-wide">aura-online.es</span>
                   <span className="text-[10px] text-gray-300">⋆</span>
-                  <span className="text-[10px] text-gray-400 font-medium tracking-wide">RESEÑAS · RESPUESTAS · REPUTACIÓN</span>
+                  <span className="text-[10px] text-gray-400 font-medium tracking-wide">RESPUESTAS · KEYWORDS · REPUTACIÓN</span>
                 </div>
               </div>
             </div>

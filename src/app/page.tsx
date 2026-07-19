@@ -250,8 +250,12 @@ export default function Home() {
                 t: 'El algoritmo de Google te favorece',
                 d: 'Google valora los perfiles activos. Cuantas más reseñas respondas, mejor apareces en las búsquedas locales. AURA te ayuda a mantener esa actividad sin esfuerzo.',
               },
+              {
+                t: 'Analiza lo que dicen de ti',
+                d: 'AURA identifica automáticamente las palabras clave que más repiten tus clientes: sabrás qué alaban y qué critican, con gráficos visuales para mejorar tu negocio.',
+              },
             ].map((item, i) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-200 p-6">
+              <div key={i} className={`bg-white rounded-xl border border-gray-200 p-6 ${i === 4 ? 'sm:col-span-2' : ''}`}>
                 <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 font-bold text-sm mb-4">
                   {i + 1}
                 </div>
@@ -483,6 +487,10 @@ export default function Home() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Análisis de palabras clave (qué alaban y qué critican)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
                   <span>Soporte por email</span>
                 </li>
               </ul>
@@ -519,6 +527,10 @@ export default function Home() {
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
                   <span>Hasta 200 reseñas/mes</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Análisis de palabras clave (qué alaban y qué critican)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -559,6 +571,10 @@ export default function Home() {
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
                   <span>Reseñas ilimitadas</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
+                  <span>Análisis de palabras clave (qué alaban y qué critican)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
