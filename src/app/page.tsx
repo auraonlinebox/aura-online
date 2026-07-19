@@ -665,8 +665,8 @@ export default function Home() {
                 </div>
               )}
               <div>
-                <label className="text-xs text-gray-500 font-medium">Teléfono (WhatsApp)</label>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="+34 600 000 000" />
+                <label className="text-xs text-gray-500 font-medium">Teléfono (Opcional)</label>
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-300 focus:ring-2 focus:ring-orange-100" placeholder="+34 600 000 000" />
               </div>
               <label className="flex items-start gap-2 text-xs text-gray-500">
                 <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-0.5" />

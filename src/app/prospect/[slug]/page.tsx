@@ -85,7 +85,7 @@ export default function ProspectPage() {
                 Me dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.
               </p>
               <p style={{ color: '#6b7280', fontSize: 15, lineHeight: 1.6, margin: '0 0 24px' }}>
-                Mirad cómo habríamos respondido a vuestras reseñas más recientes:
+                Ponemos algunas de vuestras reseñas más recientes:
               </p>
               <table width="100%" cellPadding="0" cellSpacing="0">
                 <tbody>{reviewRows}</tbody>

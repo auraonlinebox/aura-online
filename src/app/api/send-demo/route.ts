@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
                 Me dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.
               </p>
               <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 24px;">
-                Mirad cómo habríamos respondido a vuestras reseñas más recientes:
+                Ponemos algunas de vuestras reseñas más recientes:
               </p>
               <table width="100%" cellpadding="0" cellspacing="0">
                 ${reviewRows}
@@ -201,7 +201,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email no configurado (falta RESEND_API_KEY)' }, { status: 500 });
     }
 
-    const text = `Hola, soy Ana de AURA - Reputación Digital\n\nHe visto que gestionáis un volumen altísimo de clientes y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.\n\nMe dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.\n\nMirad cómo habríamos respondido a vuestras reseñas más recientes:\n\n${responses.map(r => `${r.author} (${'★'.repeat(r.rating)}): "${r.text}"\n→ ${r.response}`).join('\n\n')}\n\nProbad AURA gratis: https://aura-online.es\n\nCada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.\n\nTus clientes hablan. AURA responde. Tú ganas.`;
+    const text = `Hola, soy Ana de AURA - Reputación Digital\n\nHe visto que gestionáis un volumen altísimo de clientes y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.\n\nMe dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.\n\nPonemos algunas de vuestras reseñas más recientes:\n\n${responses.map(r => `${r.author} (${'★'.repeat(r.rating)}): "${r.text}"\n→ ${r.response}`).join('\n\n')}\n\nProbad AURA gratis: https://aura-online.es\n\nCada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.\n\nTus clientes hablan. AURA responde. Tú ganas.`;
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);

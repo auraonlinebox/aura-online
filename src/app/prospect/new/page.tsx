@@ -274,7 +274,7 @@ export default function NewProspect() {
               `👋 Hola, soy Ana de AURA - Reputación Digital\n\n` +
               `He visto que gestionáis un volumen altísimo de clientes en ${businessName} y que muchos se toman la molestia de dejaros una reseña. ¡Eso es señal de que hacéis un gran trabajo! 🎯\n\n` +
               `Me dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga extra para vosotros.\n\n` +
-              `📋 Mirad cómo habríamos respondido a vuestras reseñas más recientes:\n\n${reviewBlocks}\n\n` +
+              `📋 Ponemos algunas de vuestras reseñas más recientes:\n\n${reviewBlocks}\n\n` +
               `💡 ¿Por qué elegir AURA?\n` +
               `1️⃣ Responder rápido sube tu estrella — los negocios que responden en menos de 24h mejoran su valoración media hasta un 0.3★\n` +
               `2️⃣ El 89% de los clientes lee las respuestas — una respuesta profesional convierte a un indeciso en cliente\n` +
