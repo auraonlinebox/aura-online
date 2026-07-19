@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 export default function ScrapePage() {
   const [query, setQuery] = useState('');
-  const [minRating, setMinRating] = useState('3');
-  const [minReviews, setMinReviews] = useState('10');
+  const [minRating, setMinRating] = useState('0');
+  const [minReviews, setMinReviews] = useState('0');
   const [maxResults, setMaxResults] = useState('60');
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ export default function ScrapePage() {
 
   const downloadCsv = () => {
     if (!results.length) return;
-    const headers = ['Nombre', 'Dirección', 'Rating', 'Reseñas', 'Tipo', 'Place ID'];
+    const headers = ['Nombre', 'Dirección', 'Rating', 'Reseñas', 'Tipo', 'Place ID', 'Enlace'];
     const rows = results.map(r => [
       `"${(r.name || '').replace(/"/g, '""')}"`,
       `"${(r.address || '').replace(/"/g, '""')}"`,
@@ -44,6 +44,7 @@ export default function ScrapePage() {
       r.reviews,
       `"${(r.types || '').replace(/"/g, '""')}"`,
       r.place_id,
+      `https://www.google.com/maps/place/?q=place_id:${r.place_id}`,
     ]);
     const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -59,6 +60,7 @@ export default function ScrapePage() {
         <a href="/" className="text-orange-500 text-sm hover:underline">&larr; Volver</a>
         <h1 className="text-3xl font-bold text-gray-900 mt-4 mb-2">Buscar negocios en Google Maps</h1>
         <p className="text-gray-500 mb-8">Encuentra negocios por tipo y localización, filtra por valoración y reseñas, exporta a CSV.</p>
+        <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-6">Google limita a ~60 resultados por búsqueda. Para más resultados, busca por distrito o zona (ej: "restaurantes Madrid centro", "restaurantes Madrid norte").</p>
 
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 space-y-4">
           <div className="grid sm:grid-cols-4 gap-3">
@@ -120,6 +122,7 @@ export default function ScrapePage() {
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Rating</th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Reseñas</th>
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Tipo</th>
+                    <th className="text-center px-4 py-3 font-medium text-gray-600">Mapa</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -134,6 +137,9 @@ export default function ScrapePage() {
                       </td>
                       <td className="px-4 py-3 text-center text-gray-600">{r.reviews}</td>
                       <td className="px-4 py-3 text-gray-400 text-xs max-w-[200px] truncate">{r.types}</td>
+                      <td className="px-4 py-3 text-center">
+                        <a href={`https://www.google.com/maps/place/?q=place_id:${r.place_id}`} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:text-orange-600 text-xs font-medium">Ver</a>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
