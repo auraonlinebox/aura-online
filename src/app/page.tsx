@@ -373,7 +373,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 1 semana',
                 review: 'El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena.',
-                response: 'Hola Ana, gracias por compartir tu opinión. Lamentamos la espera, intentamos que el servicio sea fluido aunque en ocasiones se complica. Revisamos constantemente nuestras tarifas para mantener la calidad que valoras. Te esperamos pronto.',
+                response: 'Gracias por compartir tu opinión, Ana. Lamentamos la espera, intentamos que el servicio sea fluido aunque en ocasiones se complica. Revisamos constantemente nuestras tarifas para mantener la calidad que valoras. Te esperamos pronto.',
                 label: 'Tienda de ropa',
               },
               {
@@ -382,7 +382,7 @@ export default function Home() {
                 stars: 2,
                 date: 'hace 2 días',
                 review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.',
-                response: 'Hola David, sentimos que la falta de puntualidad empañara el servicio. Es inaceptable no haber avisado y estamos revisando nuestros protocolos para que no vuelva a ocurrir. Nos gustaría recuperar tu confianza en una próxima ocasión.',
+                response: 'Sentimos que la falta de puntualidad empañara el servicio, David. Es inaceptable no haber avisado y estamos revisando nuestros protocolos para que no vuelva a ocurrir. Nos gustaría recuperar tu confianza en una próxima ocasión.',
                 label: 'Limpiezas',
               },
               {
@@ -391,7 +391,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 1 día',
                 review: 'El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy profesional y trato cercano. Lo recomiendo a todos.',
-                response: 'Hola Pedro, gracias por compartir tu experiencia. Nos alegra enormemente que tres sesiones hayan sido suficientes para que el dolor desapareciera. Trabajamos para ofrecer el mejor tratamiento y nos hace felices haberlo conseguido contigo.',
+                response: 'Nos alegra enormemente que tres sesiones hayan sido suficientes, Pedro. Trabajamos para ofrecer el mejor tratamiento y hace feliz saber que lo hemos conseguido. Gracias por tu confianza y recomendación.',
                 label: 'Fisioterapia',
               },
               {
@@ -400,7 +400,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 4 días',
                 review: 'El jardín quedó bonito pero tardaron casi 3 semanas en venir a hacer el presupuesto. Una vez contratado, el trabajo bien, pero la espera fue excesiva.',
-                response: 'Hola Elena, gracias por tu sinceridad. Lamentamos la demora en el presupuesto, no estuvimos a la altura en ese primer contacto. Nos alegra que el resultado final te gustara. Tomamos nota para agilizar los tiempos de respuesta.',
+                response: 'Agradecemos tu sinceridad, Elena. Lamentamos la demora en el presupuesto, no estuvimos a la altura en ese primer contacto. Nos alegra que el resultado final te gustara. Tomamos nota para agilizar los tiempos de respuesta.',
                 label: 'Jardinería',
               },
             ].map((r, i) => (
