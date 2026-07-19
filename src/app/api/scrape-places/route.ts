@@ -20,39 +20,47 @@ export async function GET(req: NextRequest) {
     let nextPageToken: string | null = null;
 
     do {
-      const url = new URL('https://maps.googleapis.com/maps/api/place/textsearch/json');
-      if (!nextPageToken) {
-        url.searchParams.set('query', query);
-        url.searchParams.set('language', 'es');
-        url.searchParams.set('region', 'es');
-      } else {
-        url.searchParams.set('pagetoken', nextPageToken);
+      const body: any = {
+        textQuery: query,
+        languageCode: 'es',
+        regionCode: 'es',
+      };
+      if (nextPageToken) {
+        body.pageToken = nextPageToken;
       }
-      url.searchParams.set('key', apiKey);
 
-      const res = await fetch(url.toString());
+      const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': apiKey,
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.types,places.id,nextPageToken',
+        },
+        body: JSON.stringify(body),
+      });
+
       const data = await res.json();
 
-      if (data.error_message) {
-        return NextResponse.json({ error: data.error_message, status: data.status }, { status: 400 });
+      if (data.error) {
+        return NextResponse.json({ error: data.error.message || JSON.stringify(data.error), status: data.error.code }, { status: 400 });
       }
 
-      for (const place of data.results || []) {
+      for (const place of data.places || []) {
         const rating = place.rating || 0;
-        const reviews = place.user_ratings_total || 0;
+        const reviews = place.userRatingCount || 0;
         if (rating >= minRating && reviews >= minReviews) {
           places.push({
-            name: place.name,
-            address: place.formatted_address,
+            name: place.displayName?.text || '',
+            address: place.formattedAddress || '',
             rating,
             reviews,
-            place_id: place.place_id,
+            place_id: place.id,
             types: (place.types || []).filter((t: string) => !t.startsWith('_')).slice(0, 3).join(', '),
           });
         }
       }
 
-      nextPageToken = data.next_page_token || null;
+      nextPageToken = data.nextPageToken || null;
       if (nextPageToken) {
         await new Promise(r => setTimeout(r, 2000));
       }
