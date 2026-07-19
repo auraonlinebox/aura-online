@@ -686,7 +686,7 @@ export default function Home() {
           <a href="/" className="inline-block mb-3">
             <img src="/logo.svg?v=2" alt="AURA" className="h-10 mx-auto" />
           </a>
-          <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a> | <a href="mailto:auraonlinebox@gmail.com" className="hover:text-gray-600 underline">Contacto</a> | <a href="/privacidad" className="hover:text-gray-600 underline">Privacidad</a></p>
+          <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a> | <a href="mailto:auraonlinebox@gmail.com" className="hover:text-gray-600 underline">Contacto</a> | <a href="/aviso-legal" className="hover:text-gray-600 underline">Aviso Legal</a> | <a href="/privacidad" className="hover:text-gray-600 underline">Privacidad</a></p>
         </div>
       </footer>
     </div>
