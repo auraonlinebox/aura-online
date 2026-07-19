@@ -461,11 +461,11 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-1">Básico</h3>
                 <p className="text-xs text-gray-400 mb-4">Para negocios que empiezan a cuidar su reputación</p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-4xl font-black text-gray-900">29,90</span>
+                  <span className="text-4xl font-black text-gray-900">19,90</span>
                   <span className="text-gray-400 text-sm">€/mes</span>
                 </div>
                 <div className="text-xs text-emerald-600 font-medium">
-                  <span className="text-gray-400 line-through">358,80 €/año</span> 299 €/año (17 % dto.)
+                  <span className="text-gray-400 line-through">238,80 €/año</span> 199 €/año (17 % dto.)
                 </div>
               </div>
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
@@ -500,11 +500,11 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-1">Pro</h3>
                 <p className="text-xs text-gray-400 mb-4">Para negocios con volumen que quieren diferenciarse</p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-4xl font-black text-gray-900">39,90</span>
+                  <span className="text-4xl font-black text-gray-900">29,90</span>
                   <span className="text-gray-400 text-sm">€/mes</span>
                 </div>
                 <div className="text-xs text-emerald-600 font-medium">
-                  <span className="text-gray-400 line-through">478,80 €/año</span> 399 €/año (17 % dto.)
+                  <span className="text-gray-400 line-through">358,80 €/año</span> 299 €/año (17 % dto.)
                 </div>
               </div>
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">
@@ -536,11 +536,11 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-1">Premium</h3>
                 <p className="text-xs text-gray-400 mb-4">Para quienes quieren despreocuparse por completo</p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-4xl font-black text-gray-900">49,90</span>
+                  <span className="text-4xl font-black text-gray-900">39,90</span>
                   <span className="text-gray-400 text-sm">€/mes</span>
                 </div>
                 <div className="text-xs text-emerald-600 font-medium">
-                  <span className="text-gray-400 line-through">598,80 €/año</span> 499 €/año (17 % dto.)
+                  <span className="text-gray-400 line-through">478,80 €/año</span> 399 €/año (17 % dto.)
                 </div>
               </div>
               <ul className="space-y-3 text-sm text-gray-600 mb-8 flex-1">

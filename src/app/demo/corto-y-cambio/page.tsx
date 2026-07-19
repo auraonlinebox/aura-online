@@ -54,8 +54,8 @@ const PLANS = [
   {
     id: 'basico',
     name: 'Básico',
-    price: '29,90',
-    annual: '299 €/año',
+    price: '19,90',
+    annual: '199 €/año',
     desc: 'Para negocios que empiezan',
     features: ['Respuestas personalizadas', 'Revisión manual', 'Hasta 100 reseñas/mes', 'Soporte email'],
     popular: false,
@@ -63,8 +63,8 @@ const PLANS = [
   {
     id: 'pro',
     name: 'Pro',
-    price: '39,90',
-    annual: '399 €/año',
+    price: '29,90',
+    annual: '299 €/año',
     desc: 'Para negocios con volumen',
     features: ['AURA personalizada', 'Revisión manual', 'Hasta 500 reseñas/mes', 'Soporte prioritario'],
     popular: true,
@@ -72,8 +72,8 @@ const PLANS = [
   {
     id: 'premium',
     name: 'Premium',
-    price: '49,90',
-    annual: '499 €/año',
+    price: '39,90',
+    annual: '399 €/año',
     desc: 'Para despreocuparse',
     features: ['AURA personalizada', 'Gestión delegada', 'Reseñas ilimitadas', 'Soporte 24/7'],
     popular: false,
