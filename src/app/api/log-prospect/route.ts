@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          timestamp: timestamp || new Date().toISOString(),
+          timestamp: timestamp || new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid', dateStyle: 'long', timeStyle: 'medium' }),
           businessName: businessName || '',
           businessEmail: businessEmail || '',
           reviews: (reviews || []).map((r: any) => `${r.author}: "${r.text}" (${r.rating}★)`).join(' | '),
