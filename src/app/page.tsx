@@ -479,7 +479,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>Hasta 100 reseñas/mes</span>
+                  <span>Hasta 50 reseñas/mes</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
@@ -518,7 +518,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
-                  <span>Hasta 500 reseñas/mes</span>
+                  <span>Hasta 200 reseñas/mes</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 shrink-0 mt-0.5">✓</span>
