@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { useParams } from 'next/navigation';
 
 export default function ProspectPage() {
@@ -9,7 +9,7 @@ export default function ProspectPage() {
   const [readAt, setReadAt] = useState<number | null>(null);
   const [showStatus, setShowStatus] = useState(false);
 
-  const [data, setData] = useState<{ businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[] } | null>(null);
+  const [data, setData] = useState<{ businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[]; keywords?: any } | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -35,6 +35,66 @@ export default function ProspectPage() {
       <div className="animate-spin w-8 h-8 border-4 border-orange-300 border-t-orange-500 rounded-full" />
     </div>
   );
+
+  function renderChart(keywords: any): ReactNode {
+    if (!keywords?.positive?.length && !keywords?.negative?.length) return null;
+    const allCounts = [
+      ...(keywords.positive || []).map((k: any) => k.count),
+      ...(keywords.negative || []).map((k: any) => k.count)
+    ];
+    const maxCount = Math.max(1, ...allCounts);
+    const Bar = ({ kw, count, color, align }: { kw: string; count: number; color: string; align: 'left' | 'right' }) => {
+      const pct = Math.round((count / maxCount) * 100);
+      return (
+        <div style={{ marginBottom: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 1, flexDirection: align === 'right' ? 'row-reverse' : 'row' }}>
+            <span style={{ fontSize: 12, color: '#374151', whiteSpace: 'nowrap' }}>{kw}</span>
+            <span style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600 }}>{count}</span>
+          </div>
+          <div style={{ background: '#f3f4f6', borderRadius: 4, height: 12, overflow: 'hidden', direction: align === 'right' ? 'rtl' : 'ltr' }}>
+            <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: 4 }} />
+          </div>
+        </div>
+      );
+    };
+    const negKeywords = keywords.negative || [];
+    return (
+      <table width="100%" cellPadding="0" cellSpacing="0" style={{ margin: '24px 0' }}>
+        <tbody>
+          <tr>
+            <td style={{ padding: 20, background: '#f9fafb', borderRadius: 12, border: '1px solid #e5e7eb' }}>
+              <h3 style={{ color: '#1f2937', fontSize: 16, fontWeight: 700, margin: '0 0 2px' }}>
+                Lo que dicen de vosotros{' '}
+                <span style={{ fontWeight: 400, fontSize: 13, color: '#9ca3af' }}>(gráfico de ejemplo)</span>
+              </h3>
+              <p style={{ color: '#6b7280', fontSize: 13, lineHeight: 1.5, margin: '0 0 16px' }}>
+                Así analiza AURA las palabras clave que más se repiten en vuestras reseñas:
+              </p>
+              <table width="100%" cellPadding="0" cellSpacing="0">
+                <tbody>
+                  <tr>
+                    <td width="50%" style={{ verticalAlign: 'top', paddingRight: 8 }}>
+                      <p style={{ color: '#059669', fontSize: 13, fontWeight: 600, margin: '0 0 8px' }}>Lo que alaban</p>
+                      {(keywords.positive || []).map((k: any, i: number) => <Bar key={i} kw={k.keyword} count={k.count} color="#10b981" align="left" />)}
+                    </td>
+                    {negKeywords.length > 0 && (
+                      <td width="50%" style={{ verticalAlign: 'top', paddingLeft: 8, borderLeft: '1px solid #e5e7eb' }}>
+                        <p style={{ color: '#dc2626', fontSize: 13, fontWeight: 600, margin: '0 0 8px' }}>Lo que critican</p>
+                        {negKeywords.map((k: any, i: number) => <Bar key={i} kw={k.keyword} count={k.count} color="#ef4444" align="right" />)}
+                      </td>
+                    )}
+                  </tr>
+                </tbody>
+              </table>
+              <p style={{ color: '#9ca3af', fontSize: 11, fontStyle: 'italic', margin: '12px 0 0', textAlign: 'center' }}>
+                * Datos analizados automáticamente por AURA a partir de vuestras reseñas
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
 
   if (notFound) return (
     <div className="min-h-screen flex items-center justify-center bg-[#f5f5f5]">
@@ -94,6 +154,8 @@ export default function ProspectPage() {
               <table width="100%" cellPadding="0" cellSpacing="0">
                 <tbody>{reviewRows}</tbody>
               </table>
+
+              {data?.keywords ? renderChart(data.keywords) : null}
 
               <div style={{ textAlign: 'center', margin: '32px 0' }}>
                 <a href="https://aura-online.es" style={{ display: 'inline-block', padding: '14px 36px', background: '#f97316', color: '#fff', textDecoration: 'none', borderRadius: 12, fontSize: 16, fontWeight: 600 }}>

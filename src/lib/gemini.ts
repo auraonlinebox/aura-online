@@ -1,3 +1,36 @@
+export async function analyzeKeywords(reviews: { text: string }[]): Promise<{ positive: { keyword: string; count: number }[]; negative: { keyword: string; count: number }[] }> {
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  if (!apiKey) throw new Error('GOOGLE_AI_API_KEY not configured');
+
+  const texts = reviews.map(r => r.text).join('\n---\n');
+
+  const prompt = `Analiza estas reseñas de Google y extrae palabras clave temáticas (máximo 5 positivas y 5 negativas) con el número de veces que se mencionan en las reseñas.
+
+Responde SOLO con JSON en este formato exacto, sin explicaciones ni código:
+{"positive":[{"keyword":"...","count":N}],"negative":[{"keyword":"...","count":N}]}
+
+Reseñas:
+${texts}`;
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+    }
+  );
+
+  if (!res.ok) throw new Error(`Gemini keyword error: ${res.status}`);
+
+  const data = await res.json();
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) throw new Error('Gemini no generó keywords');
+
+  const cleaned = text.replace(/```json\s*/gi, '').replace(/```\s*$/g, '').trim();
+  return JSON.parse(cleaned);
+}
+
 export async function generateResponse(review: string, author: string, businessName?: string): Promise<string> {
   const apiKey = process.env.GOOGLE_AI_API_KEY;
   if (!apiKey) throw new Error('GOOGLE_AI_API_KEY not configured');

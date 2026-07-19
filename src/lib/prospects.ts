@@ -1,6 +1,6 @@
 const STORAGE_URL = process.env.PROSPECT_STORAGE_URL || 'https://aura-storage.entretorres1x2.workers.dev';
 
-export async function saveProspect(data: { businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[] }): Promise<string> {
+export async function saveProspect(data: { businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[]; keywords?: any }): Promise<string> {
   const res = await fetch(`${STORAGE_URL}/prospect`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10,7 +10,7 @@ export async function saveProspect(data: { businessName: string; reviews: { auth
   return json.slug || '';
 }
 
-export async function getProspect(slug: string): Promise<{ businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[]; createdAt: number } | null> {
+export async function getProspect(slug: string): Promise<{ businessName: string; reviews: { author: string; text: string; rating: number; response?: string }[]; keywords?: any; createdAt: number } | null> {
   const res = await fetch(`${STORAGE_URL}/prospect/${slug}`);
   if (!res.ok) return null;
   return res.json();

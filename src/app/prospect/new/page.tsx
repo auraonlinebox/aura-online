@@ -8,7 +8,7 @@ export default function NewProspect() {
   const [reviews, setReviews] = useState([{ author: '', text: '', rating: 5 }]);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState('');
-  const [preview, setPreview] = useState<{ html: string; responses: any[]; subject: string } | null>(null);
+  const [preview, setPreview] = useState<{ html: string; responses: any[]; keywords: any; subject: string } | null>(null);
   const [sent, setSent] = useState(false);
   const [slug, setSlug] = useState('');
   const [responses, setResponses] = useState<any[]>([]);
@@ -69,6 +69,7 @@ export default function NewProspect() {
       setPreview({
         html: data.html,
         responses: data.responses,
+        keywords: data.keywords,
         subject: `${businessName.trim()} — tus reseñas de Google respondidas con AURA`,
       });
     } catch (err: any) {
@@ -79,13 +80,14 @@ export default function NewProspect() {
     }
   };
 
-  const createProspect = async (responsesData: any[]) => {
+  const createProspect = async (responsesData: any[], keywordsData?: any) => {
     const slugRes = await fetch('/api/prospect', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         businessName: businessName.trim(),
         reviews: reviews.map((r, i) => ({ ...r, rating: Number(r.rating), response: responsesData[i]?.response })),
+        keywords: keywordsData || null,
       }),
     });
     const slugData = await slugRes.json();
@@ -128,7 +130,7 @@ export default function NewProspect() {
       }
       const data = await res.json();
       setResponses(data.responses || []);
-      await createProspect(data.responses || []);
+      await createProspect(data.responses || [], data.keywords);
       setSent(true);
     } catch (err: any) {
       if (err.name === 'AbortError') {
@@ -148,7 +150,7 @@ export default function NewProspect() {
     setProgress('Creando enlace...');
     try {
       setResponses(preview.responses);
-      await createProspect(preview.responses);
+      await createProspect(preview.responses, preview.keywords);
       setSent(true);
     } catch (err: any) {
       alert('Error: ' + err.message);

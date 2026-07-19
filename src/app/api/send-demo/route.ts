@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateResponse } from '@/lib/gemini';
+import { generateResponse, analyzeKeywords } from '@/lib/gemini';
+import { renderKeywordChartHtml } from '@/lib/keyword-chart';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,16 +11,22 @@ export async function POST(req: NextRequest) {
 
     let responses: { author: string; text: string; rating: number; response: string }[] = preResponses;
     let html = preHtml;
+    let keywords: any = null;
 
     if (!responses) {
       responses = [];
-      for (const r of reviews) {
-        const response = await generateResponse(r.text, r.author, businessName);
-        responses.push({ ...r, response });
+      const [genResponses, genKeywords] = await Promise.all([
+        Promise.all(reviews.map((r: any) => generateResponse(r.text, r.author, businessName))),
+        analyzeKeywords(reviews).catch(() => null),
+      ]);
+      for (let i = 0; i < reviews.length; i++) {
+        responses.push({ ...reviews[i], response: genResponses[i] });
       }
+      keywords = genKeywords;
     }
 
     if (!html) {
+      const keywordChartHtml = keywords ? renderKeywordChartHtml(keywords) : '';
       const reviewRows = responses.map((r) => `
       <tr>
         <td style="padding: 16px 0; border-bottom: 1px solid #eee;">
@@ -56,6 +63,7 @@ export async function POST(req: NextRequest) {
               <table width="100%" cellpadding="0" cellspacing="0">
                 ${reviewRows}
               </table>
+              ${keywordChartHtml}
               <div style="text-align:center; margin:32px 0;">
                 <a href="https://aura-online.es" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
                   Probar AURA gratis
@@ -179,7 +187,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (preview) {
-      return NextResponse.json({ preview: true, responses, html });
+      return NextResponse.json({ preview: true, responses, html, keywords });
     }
 
     const relayUrl = process.env.EMAIL_RELAY_URL;
@@ -193,7 +201,7 @@ export async function POST(req: NextRequest) {
       });
       const relayData = await relayRes.json();
       if (!relayRes.ok) throw new Error(relayData.error || 'Error en relay');
-      return NextResponse.json({ success: true, responses });
+      return NextResponse.json({ success: true, responses, keywords });
     }
 
     const apiKey = process.env.RESEND_API_KEY?.trim();
@@ -225,7 +233,7 @@ export async function POST(req: NextRequest) {
     const data = await res.json();
     if (!res.ok) throw new Error(data?.error?.message || data?.message || 'Error al enviar email');
 
-    return NextResponse.json({ success: true, responses });
+    return NextResponse.json({ success: true, responses, keywords });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Error al enviar' }, { status: 500 });
   }
