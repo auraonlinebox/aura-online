@@ -17,8 +17,7 @@ export async function POST(req: NextRequest) {
           businessName: businessName || '',
           businessEmail: businessEmail || '',
           reviews: (reviews || []).map((r: any) => `${r.author}: "${r.text}" (${r.rating}★)`).join(' | '),
-          slug: slugId,
-          link: `https://aura-online.es/prospect/${slugId}?status=1`,
+          slug: `https://aura-online.es/prospect/${slugId}?status=1`,
         }),
       }).catch(() => {});
     }
