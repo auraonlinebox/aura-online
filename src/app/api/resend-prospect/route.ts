@@ -4,18 +4,19 @@ const STORAGE_URL = process.env.PROSPECT_STORAGE_URL || 'https://aura-storage.en
 
 export async function POST(req: NextRequest) {
   try {
-    const { slug } = await req.json();
+    const { slug, email } = await req.json();
     if (!slug) return NextResponse.json({ error: 'Falta slug' }, { status: 400 });
 
     const raw = await fetch(`${STORAGE_URL}/prospect/${slug}`).then(r => r.json()).catch(() => null);
-    if (!raw?.businessEmail) return NextResponse.json({ error: 'Sin email guardado' }, { status: 400 });
+    const businessEmail = email || raw?.businessEmail;
+    if (!businessEmail) return NextResponse.json({ error: 'Sin email guardado' }, { status: 400 });
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://aura-online-y1k8.onrender.com'}/api/send-demo`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         businessName: raw.businessName,
-        businessEmail: raw.businessEmail,
+        businessEmail,
         reviews: raw.reviews?.map((r: any) => ({ author: r.author, text: r.text, rating: r.rating })) || [],
         slug,
       }),
