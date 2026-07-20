@@ -131,8 +131,10 @@ export async function POST(req: NextRequest) {
     `;
     }
 
+    const subject = `${businessName}, ¿quién responde vuestras reseñas de Google?`;
+
     if (preview) {
-      return NextResponse.json({ preview: true, responses, html, keywords });
+      return NextResponse.json({ preview: true, responses, html, keywords, subject });
     }
 
     const relayUrl = process.env.EMAIL_RELAY_URL;
@@ -153,7 +155,6 @@ export async function POST(req: NextRequest) {
     const plainProspectLink = hasValidSlug ? `https://aura-online.es/prospect/${slug}` : 'https://aura-online.es';
     const firstText = responses[0]?.text || '';
     const text = `${businessName},\n\nSoy Ana de AURA. Os he preparado las respuestas para vuestras reseñas de Google.\n\nEjemplo de una de vuestras reseñas:\n"${firstText}"\n\n✅ Si respondéis: sube la valoración, Google os posiciona mejor, el cliente vuelve.\n❌ Si no respondéis: las críticas sin respuesta ahuyentan clientes.\n\nVer las respuestas completas: ${plainProspectLink}`;
-    const subject = `${businessName}, ¿quién responde vuestras reseñas de Google?`;
 
     const gmailUser = process.env.GMAIL_USER?.trim();
     const gmailPass = process.env.GMAIL_APP_PASSWORD?.trim();

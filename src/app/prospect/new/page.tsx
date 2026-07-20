@@ -84,7 +84,7 @@ export default function NewProspect() {
         html: data.html,
         responses: data.responses,
         keywords: data.keywords,
-        subject: `${businessName.trim()} — tus reseñas de Google respondidas con AURA`,
+        subject: data.subject || `${businessName.trim()} — tus reseñas de Google respondidas con AURA`,
       });
     } catch (err: any) {
       alert('Error: ' + err.message);
