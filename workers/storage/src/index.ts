@@ -55,6 +55,10 @@ export default {
       const data: ProspectData = await req.json();
       const slug = crypto.randomUUID().slice(0, 8);
       await env.aura_prospects.put(slug, JSON.stringify({ ...data, readAt: 0 }));
+      const listRaw = await env.aura_prospects.get('_prospect-list').catch(() => null);
+      const list = listRaw ? JSON.parse(listRaw) : [];
+      list.unshift({ slug, businessName: data.businessName, createdAt: data.createdAt || Date.now() });
+      await env.aura_prospects.put('_prospect-list', JSON.stringify(list.slice(0, 200)));
       return new Response(JSON.stringify({ slug, id: slug }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
@@ -94,6 +98,22 @@ export default {
       events.push({ ...event, receivedAt: Date.now() });
       await env.aura_prospects.put(key, JSON.stringify(events));
       return new Response(JSON.stringify({ ok: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
+    if (req.method === 'GET' && url.pathname === '/prospects') {
+      const listRaw = await env.aura_prospects.get('_prospect-list').catch(() => null);
+      const list = listRaw ? JSON.parse(listRaw) : [];
+      const enriched = [];
+      for (const item of list.slice(0, 100)) {
+        const raw = await env.aura_prospects.get(item.slug).catch(() => null);
+        if (raw) {
+          const data = JSON.parse(raw);
+          enriched.push({ ...item, readAt: data.readAt || 0 });
+        } else {
+          enriched.push(item);
+        }
+      }
+      return new Response(JSON.stringify({ prospects: enriched }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
     if (req.method === 'GET' && url.pathname === '/email-events') {
