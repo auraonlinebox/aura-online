@@ -1,11 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function NewProspect() {
   const [businessName, setBusinessName] = useState('');
   const [businessEmail, setBusinessEmail] = useState('');
   const [reviews, setReviews] = useState([{ author: '', text: '', rating: 5 }]);
+  const [editingSlug, setEditingSlug] = useState('');
+  const [loadingData, setLoadingData] = useState(true);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('edit');
+    if (!slug) { setLoadingData(false); return; }
+    setEditingSlug(slug);
+    fetch(`/api/prospect?slug=${slug}`).then(r => r.json()).then(data => {
+      if (data.businessName) setBusinessName(data.businessName);
+      if (data.businessEmail) setBusinessEmail(data.businessEmail);
+      if (data.reviews?.length) setReviews(data.reviews.map((r: any) => ({ author: r.author, text: r.text, rating: r.rating || 5 })));
+    }).catch(() => {}).finally(() => setLoadingData(false));
+  }, []);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState('');
   const [preview, setPreview] = useState<{ html: string; responses: any[]; keywords: any; subject: string } | null>(null);
@@ -86,23 +100,42 @@ export default function NewProspect() {
     setProgress('Guardando...');
     try {
       const responsesData = preview.responses;
+      const currentSlug = editingSlug;
+      const STORAGE_URL = 'https://aura-storage.entretorres1x2.workers.dev';
+      let finalSlug = currentSlug;
 
-      // 1. Create prospect in KV
-      const slugRes = await fetch('/api/prospect', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          businessName: businessName.trim(),
-          businessEmail: businessEmail.trim() || undefined,
-          reviews: reviews.map((r, i) => ({ ...r, rating: Number(r.rating), response: responsesData[i]?.response })),
-          keywords: preview.keywords || null,
-        }),
-      });
-      const slugData = await slugRes.json();
-      setSlug(slugData.url);
+      if (currentSlug) {
+        // Update existing prospect + reset readAt
+        await fetch(`${STORAGE_URL}/prospect/${currentSlug}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            businessName: businessName.trim(),
+            businessEmail: businessEmail.trim() || undefined,
+            reviews: reviews.map((r, i) => ({ ...r, rating: Number(r.rating), response: responsesData[i]?.response })),
+            keywords: preview.keywords || null,
+            readAt: 0,
+          }),
+        });
+      } else {
+        // Create new prospect
+        const slugRes = await fetch('/api/prospect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            businessName: businessName.trim(),
+            businessEmail: businessEmail.trim() || undefined,
+            reviews: reviews.map((r, i) => ({ ...r, rating: Number(r.rating), response: responsesData[i]?.response })),
+            keywords: preview.keywords || null,
+          }),
+        });
+        const slugData = await slugRes.json();
+        finalSlug = slugData.url?.replace('/prospect/', '');
+        setSlug(slugData.url);
+      }
       setResponses(responsesData);
 
-      // 2. Log to GSheet
+      // Log to GSheet
       await fetch('/api/log-prospect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -110,14 +143,14 @@ export default function NewProspect() {
           businessName: businessName.trim(),
           businessEmail: businessEmail.trim(),
           reviews: reviews.map(r => ({ author: r.author, text: r.text, rating: r.rating })),
-          slug: slugData.url,
-          via,
+          slug: `/prospect/${finalSlug}`,
+          via: currentSlug ? 'reenvio' : via,
           timestamp: new Date().toISOString(),
         }),
       }).catch(() => {});
 
-      // 3. If via is email and email exists, send email (non-blocking)
-      if (via === 'email' && businessEmail.trim()) {
+      // Send email if via is email and email exists
+      if ((via === 'email' || currentSlug) && businessEmail.trim()) {
         setProgress('Enviando email...');
         await fetch('/api/send-demo', {
           method: 'POST',
@@ -126,7 +159,7 @@ export default function NewProspect() {
             businessName: businessName.trim(),
             businessEmail: businessEmail.trim(),
             reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
-            slug: slugData.url?.replace('/prospect/', ''),
+            slug: finalSlug,
           }),
           signal: AbortSignal.timeout(120000),
         }).catch(() => {});
@@ -144,11 +177,11 @@ export default function NewProspect() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <a href="/" className="text-orange-500 text-sm hover:underline">&larr; Volver</a>
-        <h1 className="text-3xl font-bold text-gray-900 mt-4 mb-2">Nuevo prospecto</h1>
-        <p className="text-gray-500 mb-8">Introduce los datos del negocio, genera las respuestas y compártelas.</p>
-
-        <div className="space-y-4">
+        <a href="/tracking" className="text-orange-500 text-sm hover:underline">&larr; Volver al tracking</a>
+        <h1 className="text-3xl font-bold text-gray-900 mt-4 mb-2">{editingSlug ? 'Reenviar prospecto' : 'Nuevo prospecto'}</h1>
+        <p className="text-gray-500 mb-8">{editingSlug ? 'Revisa los datos, corrige lo que falte y reenvía el email.' : 'Introduce los datos del negocio, genera las respuestas y compártelas.'}</p>
+        {loadingData && <p className="text-gray-400 text-center py-8">Cargando datos del prospecto...</p>}
+        {!loadingData && <><div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-gray-500 font-medium">Nombre del negocio</label>
@@ -295,7 +328,7 @@ export default function NewProspect() {
           })()}
             </div>
           )}
-        </div>
+        </div></>}
       </div>
     </div>
   );

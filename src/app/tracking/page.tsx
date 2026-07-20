@@ -14,32 +14,10 @@ export default function TrackingPage() {
   const [sortCol, setSortCol] = useState<string>('createdAt');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [deleting, setDeleting] = useState<string | null>(null);
-  const [resending, setResending] = useState<string | null>(null);
 
-  const resendProspect = async (slug: string, existingEmail?: string) => {
-    let email = existingEmail || '';
-    if (!email) {
-      email = prompt('Email del prospecto (no está guardado en KV):') || '';
-      if (!email) return;
-      await fetch(`${STORAGE_URL}/prospect/${slug}/email`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      }).catch(() => {});
-    }
-    setResending(slug);
-    // Reset read tracking so it shows "Sin abrir" again
-    await fetch(`${STORAGE_URL}/prospect/${slug}/reset-read`, { method: 'PUT' }).catch(() => {});
-    setProspects(p => p.map(x => x.slug === slug ? { ...x, readAt: 0 } : x));
-    const res = await fetch('/api/resend-prospect', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, email }),
-    });
-    const data = await res.json();
-    setResending(null);
-    if (res.ok) alert('Email reenviado correctamente');
-    else alert('Error: ' + (data.error || 'desconocido'));
+
+  const resendProspect = (slug: string) => {
+    window.location.href = `/prospect/new?edit=${slug}`;
   };
 
   const removeProspect = async (slug: string) => {
@@ -194,8 +172,8 @@ export default function TrackingPage() {
                         <a href={`/prospect/${p.slug}?status=1`} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:text-orange-600 text-xs font-medium">Ver</a>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <button onClick={() => resendProspect(p.slug, p.businessEmail)} disabled={resending === p.slug} className="text-xs font-medium text-blue-500 hover:text-blue-600 disabled:opacity-30">
-                          {resending === p.slug ? '...' : 'Reenviar'}
+                        <button onClick={() => resendProspect(p.slug)} className="text-xs font-medium text-blue-500 hover:text-blue-600">
+                          Reenviar
                         </button>
                       </td>
                       <td className="px-4 py-3 text-center">
