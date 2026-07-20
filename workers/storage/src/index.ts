@@ -116,6 +116,17 @@ export default {
       return new Response(JSON.stringify({ migrated: items.length }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
+    if (req.method === 'PUT' && url.pathname.match(/^\/prospect\/[^\/]+\/resent$/)) {
+      const slug = url.pathname.split('/')[2];
+      const { timestamp } = await req.json();
+      const raw = await env.aura_prospects.get(slug).catch(() => null);
+      if (!raw) return new Response(JSON.stringify({ error: 'not_found' }), { status: 404, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+      const data = JSON.parse(raw);
+      data.lastResentAt = timestamp || Date.now();
+      await env.aura_prospects.put(slug, JSON.stringify(data));
+      return new Response(JSON.stringify({ updated: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
     if (req.method === 'PUT' && url.pathname.match(/^\/prospect\/[^\/]+\/reset-read$/)) {
       const slug = url.pathname.split('/')[2];
       const raw = await env.aura_prospects.get(slug).catch(() => null);
@@ -159,7 +170,7 @@ export default {
         const raw = await env.aura_prospects.get(item.slug).catch(() => null);
         if (raw) {
           const data = JSON.parse(raw);
-          enriched.push({ ...item, readAt: data.readAt || 0, businessEmail: data.businessEmail || '' });
+          enriched.push({ ...item, readAt: data.readAt || 0, businessEmail: data.businessEmail || '', lastResentAt: data.lastResentAt || 0 });
           cleanIndex.push(item);
         } else {
           changed = true; // skip deleted prospects

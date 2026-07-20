@@ -151,7 +151,7 @@ export default function TrackingPage() {
                     <Th col="createdAt" align="right">Enviado</Th>
                     <Th col="readAt" align="right">Leído</Th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Link</th>
-                    <th className="text-center px-4 py-3 font-medium text-gray-600">Email</th>
+                    <th className="text-center px-4 py-3 font-medium text-gray-600">Reenviado</th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600 w-10"></th>
                   </tr>
                 </thead>
@@ -171,6 +171,7 @@ export default function TrackingPage() {
                       <td className="px-4 py-3 text-center">
                         <a href={`/prospect/${p.slug}?status=1`} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:text-orange-600 text-xs font-medium">Ver</a>
                       </td>
+                      <td className="px-4 py-3 text-center text-gray-400 text-xs">{p.lastResentAt > 0 ? new Date(p.lastResentAt).toLocaleString('es-ES') : '—'}</td>
                       <td className="px-4 py-3 text-center">
                         <button onClick={() => resendProspect(p.slug)} className="text-xs font-medium text-blue-500 hover:text-blue-600">
                           Reenviar

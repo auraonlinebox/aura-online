@@ -135,19 +135,28 @@ export default function NewProspect() {
       }
       setResponses(responsesData);
 
-      // Log to GSheet
-      await fetch('/api/log-prospect', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          businessName: businessName.trim(),
-          businessEmail: businessEmail.trim(),
-          reviews: reviews.map(r => ({ author: r.author, text: r.text, rating: r.rating })),
-          slug: `/prospect/${finalSlug}`,
-          via: currentSlug ? 'reenvio' : via,
-          timestamp: new Date().toISOString(),
-        }),
-      }).catch(() => {});
+      if (currentSlug) {
+        // Re-send: update lastResentAt in KV, skip GSheet (no duplicates)
+        await fetch(`${STORAGE_URL}/prospect/${currentSlug}/resent`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ timestamp: Date.now() }),
+        }).catch(() => {});
+      } else {
+        // New prospect: log to GSheet
+        await fetch('/api/log-prospect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            businessName: businessName.trim(),
+            businessEmail: businessEmail.trim(),
+            reviews: reviews.map(r => ({ author: r.author, text: r.text, rating: r.rating })),
+            slug: `/prospect/${finalSlug}`,
+            via,
+            timestamp: new Date().toISOString(),
+          }),
+        }).catch(() => {});
+      }
 
       // Send email if via is email and email exists
       if ((via === 'email' || currentSlug) && businessEmail.trim()) {
