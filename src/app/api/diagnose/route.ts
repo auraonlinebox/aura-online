@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server';
-import dns from 'dns';
-dns.setDefaultResultOrder('ipv4first');
+import { promises as dns } from 'dns';
+
+async function resolveSmtpHost(): Promise<string> {
+  try {
+    const addrs = await dns.resolve4('smtp.gmail.com');
+    return addrs[0];
+  } catch {
+    return 'smtp.gmail.com';
+  }
+}
 
 export async function GET() {
   const resendKey = process.env.RESEND_API_KEY;
@@ -47,12 +55,14 @@ export async function GET() {
   if (gmailUser && gmailPass) {
     try {
       const nodemailer = require('nodemailer');
+      const gmailHost = await resolveSmtpHost();
       const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: gmailHost,
         port: 587,
         secure: false,
         auth: { user: gmailUser.trim(), pass: gmailPass.trim().replace(/ /g, '') },
         connectionTimeout: 10000,
+        tls: { servername: 'smtp.gmail.com' },
       });
       await transporter.verify();
       result.gmail_smtp = 'OK (connection verified)';

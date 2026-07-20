@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateResponse, analyzeKeywords } from '@/lib/gemini';
 import nodemailer from 'nodemailer';
-import dns from 'dns';
-dns.setDefaultResultOrder('ipv4first');
+import { promises as dns } from 'dns';
+
+async function resolveSmtpHost(): Promise<string> {
+  try {
+    const addrs = await dns.resolve4('smtp.gmail.com');
+    return addrs[0];
+  } catch {
+    return 'smtp.gmail.com';
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -160,12 +168,14 @@ export async function POST(req: NextRequest) {
     const gmailPass = process.env.GMAIL_APP_PASSWORD?.trim().replace(/ /g, '');
 
     if (gmailUser && gmailPass) {
+      const gmailHost = await resolveSmtpHost();
       const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: gmailHost,
         port: 587,
         secure: false,
         auth: { user: gmailUser, pass: gmailPass.replace(/ /g, '') },
         connectionTimeout: 10000,
+        tls: { servername: 'smtp.gmail.com' },
       });
       await transporter.sendMail({
         from: `"Ana de AURA" <${gmailUser}>`,
