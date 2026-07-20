@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
     if (!raw.businessName || !raw.reviews?.length) return NextResponse.json({ error: 'Datos del prospecto incompletos' }, { status: 400 });
     const businessEmail = email || raw.businessEmail;
     if (!businessEmail) return NextResponse.json({ error: 'Sin email guardado' }, { status: 400 });
+    const reviews = (raw.reviews || []).map((r: any) => ({ author: r.author || 'Cliente', text: r.text || '', rating: Number(r.rating) || 5 }));
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://aura-online-y1k8.onrender.com'}/api/send-demo`, {
       method: 'POST',
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         businessName: raw.businessName,
         businessEmail,
-        reviews: raw.reviews?.map((r: any) => ({ author: r.author, text: r.text, rating: r.rating })) || [],
+        reviews,
         slug,
       }),
     });
