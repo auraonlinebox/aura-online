@@ -130,7 +130,7 @@ export default function NewProspect() {
           }),
         });
         const slugData = await slugRes.json();
-        finalSlug = slugData.url?.replace('/prospect/', '');
+        finalSlug = slugData.slug;
         setSlug(slugData.url);
       }
       setResponses(responsesData);
