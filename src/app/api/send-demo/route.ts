@@ -131,7 +131,7 @@ export async function POST(req: NextRequest) {
     `;
     }
 
-    const subject = `${businessName}, ¿quién responde vuestras reseñas de Google?`;
+    const subject = `${businessName}, ¿Quién responde vuestras reseñas de Google?`;
 
     if (preview) {
       return NextResponse.json({ preview: true, responses, html, keywords, subject });
