@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateResponse, analyzeKeywords } from '@/lib/gemini';
-import { renderKeywordChartHtml } from '@/lib/keyword-chart';
 import nodemailer from 'nodemailer';
 
 export async function POST(req: NextRequest) {
@@ -27,9 +26,9 @@ export async function POST(req: NextRequest) {
     }
 
     if (!html) {
-      const keywordChartHtml = keywords ? renderKeywordChartHtml(keywords) : '';
-
       const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
+      const firstReview = responses[0];
+      const reviewStars = firstReview ? '★'.repeat(firstReview.rating) + '☆'.repeat(5 - firstReview.rating) : '';
 
       html = `
       <!DOCTYPE html>
@@ -44,13 +43,21 @@ export async function POST(req: NextRequest) {
           </tr>
           <tr>
             <td style="padding:0 24px;">
-              <table width="100%" cellpadding="0" cellspacing="0">
+              <p style="color:#1f2937; font-size:18px; font-weight:600; margin:0 0 16px;">Hola, soy Ana de AURA</p>
+              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 20px;">
+                Os he preparado las respuestas para vuestras reseñas de Google, pero antes quería deciros una cosa.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff7ed; border-radius:12px;">
                 <tr>
-                  <td style="background:#fff7ed; border-radius:12px; padding:20px;">
-                    <p style="color:#1f2937; font-size:16px; font-weight:600; margin:0 0 8px;">${businessName}, esto son 2 minutos</p>
-                    <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">
-                      Hemos preparado respuestas para algunas de vuestras <strong>RESEÑAS REALES DE GOOGLE</strong> más recientes.
-                    </p>
+                  <td style="padding:16px 20px;">
+                    <p style="color:#1f2937; font-size:13px; font-weight:600; margin:0 0 6px; text-transform:uppercase; letter-spacing:0.5px;">ÚLTIMA RESEÑA REAL</p>
+                    <p style="color:#f59e0b; font-size:13px; margin:0 0 6px;">${reviewStars}</p>
+                    <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">${firstReview?.author || 'Cliente'}</p>
+                    <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0; font-style:italic;">"${firstReview?.text || ''}"</p>
                   </td>
                 </tr>
               </table>
@@ -58,12 +65,48 @@ export async function POST(req: NextRequest) {
           </tr>
           <tr>
             <td style="padding:24px 24px 0;">
-              ${keywordChartHtml}
-              <div style="text-align:center; margin:28px 0 0;">
-                <a href="${prospectLink}?status=1" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
-                  Ver respuestas
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:0 0 8px;">
+                    <p style="color:#1f2937; font-size:13px; font-weight:600; margin:0 0 10px; text-transform:uppercase; letter-spacing:0.5px;">RESPONDER vs NO RESPONDER</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0 0 8px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="8" style="background:#10b981; border-radius:4px 0 0 4px;"></td>
+                        <td style="padding:10px 14px; background:#f0fdf4;">
+                          <p style="color:#065f46; font-size:14px; font-weight:600; margin:0 0 2px;">✅ Si respondes</p>
+                          <p style="color:#065f46; font-size:13px; margin:0; line-height:1.4;">Subes tu valoración media, el cliente se siente valorado y Google te posiciona mejor.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0 0 16px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="8" style="background:#ef4444; border-radius:4px 0 0 4px;"></td>
+                        <td style="padding:10px 14px; background:#fef2f2;">
+                          <p style="color:#991b1b; font-size:14px; font-weight:600; margin:0 0 2px;">❌ Si no respondes</p>
+                          <p style="color:#991b1b; font-size:13px; margin:0; line-height:1.4;">Una crítica sin respuesta ahuyenta clientes. El 89% lee las respuestas antes de elegir.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 24px;">
+              <div style="text-align:center; margin:0 0 0;">
+                <a href="${prospectLink}" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
+                  Ver respuestas y análisis completo
                 </a>
-                <p style="color:#9ca3af; font-size:13px; margin:10px 0 0;">Sin compromiso. Sin tarjeta.</p>
+                <p style="color:#9ca3af; font-size:13px; margin:10px 0 0;">Sin compromiso. 7 días gratis.</p>
               </div>
             </td>
           </tr>
@@ -73,7 +116,7 @@ export async function POST(req: NextRequest) {
                 <tr>
                   <td style="text-align:center; padding:20px; background:#f9fafb; border-radius:12px;">
                     <p style="color:#6b7280; font-size:13px; line-height:1.5; margin:0;">
-                      Si prefieres que no te escriba más, responde a este email con "Baja" y te elimino.
+                      Si prefieres que no te escriba más, responde a este email con "Baja".
                     </p>
                     <img src="https://aura-online.es/api/track-open?slug=${slug || ''}&ts=${Date.now()}" width="1" height="1" alt="" style="display:none;" />
                   </td>
@@ -106,8 +149,9 @@ export async function POST(req: NextRequest) {
     }
 
     const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
-    const text = `${businessName},\n\nHemos preparado respuestas para algunas de vuestras RESEÑAS REALES DE GOOGLE más recientes.\n\n${prospectLink}\n\nSin compromiso.`;
-    const subject = `${businessName} – ¿quién responde vuestras reseñas?`;
+    const firstText = responses[0]?.text || '';
+    const text = `${businessName},\n\nSoy Ana de AURA. Os he preparado las respuestas para vuestras reseñas de Google.\n\nEjemplo de una de vuestras reseñas:\n"${firstText}"\n\n✅ Si respondéis: sube la valoración, Google os posiciona mejor, el cliente vuelve.\n❌ Si no respondéis: las críticas sin respuesta ahuyentan clientes.\n\nVer las respuestas completas: ${prospectLink}\n\nSin compromiso. 7 días gratis.`;
+    const subject = `${businessName}, tengo algo que veréis`;
 
     const gmailUser = process.env.GMAIL_USER?.trim();
     const gmailPass = process.env.GMAIL_APP_PASSWORD?.trim();
