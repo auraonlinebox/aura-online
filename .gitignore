@@ -3,3 +3,4 @@
 .env.local
 *.tsbuildinfo
 next-env.d.ts
+workers/storage/.wrangler/
