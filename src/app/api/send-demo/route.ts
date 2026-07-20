@@ -26,7 +26,8 @@ export async function POST(req: NextRequest) {
     }
 
     if (!html) {
-      const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
+      const hasValidSlug = slug && /^[a-z0-9-]+$/i.test(String(slug));
+      const prospectLink = hasValidSlug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
       const firstReview = responses[0];
       const reviewStars = firstReview ? '★'.repeat(firstReview.rating) + '☆'.repeat(5 - firstReview.rating) : '';
 
@@ -107,7 +108,6 @@ export async function POST(req: NextRequest) {
                 <a href="${prospectLink}" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
                   Ver respuestas y análisis completo
                 </a>
-                <p style="color:#9ca3af; font-size:13px; margin:10px 0 0;">Sin compromiso. 7 días gratis.</p>
               </div>
             </td>
           </tr>
@@ -149,9 +149,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, responses, keywords });
     }
 
-    const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
+    const hasValidSlug = slug && /^[a-z0-9-]+$/i.test(String(slug));
+    const plainProspectLink = hasValidSlug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
     const firstText = responses[0]?.text || '';
-    const text = `${businessName},\n\nSoy Ana de AURA. Os he preparado las respuestas para vuestras reseñas de Google.\n\nEjemplo de una de vuestras reseñas:\n"${firstText}"\n\n✅ Si respondéis: sube la valoración, Google os posiciona mejor, el cliente vuelve.\n❌ Si no respondéis: las críticas sin respuesta ahuyentan clientes.\n\nVer las respuestas completas: ${prospectLink}\n\nSin compromiso. 7 días gratis.`;
+    const text = `${businessName},\n\nSoy Ana de AURA. Os he preparado las respuestas para vuestras reseñas de Google.\n\nEjemplo de una de vuestras reseñas:\n"${firstText}"\n\n✅ Si respondéis: sube la valoración, Google os posiciona mejor, el cliente vuelve.\n❌ Si no respondéis: las críticas sin respuesta ahuyentan clientes.\n\nVer las respuestas completas: ${plainProspectLink}`;
     const subject = `${businessName}, ¿quién responde vuestras reseñas de Google?`;
 
     const gmailUser = process.env.GMAIL_USER?.trim();
