@@ -54,10 +54,11 @@ export async function POST(req: NextRequest) {
               <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff7ed; border-radius:12px;">
                 <tr>
                   <td style="padding:16px 20px;">
-                    <p style="color:#1f2937; font-size:13px; font-weight:600; margin:0 0 6px; text-transform:uppercase; letter-spacing:0.5px;">RESEÑA DE GOOGLE RECIENTE <a href="https://www.google.com/maps/search/${encodeURIComponent(businessName)}" target="_blank" rel="noopener noreferrer" style="color:#f97316; text-decoration:underline; font-weight:600;">(comprobar)</a></p>
+                    <p style="color:#1f2937; font-size:13px; font-weight:600; margin:0 0 6px; text-transform:uppercase; letter-spacing:0.5px;">RESEÑA DE GOOGLE RECIENTE</p>
                     <p style="color:#f59e0b; font-size:13px; margin:0 0 6px;">${reviewStars}</p>
                     <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">${firstReview?.author || 'Cliente'}</p>
                     <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0; font-style:italic;">"${firstReview?.text || ''}"</p>
+                    <div style="background:#fff7ed; border-left:3px solid #f97316; padding:12px 16px; border-radius:8px; margin-top:12px; color:#1f2937; font-size:14px;">${firstReview?.response || ''}</div>
                   </td>
                 </tr>
               </table>
