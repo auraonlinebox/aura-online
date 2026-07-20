@@ -14,6 +14,20 @@ export default function TrackingPage() {
   const [sortCol, setSortCol] = useState<string>('createdAt');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [resending, setResending] = useState<string | null>(null);
+
+  const resendProspect = async (slug: string) => {
+    setResending(slug);
+    const res = await fetch('/api/resend-prospect', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug }),
+    });
+    const data = await res.json();
+    setResending(null);
+    if (res.ok) alert('Email reenviado correctamente');
+    else alert('Error: ' + (data.error || 'desconocido'));
+  };
 
   const removeProspect = async (slug: string) => {
     if (!confirm('¿Eliminar este prospecto del tracking?')) return;
@@ -146,6 +160,7 @@ export default function TrackingPage() {
                     <Th col="createdAt" align="right">Enviado</Th>
                     <Th col="readAt" align="right">Leído</Th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Link</th>
+                    <th className="text-center px-4 py-3 font-medium text-gray-600">Email</th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600 w-10"></th>
                   </tr>
                 </thead>
@@ -166,6 +181,11 @@ export default function TrackingPage() {
                         <a href={`/prospect/${p.slug}?status=1`} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:text-orange-600 text-xs font-medium">Ver</a>
                       </td>
                       <td className="px-4 py-3 text-center">
+                        <button onClick={() => resendProspect(p.slug)} disabled={resending === p.slug} className="text-xs font-medium text-blue-500 hover:text-blue-600 disabled:opacity-30">
+                          {resending === p.slug ? '...' : 'Reenviar'}
+                        </button>
+                      </td>
+                      <td className="px-4 py-3 text-center">
                         <button onClick={() => removeProspect(p.slug)} disabled={deleting === p.slug} className="text-red-300 hover:text-red-500 transition-all text-xs disabled:opacity-30">
                           {deleting === p.slug ? '...' : '✕'}
                         </button>
@@ -173,7 +193,7 @@ export default function TrackingPage() {
                     </tr>
                   ))}
                   {prospects.length === 0 && (
-                    <tr><td colSpan={6} className="text-center py-8 text-gray-400">No hay prospectos aún</td></tr>
+                    <tr><td colSpan={7} className="text-center py-8 text-gray-400">No hay prospectos aún</td></tr>
                   )}
                 </tbody>
               </table>

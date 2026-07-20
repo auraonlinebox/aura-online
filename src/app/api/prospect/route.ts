@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { saveProspect, getProspect } from '@/lib/prospects';
 
 export async function POST(req: NextRequest) {
-  const { businessName, reviews, keywords } = await req.json();
+  const { businessName, businessEmail, reviews, keywords } = await req.json();
   if (!businessName || !reviews?.length) {
     return NextResponse.json({ error: 'Faltan datos' }, { status: 400 });
   }
-  const slug = await saveProspect({ businessName, reviews, keywords });
+  const slug = await saveProspect({ businessName, businessEmail, reviews, keywords });
   return NextResponse.json({ slug, url: `https://aura-online.es/prospect/${slug}` });
 }
 

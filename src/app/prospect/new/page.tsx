@@ -93,6 +93,7 @@ export default function NewProspect() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           businessName: businessName.trim(),
+          businessEmail: businessEmail.trim() || undefined,
           reviews: reviews.map((r, i) => ({ ...r, rating: Number(r.rating), response: responsesData[i]?.response })),
           keywords: preview.keywords || null,
         }),

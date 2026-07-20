@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateResponse, analyzeKeywords } from '@/lib/gemini';
 import { renderKeywordChartHtml } from '@/lib/keyword-chart';
+import nodemailer from 'nodemailer';
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,15 +28,6 @@ export async function POST(req: NextRequest) {
 
     if (!html) {
       const keywordChartHtml = keywords ? renderKeywordChartHtml(keywords) : '';
-      const reviewRows = responses.map((r) => `
-      <tr>
-        <td style="padding: 16px 0; border-bottom: 1px solid #eee;">
-          <div style="margin-bottom: 8px;"><strong style="color:#1f2937;">${r.author}</strong> <span style="color:#f59e0b;">${'★'.repeat(r.rating)}</span></div>
-          <div style="color:#6b7280; font-size:14px; margin-bottom:12px; font-style:italic;">"${r.text}"</div>
-          <div style="background:#fff7ed; border-left:3px solid #f97316; padding:12px 16px; border-radius:8px; color:#1f2937; font-size:14px;">${r.response}</div>
-        </td>
-      </tr>
-    `).join('');
 
       const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
 
@@ -57,7 +49,7 @@ export async function POST(req: NextRequest) {
                   <td style="background:#fff7ed; border-radius:12px; padding:20px;">
                     <p style="color:#1f2937; font-size:16px; font-weight:600; margin:0 0 8px;">${businessName}, esto son 2 minutos</p>
                     <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">
-                      Hemos preparado respuestas personalizadas para ${responses.length} reseñas de Google. Las tienes abajo. El análisis de palabras clave también. Todo en vuestra página privada.
+                      Hemos preparado respuestas para algunas de vuestras <strong>RESEÑAS REALES DE GOOGLE</strong> más recientes.
                     </p>
                   </td>
                 </tr>
@@ -66,13 +58,10 @@ export async function POST(req: NextRequest) {
           </tr>
           <tr>
             <td style="padding:24px 24px 0;">
-              <table width="100%" cellpadding="0" cellspacing="0">
-                ${reviewRows}
-              </table>
               ${keywordChartHtml}
               <div style="text-align:center; margin:28px 0 0;">
                 <a href="${prospectLink}?status=1" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
-                  Ver todas las respuestas
+                  Ver respuestas
                 </a>
                 <p style="color:#9ca3af; font-size:13px; margin:10px 0 0;">Sin compromiso. Sin tarjeta.</p>
               </div>
@@ -115,37 +104,51 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, responses, keywords });
     }
 
-    const apiKey = process.env.RESEND_API_KEY?.trim();
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Email no configurado (falta RESEND_API_KEY)' }, { status: 500 });
+    const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
+    const text = `${businessName},\n\nHemos preparado respuestas para algunas de vuestras RESEÑAS REALES DE GOOGLE más recientes.\n\n${prospectLink}\n\nSin compromiso.`;
+    const subject = `${businessName} – ¿quién responde vuestras reseñas?`;
+
+    const gmailUser = process.env.GMAIL_USER?.trim();
+    const gmailPass = process.env.GMAIL_APP_PASSWORD?.trim();
+
+    if (gmailUser && gmailPass) {
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: { user: gmailUser, pass: gmailPass },
+      });
+      await transporter.sendMail({
+        from: `"Ana de AURA" <${gmailUser}>`,
+        to: businessEmail,
+        subject,
+        html,
+        text,
+      });
+      return NextResponse.json({ success: true, responses, keywords });
     }
 
-    const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
-    const text = `${businessName},\n\nHemos preparado respuestas personalizadas para ${responses.length} reseñas de Google.\n\n${responses.map(r => `"${r.text}" → ${r.response}`).join('\n\n')}\n\nVer todas: ${prospectLink}\n\nSin compromiso.`;
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    // Fallback to Resend
+    const apiKey = process.env.RESEND_API_KEY?.trim();
+    if (!apiKey) {
+      return NextResponse.json({ error: 'Email no configurado (sin Gmail ni Resend)' }, { status: 500 });
+    }
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: 'Ana de AURA <hello@aura-online.es>',
         to: [businessEmail],
-        subject: `${businessName} – ¿quién responde las reseñas?`,
+        subject,
         html,
         text,
         open_tracking: true,
       }),
-      signal: controller.signal,
     });
-    clearTimeout(timeout);
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.error?.message || data?.message || 'Error al enviar email');
-
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data?.error?.message || data?.message || 'Error al enviar email');
+    }
     return NextResponse.json({ success: true, responses, keywords });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Error al enviar' }, { status: 500 });
