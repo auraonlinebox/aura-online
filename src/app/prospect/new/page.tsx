@@ -125,6 +125,7 @@ export default function NewProspect() {
             businessName: businessName.trim(),
             businessEmail: businessEmail.trim(),
             reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
+            slug: slugData.url?.replace('/prospect/', ''),
           }),
           signal: AbortSignal.timeout(120000),
         }).catch(() => {});

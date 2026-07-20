@@ -4,7 +4,7 @@ import { renderKeywordChartHtml } from '@/lib/keyword-chart';
 
 export async function POST(req: NextRequest) {
   try {
-    const { businessName, businessEmail, reviews, preview, html: preHtml, responses: preResponses } = await req.json();
+    const { businessName, businessEmail, reviews, preview, html: preHtml, responses: preResponses, slug } = await req.json();
     if (!businessName || !businessEmail || !reviews?.length) {
       return NextResponse.json({ error: 'Faltan datos' }, { status: 400 });
     }
@@ -37,6 +37,8 @@ export async function POST(req: NextRequest) {
       </tr>
     `).join('');
 
+      const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
+
       html = `
       <!DOCTYPE html>
       <html>
@@ -49,135 +51,44 @@ export async function POST(req: NextRequest) {
             </td>
           </tr>
           <tr>
-            <td style="padding:32px 24px; text-align:justify;">
-              <p style="color:#1f2937; font-size:18px; font-weight:600; margin:0 0 12px;">Hola, soy Ana de AURA - Reputación Digital</p>
-              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 20px; text-align:justify;">
-                He visto que gestionáis un volumen altísimo de clientes y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.
-              </p>
-              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 20px; text-align:justify;">
-                Me dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.
-              </p>
-              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 24px;">
-                Ponemos algunas de vuestras reseñas más recientes:
-              </p>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                ${reviewRows}
-              </table>
-              ${keywordChartHtml}
-              <div style="text-align:center; margin:32px 0;">
-                <a href="https://aura-online.es" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
-                  Probar AURA gratis
-                </a>
-                <p style="color:#9ca3af; font-size:13px; margin:12px 0 0;">Sin compromiso. Sin tarjeta.</p>
-              </div>
-
-              <hr style="border:none; border-top:1px solid #e5e7eb; margin:32px 0;" />
-
-              <h2 style="color:#1f2937; font-size:22px; text-align:center; margin:0 0 8px;">¿Por qué elegir AURA?</h2>
-              <p style="color:#6b7280; font-size:15px; line-height:1.6; margin:0 0 28px; text-align:center; font-style:italic;">
-                Responder reseñas no es un lujo. Es lo que separa un negocio con buena imagen de uno que pasa desapercibido.
-              </p>
-
+            <td style="padding:0 24px;">
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="padding:0 0 20px;">
-                    <table width="100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td width="32" style="vertical-align:top; text-align:center;">
-                          <span style="display:inline-block; width:28px; height:28px; background:#f97316; color:#fff; border-radius:50%; font-size:14px; font-weight:700; line-height:28px; text-align:center;">1</span>
-                        </td>
-                        <td style="padding-left:12px;">
-                          <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">Responder rápido sube tu estrella</p>
-                          <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">Los negocios que responden a sus reseñas en menos de 24 horas mejoran su valoración media hasta un 0.3★. Google premia la actividad y posiciona mejor a quienes interactúan con sus clientes.</p>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:0 0 20px;">
-                    <table width="100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td width="32" style="vertical-align:top; text-align:center;">
-                          <span style="display:inline-block; width:28px; height:28px; background:#f97316; color:#fff; border-radius:50%; font-size:14px; font-weight:700; line-height:28px; text-align:center;">2</span>
-                        </td>
-                        <td style="padding-left:12px;">
-                          <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">El 89% de los clientes lee las respuestas</p>
-                          <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">Antes de elegir un negocio, la mayoría mira cómo el dueño responde. Una respuesta profesional y humana convierte a un indeciso en cliente. El silencio, en cambio, se interpreta como desinterés.</p>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:0 0 20px;">
-                    <table width="100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td width="32" style="vertical-align:top; text-align:center;">
-                          <span style="display:inline-block; width:28px; height:28px; background:#f97316; color:#fff; border-radius:50%; font-size:14px; font-weight:700; line-height:28px; text-align:center;">3</span>
-                        </td>
-                        <td style="padding-left:12px;">
-                          <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">Sin AURA, pierdes clientes cada día</p>
-                          <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">Cada reseña sin responder es una oportunidad perdida. Una crítica mal gestionada aleja a cientos de clientes potenciales. Una respuesta a tiempo puede recuperar a ese cliente y convencer a otros.</p>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:0 0 20px;">
-                    <table width="100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td width="32" style="vertical-align:top; text-align:center;">
-                          <span style="display:inline-block; width:28px; height:28px; background:#f97316; color:#fff; border-radius:50%; font-size:14px; font-weight:700; line-height:28px; text-align:center;">4</span>
-                        </td>
-                        <td style="padding-left:12px;">
-                          <p style="color:#1f2937; font-size:15px; font-weight:600; margin:0 0 4px;">El algoritmo de Google te favorece</p>
-                          <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">Google valora los perfiles activos. Cuantas más reseñas respondas, mejor apareces en las búsquedas locales. AURA te ayuda a mantener esa actividad sin esfuerzo.</p>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
-                <tr>
-                  <td style="background:#fff7ed; border-left:3px solid #f97316; padding:16px 20px; border-radius:8px;">
-                    <p style="color:#1f2937; font-size:15px; line-height:1.6; margin:0; font-style:italic;">
-                      Cada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.
+                  <td style="background:#fff7ed; border-radius:12px; padding:20px;">
+                    <p style="color:#1f2937; font-size:16px; font-weight:600; margin:0 0 8px;">${businessName}, esto son 2 minutos</p>
+                    <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0;">
+                      Hemos preparado respuestas personalizadas para ${responses.length} reseñas de Google. Las tienes abajo. El análisis de palabras clave también. Todo en vuestra página privada.
                     </p>
-                  </td>
-                </tr>
-              </table>
-
-              <p style="color:#1f2937; font-size:16px; text-align:center; font-weight:600; margin:24px 0 20px;">
-                Tus clientes hablan. AURA responde. Tú ganas.
-              </p>
-
-              <div style="text-align:center; margin:0 0 8px;">
-                <a href="https://aura-online.es" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
-                  Probar AURA gratis
-                </a>
-                <p style="color:#9ca3af; font-size:13px; margin:12px 0 0;">Sin compromiso. Sin tarjeta.</p>
-              </div>
-
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0 0;">
-                <tr>
-                  <td style="text-align:center;">
-                    <p style="color:#6b7280; font-size:14px; line-height:1.5; margin:0 0 12px;">Si tenéis cualquier duda o consulta, no dudéis en escribirnos:</p>
-                    <a href="mailto:auraonlinebox@gmail.com" style="display:inline-block; padding:12px 28px; border:1px solid #f97316; color:#f97316; text-decoration:none; border-radius:12px; font-size:14px; font-weight:600;">
-                      Contactar por email
-                    </a>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td style="background:#f9fafb; padding:24px; text-align:center; border-top:1px solid #e5e7eb;">
-              <p style="color:#9ca3af; font-size:13px; margin:0 0 4px;">AURA - Reputación Digital</p>
-              <p style="color:#9ca3af; font-size:13px; margin:0;">Si prefieres no recibir más correos, responde a este email.</p>
+            <td style="padding:24px 24px 0;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                ${reviewRows}
+              </table>
+              ${keywordChartHtml}
+              <div style="text-align:center; margin:28px 0 0;">
+                <a href="${prospectLink}?status=1" style="display:inline-block; padding:14px 36px; background:#f97316; color:#fff; text-decoration:none; border-radius:12px; font-size:16px; font-weight:600;">
+                  Ver todas las respuestas
+                </a>
+                <p style="color:#9ca3af; font-size:13px; margin:10px 0 0;">Sin compromiso. Sin tarjeta.</p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="text-align:center; padding:20px; background:#f9fafb; border-radius:12px;">
+                    <p style="color:#6b7280; font-size:13px; line-height:1.5; margin:0;">
+                      Si prefieres que no te escriba más, responde a este email con "Baja" y te elimino.
+                    </p>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
         </table>
@@ -197,7 +108,7 @@ export async function POST(req: NextRequest) {
       const relayRes = await fetch(relayUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ businessName, businessEmail, reviews, html, responses, preview: false }),
+        body: JSON.stringify({ businessName, businessEmail, reviews, html, responses, preview: false, slug }),
       });
       const relayData = await relayRes.json();
       if (!relayRes.ok) throw new Error(relayData.error || 'Error en relay');
@@ -209,7 +120,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email no configurado (falta RESEND_API_KEY)' }, { status: 500 });
     }
 
-    const text = `Hola, soy Ana de AURA - Reputación Digital\n\nHe visto que gestionáis un volumen altísimo de clientes y que muchos se toman la molestia de dejaros una reseña. Es una señal de que hacéis un gran trabajo.\n\nMe dedico a ayudar a negocios como el vuestro a cerrar ese círculo: que el cliente se sienta escuchado sin que eso suponga una carga de trabajo extra para vosotros.\n\nPonemos algunas de vuestras reseñas más recientes:\n\n${responses.map(r => `${r.author} (${'★'.repeat(r.rating)}): "${r.text}"\n→ ${r.response}`).join('\n\n')}\n\nProbad AURA gratis: https://aura-online.es\n\nCada reseña sin responder es un cliente perdido. Con AURA, respondes en segundos, mejoras tu reputación y te olvidas de las preocupaciones mientras nosotros nos encargamos.\n\nTus clientes hablan. AURA responde. Tú ganas.`;
+    const prospectLink = slug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
+    const text = `${businessName},\n\nHemos preparado respuestas personalizadas para ${responses.length} reseñas de Google.\n\n${responses.map(r => `"${r.text}" → ${r.response}`).join('\n\n')}\n\nVer todas: ${prospectLink}\n\nSin compromiso.`;
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
@@ -222,9 +134,10 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         from: 'Ana de AURA <hello@aura-online.es>',
         to: [businessEmail],
-        subject: `${businessName}, he preparado las respuestas a vuestras reseñas`,
+        subject: `${businessName} – ¿quién responde las reseñas?`,
         html,
         text,
+        open_tracking: true,
       }),
       signal: controller.signal,
     });

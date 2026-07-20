@@ -45,6 +45,7 @@ Reglas:
 - Prohibido el uso de emojis.
 - Longitud: Máximo 4-5 frases.
 - Idioma: Español de España, impecable y natural.
+- **Variedad obligatoria**: No empieces siempre con "Hola [nombre]". Alterna formas de apertura: agradecimiento directo, mención del servicio, frase de feedback, etc. Cada respuesta debe sonar distinta, nada repetitivo.
 
 Nombre del negocio: ${businessName || '[Nombre del Negocio]'}
 Nombre del cliente: ${name}
@@ -57,7 +58,7 @@ Genera solo la respuesta, sin explicaciones.`;
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 1.2 } }),
     }
   );
 

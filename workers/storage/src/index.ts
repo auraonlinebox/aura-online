@@ -46,7 +46,7 @@ export default {
   async fetch(req: Request, env: { aura_prospects: KVNamespace, RESEND_API_KEY?: string }, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(req.url);
     const cors = {
-      headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' },
+      headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' },
     };
 
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, ...cors });
@@ -131,15 +131,19 @@ export default {
       const listRaw = await env.aura_prospects.get('_prospect-list').catch(() => null);
       const list = listRaw ? JSON.parse(listRaw) : [];
       const enriched = [];
-      for (const item of list.slice(0, 100)) {
+      const cleanIndex = [];
+      let changed = false;
+      for (const item of list) {
         const raw = await env.aura_prospects.get(item.slug).catch(() => null);
         if (raw) {
           const data = JSON.parse(raw);
           enriched.push({ ...item, readAt: data.readAt || 0 });
+          cleanIndex.push(item);
         } else {
-          enriched.push(item);
+          changed = true; // skip deleted prospects
         }
       }
+      if (changed) await env.aura_prospects.put('_prospect-list', JSON.stringify(cleanIndex));
       return new Response(JSON.stringify({ prospects: enriched }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
