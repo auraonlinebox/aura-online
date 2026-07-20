@@ -162,9 +162,10 @@ export async function POST(req: NextRequest) {
         host: 'smtp.gmail.com',
         port: 587,
         secure: false,
-        auth: { user: gmailUser, pass: gmailPass },
+        auth: { user: gmailUser, pass: gmailPass.replace(/ /g, '') },
         connectionTimeout: 10000,
-      });
+        family: 4,
+      } as any);
       await transporter.sendMail({
         from: `"Ana de AURA" <${gmailUser}>`,
         to: businessEmail,
