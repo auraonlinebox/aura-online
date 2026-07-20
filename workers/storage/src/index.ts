@@ -116,6 +116,17 @@ export default {
       return new Response(JSON.stringify({ migrated: items.length }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
+    if (req.method === 'DELETE' && url.pathname.startsWith('/prospect/')) {
+      const slug = url.pathname.split('/')[2];
+      await env.aura_prospects.delete(slug);
+      const listRaw = await env.aura_prospects.get('_prospect-list').catch(() => null);
+      if (listRaw) {
+        const list = JSON.parse(listRaw).filter((item: any) => item.slug !== slug);
+        await env.aura_prospects.put('_prospect-list', JSON.stringify(list));
+      }
+      return new Response(JSON.stringify({ deleted: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
     if (req.method === 'GET' && url.pathname === '/prospects') {
       const listRaw = await env.aura_prospects.get('_prospect-list').catch(() => null);
       const list = listRaw ? JSON.parse(listRaw) : [];

@@ -13,6 +13,15 @@ export default function TrackingPage() {
   const [loading, setLoading] = useState(true);
   const [sortCol, setSortCol] = useState<string>('createdAt');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
+  const [deleting, setDeleting] = useState<string | null>(null);
+
+  const removeProspect = async (slug: string) => {
+    if (!confirm('¿Eliminar este prospecto del tracking?')) return;
+    setDeleting(slug);
+    await fetch(`${STORAGE_URL}/prospect/${slug}`, { method: 'DELETE' }).catch(() => {});
+    setProspects(p => p.filter(x => x.slug !== slug));
+    setDeleting(null);
+  };
 
   useEffect(() => {
     Promise.all([
@@ -131,6 +140,7 @@ export default function TrackingPage() {
                     <Th col="createdAt" align="right">Enviado</Th>
                     <Th col="readAt" align="right">Leído</Th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Link</th>
+                    <th className="text-center px-4 py-3 font-medium text-gray-600 w-10"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -149,10 +159,15 @@ export default function TrackingPage() {
                       <td className="px-4 py-3 text-center">
                         <a href={`/prospect/${p.slug}?status=1`} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:text-orange-600 text-xs font-medium">Ver</a>
                       </td>
+                      <td className="px-4 py-3 text-center">
+                        <button onClick={() => removeProspect(p.slug)} disabled={deleting === p.slug} className="text-red-300 hover:text-red-500 transition-all text-xs disabled:opacity-30">
+                          {deleting === p.slug ? '...' : '✕'}
+                        </button>
+                      </td>
                     </tr>
                   ))}
                   {prospects.length === 0 && (
-                    <tr><td colSpan={5} className="text-center py-8 text-gray-400">No hay prospectos aún</td></tr>
+                    <tr><td colSpan={6} className="text-center py-8 text-gray-400">No hay prospectos aún</td></tr>
                   )}
                 </tbody>
               </table>
