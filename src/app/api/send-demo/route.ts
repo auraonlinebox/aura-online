@@ -1,16 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateResponse, analyzeKeywords } from '@/lib/gemini';
-import nodemailer from 'nodemailer';
-import { promises as dns } from 'dns';
-
-async function resolveSmtpHost(): Promise<string> {
-  try {
-    const addrs = await dns.resolve4('smtp.gmail.com');
-    return addrs[0];
-  } catch {
-    return 'smtp.gmail.com';
-  }
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -164,32 +153,9 @@ export async function POST(req: NextRequest) {
     const firstText = responses[0]?.text || '';
     const text = `${businessName},\n\nSoy Ana de AURA. Os he preparado las respuestas para vuestras reseñas de Google.\n\nEjemplo de una de vuestras reseñas:\n"${firstText}"\n\n✅ Si respondéis: sube la valoración, Google os posiciona mejor, el cliente vuelve.\n❌ Si no respondéis: las críticas sin respuesta ahuyentan clientes.\n\nVer las respuestas completas: ${plainProspectLink}`;
 
-    const gmailUser = process.env.GMAIL_USER?.trim();
-    const gmailPass = process.env.GMAIL_APP_PASSWORD?.trim().replace(/ /g, '');
-
-    if (gmailUser && gmailPass) {
-      const gmailHost = await resolveSmtpHost();
-      const transporter = nodemailer.createTransport({
-        host: gmailHost,
-        port: 465,
-        secure: true,
-        auth: { user: gmailUser, pass: gmailPass.replace(/ /g, '') },
-        connectionTimeout: 10000,
-        tls: { servername: 'smtp.gmail.com' },
-      });
-      await transporter.sendMail({
-        from: `"Ana de AURA" <${gmailUser}>`,
-        to: businessEmail,
-        subject,
-        html,
-        text,
-      });
-      return NextResponse.json({ success: true, responses, keywords });
-    }
-
     const apiKey = process.env.RESEND_API_KEY?.trim();
     if (!apiKey) {
-      return NextResponse.json({ error: 'Email no configurado (sin Gmail ni Resend)' }, { status: 500 });
+      return NextResponse.json({ error: 'Email no configurado' }, { status: 500 });
     }
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
