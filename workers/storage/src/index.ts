@@ -85,6 +85,29 @@ export default {
       return new Response(JSON.stringify(data), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
+    if (req.method === 'POST' && url.pathname === '/email-event') {
+      const event = await req.json();
+      const eventId = event?.data?.email_id || crypto.randomUUID().slice(0, 8);
+      const key = `email-event-${eventId}`;
+      const existing = await env.aura_prospects.get(key).catch(() => null);
+      const events = existing ? JSON.parse(existing) : [];
+      events.push({ ...event, receivedAt: Date.now() });
+      await env.aura_prospects.put(key, JSON.stringify(events));
+      return new Response(JSON.stringify({ ok: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
+    if (req.method === 'GET' && url.pathname === '/email-events') {
+      const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
+      const keys = await env.aura_prospects.list({ prefix: 'email-event-' });
+      const all: any[] = [];
+      for (const key of keys.keys.slice(-20)) { // last 20 keys
+        const raw = await env.aura_prospects.get(key.name);
+        if (raw) all.push(...JSON.parse(raw));
+      }
+      all.sort((a: any, b: any) => (b.receivedAt || 0) - (a.receivedAt || 0));
+      return new Response(JSON.stringify({ events: all.slice(0, limit) }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
     return new Response(JSON.stringify({ status: 'ok' }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
   },
 };

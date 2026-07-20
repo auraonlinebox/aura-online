@@ -222,7 +222,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         from: 'Ana de AURA <hello@aura-online.es>',
         to: [businessEmail],
-        subject: `${businessName} — vuestras reseñas de Google respondidas con AURA`,
+        subject: `${businessName}, he preparado las respuestas a vuestras reseñas`,
         html,
         text,
       }),
