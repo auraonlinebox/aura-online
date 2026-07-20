@@ -58,8 +58,8 @@ export async function GET() {
       const gmailHost = await resolveSmtpHost();
       const transporter = nodemailer.createTransport({
         host: gmailHost,
-        port: 587,
-        secure: false,
+        port: 465,
+        secure: true,
         auth: { user: gmailUser.trim(), pass: gmailPass.trim().replace(/ /g, '') },
         connectionTimeout: 10000,
         tls: { servername: 'smtp.gmail.com' },
