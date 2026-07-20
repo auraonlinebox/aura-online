@@ -100,6 +100,22 @@ export default {
       return new Response(JSON.stringify({ ok: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
+    if (req.method === 'POST' && url.pathname === '/migrate') {
+      const keys = await env.aura_prospects.list();
+      const items: any[] = [];
+      for (const key of keys.keys) {
+        if (key.name.startsWith('email-event-') || key.name.startsWith('_')) continue;
+        const raw = await env.aura_prospects.get(key.name);
+        if (raw) {
+          const data = JSON.parse(raw);
+          items.push({ slug: key.name, businessName: data.businessName || '—', createdAt: data.createdAt || 0, readAt: data.readAt || 0 });
+        }
+      }
+      items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      await env.aura_prospects.put('_prospect-list', JSON.stringify(items));
+      return new Response(JSON.stringify({ migrated: items.length }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
     if (req.method === 'GET' && url.pathname === '/prospects') {
       const listRaw = await env.aura_prospects.get('_prospect-list').catch(() => null);
       const list = listRaw ? JSON.parse(listRaw) : [];
