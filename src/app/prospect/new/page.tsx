@@ -165,10 +165,11 @@ export default function NewProspect() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            businessName: businessName.trim(),
-            businessEmail: businessEmail.trim(),
-            reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
-            slug: finalSlug,
+          businessName: businessName.trim(),
+          businessEmail: businessEmail.trim(),
+          reviews: reviews.map((r) => ({ ...r, rating: Number(r.rating) })),
+          slug: finalSlug,
+          prospectUrl: `https://aura-online.es/prospect/${finalSlug}`,
           }),
           signal: AbortSignal.timeout(120000),
         }).catch(() => {});
