@@ -7,8 +7,11 @@ export async function POST(req: NextRequest) {
     const { slug, email } = await req.json();
     if (!slug) return NextResponse.json({ error: 'Falta slug' }, { status: 400 });
 
-    const raw = await fetch(`${STORAGE_URL}/prospect/${slug}`).then(r => r.json()).catch(() => null);
-    const businessEmail = email || raw?.businessEmail;
+    const rawRes = await fetch(`${STORAGE_URL}/prospect/${slug}`).catch(() => null);
+    if (!rawRes || !rawRes.ok) return NextResponse.json({ error: 'Prospecto no encontrado en KV' }, { status: 404 });
+    const raw = await rawRes.json();
+    if (!raw.businessName || !raw.reviews?.length) return NextResponse.json({ error: 'Datos del prospecto incompletos' }, { status: 400 });
+    const businessEmail = email || raw.businessEmail;
     if (!businessEmail) return NextResponse.json({ error: 'Sin email guardado' }, { status: 400 });
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://aura-online-y1k8.onrender.com'}/api/send-demo`, {
