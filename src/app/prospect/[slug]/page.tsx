@@ -127,13 +127,9 @@ export default function ProspectPage() {
         <tbody>
           <tr>
             <td style={{ background: '#fff', padding: '40px 24px 24px', textAlign: 'center' }}>
-              {showStatus ? (
+              {showStatus && (
                 <div style={{ marginBottom: 16, padding: '8px 16px', borderRadius: 8, fontSize: 13, fontWeight: 600, background: readAt ? '#dcfce7' : '#fef3c7', color: readAt ? '#166534' : '#92400e' }}>
                   {readAt ? `✅ Leído — ${new Date(readAt).toLocaleString('es-ES')}` : '⏳ No leído aún'}
-                </div>
-              ) : (
-                <div style={{ marginBottom: 16, padding: '8px 16px', borderRadius: 8, fontSize: 12, background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca' }}>
-                  ⚠️ Estás viendo esto como cliente — se notificará al administrador. <a href={`?status=1`} style={{ color: '#dc2626', textDecoration: 'underline', fontWeight: 600 }}>Ver sin notificar</a>
                 </div>
               )}
               <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" style={{ height: 64, border: 'none', display: 'block', margin: '0 auto' }} />
