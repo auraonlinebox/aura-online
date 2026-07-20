@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     if (!html) {
       const hasValidSlug = slug && /^[a-z0-9-]+$/i.test(String(slug));
-      const prospectLink = hasValidSlug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
+      const prospectLink = hasValidSlug ? `https://aura-online.es/prospect/${slug}` : 'https://aura-online.es';
       const firstReview = responses[0];
       const reviewStars = firstReview ? '★'.repeat(firstReview.rating) + '☆'.repeat(5 - firstReview.rating) : '';
 
@@ -150,7 +150,7 @@ export async function POST(req: NextRequest) {
     }
 
     const hasValidSlug = slug && /^[a-z0-9-]+$/i.test(String(slug));
-    const plainProspectLink = hasValidSlug ? `https://aura-online.es/prospect/${slug}?status=1` : 'https://aura-online.es';
+    const plainProspectLink = hasValidSlug ? `https://aura-online.es/prospect/${slug}` : 'https://aura-online.es';
     const firstText = responses[0]?.text || '';
     const text = `${businessName},\n\nSoy Ana de AURA. Os he preparado las respuestas para vuestras reseñas de Google.\n\nEjemplo de una de vuestras reseñas:\n"${firstText}"\n\n✅ Si respondéis: sube la valoración, Google os posiciona mejor, el cliente vuelve.\n❌ Si no respondéis: las críticas sin respuesta ahuyentan clientes.\n\nVer las respuestas completas: ${plainProspectLink}`;
     const subject = `${businessName}, ¿quién responde vuestras reseñas de Google?`;
