@@ -23,6 +23,12 @@ export default function TrackingPage() {
     setDeleting(null);
   };
 
+  const removeEvent = async (eventKey: string) => {
+    const emailId = eventKey.replace('email-event-', '');
+    await fetch(`${STORAGE_URL}/email-event/${emailId}`, { method: 'DELETE' }).catch(() => {});
+    setEvents(e => e.filter((x: any) => x._eventKey !== eventKey));
+  };
+
   useEffect(() => {
     Promise.all([
       fetch(`${STORAGE_URL}/prospects`).then(r => r.json()).catch(() => ({ prospects: [] })),
@@ -187,6 +193,7 @@ export default function TrackingPage() {
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Email</th>
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Asunto</th>
                     <Th col="receivedAt" align="right">Fecha</Th>
+                    <th className="text-center px-4 py-3 font-medium text-gray-600 w-10"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -198,11 +205,16 @@ export default function TrackingPage() {
                         <td className="px-4 py-3 text-gray-600 text-xs">{(d.to || []).join(', ')}</td>
                         <td className="px-4 py-3 text-gray-500 text-xs max-w-[250px] truncate">{d.subject || '—'}</td>
                         <td className="px-4 py-3 text-right text-gray-400 text-xs">{e.receivedAt ? new Date(e.receivedAt).toLocaleString('es-ES') : '—'}</td>
+                        <td className="px-4 py-3 text-center">
+                          <button onClick={() => removeEvent(e._eventKey)} className="text-red-300 hover:text-red-500 transition-all text-xs">
+                            ✕
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}
                   {events.length === 0 && (
-                    <tr><td colSpan={4} className="text-center py-8 text-gray-400">No hay eventos aún</td></tr>
+                    <tr><td colSpan={5} className="text-center py-8 text-gray-400">No hay eventos aún</td></tr>
                   )}
                 </tbody>
               </table>

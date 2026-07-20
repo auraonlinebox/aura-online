@@ -2,6 +2,13 @@
 
 import { useState } from 'react';
 
+const Th = ({ col, children, sortCol, sortAsc, onSort, align }: { col: string; children: React.ReactNode; sortCol: string | null; sortAsc: boolean; onSort: (col: string) => void; align?: 'left' | 'right' | 'center' }) => (
+  <th className={`px-4 py-3 font-medium text-gray-600 text-${align || 'left'} cursor-pointer hover:text-orange-500 select-none transition-colors`}
+    onClick={() => onSort(col)}>
+    {children} <span className="text-gray-400 text-xs">{sortCol === col ? (sortAsc ? '↑' : '↓') : '↕'}</span>
+  </th>
+);
+
 export default function ScrapePage() {
   const [businessType, setBusinessType] = useState('restaurantes');
   const [customType, setCustomType] = useState('');
@@ -12,6 +19,8 @@ export default function ScrapePage() {
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [sortCol, setSortCol] = useState<string | null>(null);
+  const [sortAsc, setSortAsc] = useState(true);
 
   const search = async () => {
     const type = businessType === 'otro' ? customType.trim() : businessType;
@@ -37,6 +46,15 @@ export default function ScrapePage() {
       setLoading(false);
     }
   };
+
+  const sortedResults = sortCol
+    ? [...results].sort((a, b) => {
+        const va = a[sortCol] ?? '';
+        const vb = b[sortCol] ?? '';
+        const cmp = typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb));
+        return sortAsc ? cmp : -cmp;
+      })
+    : results;
 
   const downloadCsv = () => {
     if (!results.length) return;
@@ -154,16 +172,16 @@ export default function ScrapePage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Nombre</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Dirección</th>
-                    <th className="text-center px-4 py-3 font-medium text-gray-600">Rating</th>
-                    <th className="text-center px-4 py-3 font-medium text-gray-600">Reseñas</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Tipo</th>
+                    <Th col="name" sortCol={sortCol} sortAsc={sortAsc} onSort={c => { setSortCol(c); setSortAsc(c === sortCol ? !sortAsc : true); }}>Nombre</Th>
+                    <Th col="address" sortCol={sortCol} sortAsc={sortAsc} onSort={c => { setSortCol(c); setSortAsc(c === sortCol ? !sortAsc : true); }}>Dirección</Th>
+                    <Th col="rating" sortCol={sortCol} sortAsc={sortAsc} onSort={c => { setSortCol(c); setSortAsc(c === sortCol ? !sortAsc : true); }} align="center">Rating</Th>
+                    <Th col="reviews" sortCol={sortCol} sortAsc={sortAsc} onSort={c => { setSortCol(c); setSortAsc(c === sortCol ? !sortAsc : true); }} align="center">Reseñas</Th>
+                    <Th col="types" sortCol={sortCol} sortAsc={sortAsc} onSort={c => { setSortCol(c); setSortAsc(c === sortCol ? !sortAsc : true); }}>Tipo</Th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Mapa</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {results.map((r, i) => (
+                  {sortedResults.map((r, i) => (
                     <tr key={r.place_id} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
                       <td className="px-4 py-3 font-medium text-gray-900">{r.name}</td>
                       <td className="px-4 py-3 text-gray-500 text-xs max-w-[250px] truncate">{r.address}</td>

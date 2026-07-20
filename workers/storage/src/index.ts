@@ -147,12 +147,22 @@ export default {
       const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
       const keys = await env.aura_prospects.list({ prefix: 'email-event-' });
       const all: any[] = [];
-      for (const key of keys.keys.slice(-20)) { // last 20 keys
+      for (const key of keys.keys.slice(-20)) {
         const raw = await env.aura_prospects.get(key.name);
-        if (raw) all.push(...JSON.parse(raw));
+        if (raw) {
+          const events = JSON.parse(raw);
+          events.forEach((e: any) => e._eventKey = key.name);
+          all.push(...events);
+        }
       }
       all.sort((a: any, b: any) => (b.receivedAt || 0) - (a.receivedAt || 0));
       return new Response(JSON.stringify({ events: all.slice(0, limit) }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
+    if (req.method === 'DELETE' && url.pathname.startsWith('/email-event/')) {
+      const key = `email-event-${url.pathname.split('/')[2]}`;
+      await env.aura_prospects.delete(key);
+      return new Response(JSON.stringify({ deleted: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
     return new Response(JSON.stringify({ status: 'ok' }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
