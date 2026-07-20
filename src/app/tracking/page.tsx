@@ -21,7 +21,6 @@ export default function TrackingPage() {
     if (!email) {
       email = prompt('Email del prospecto (no está guardado en KV):') || '';
       if (!email) return;
-      // Also save it to KV
       await fetch(`${STORAGE_URL}/prospect/${slug}/email`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -29,6 +28,9 @@ export default function TrackingPage() {
       }).catch(() => {});
     }
     setResending(slug);
+    // Reset read tracking so it shows "Sin abrir" again
+    await fetch(`${STORAGE_URL}/prospect/${slug}/reset-read`, { method: 'PUT' }).catch(() => {});
+    setProspects(p => p.map(x => x.slug === slug ? { ...x, readAt: 0 } : x));
     const res = await fetch('/api/resend-prospect', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

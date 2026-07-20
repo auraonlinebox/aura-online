@@ -116,6 +116,16 @@ export default {
       return new Response(JSON.stringify({ migrated: items.length }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
+    if (req.method === 'PUT' && url.pathname.match(/^\/prospect\/[^\/]+\/reset-read$/)) {
+      const slug = url.pathname.split('/')[2];
+      const raw = await env.aura_prospects.get(slug).catch(() => null);
+      if (!raw) return new Response(JSON.stringify({ error: 'not_found' }), { status: 404, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+      const data = JSON.parse(raw);
+      data.readAt = 0;
+      await env.aura_prospects.put(slug, JSON.stringify(data));
+      return new Response(JSON.stringify({ reset: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
     if (req.method === 'PUT' && url.pathname.match(/^\/prospect\/[^\/]+\/email$/)) {
       const slug = url.pathname.split('/')[2];
       const { email } = await req.json();
