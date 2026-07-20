@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateResponse, analyzeKeywords } from '@/lib/gemini';
 import nodemailer from 'nodemailer';
+import dns from 'dns';
+dns.setDefaultResultOrder('ipv4first');
 
 export async function POST(req: NextRequest) {
   try {
@@ -164,8 +166,7 @@ export async function POST(req: NextRequest) {
         secure: false,
         auth: { user: gmailUser, pass: gmailPass.replace(/ /g, '') },
         connectionTimeout: 10000,
-        family: 4,
-      } as any);
+      });
       await transporter.sendMail({
         from: `"Ana de AURA" <${gmailUser}>`,
         to: businessEmail,

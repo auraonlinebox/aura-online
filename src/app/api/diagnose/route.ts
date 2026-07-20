@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import dns from 'dns';
+dns.setDefaultResultOrder('ipv4first');
 
 export async function GET() {
   const resendKey = process.env.RESEND_API_KEY;
@@ -51,7 +53,6 @@ export async function GET() {
         secure: false,
         auth: { user: gmailUser.trim(), pass: gmailPass.trim().replace(/ /g, '') },
         connectionTimeout: 10000,
-        family: 4,
       });
       await transporter.verify();
       result.gmail_smtp = 'OK (connection verified)';
