@@ -172,7 +172,7 @@ export default function NewProspect() {
           prospectUrl: `https://aura-online.es/prospect/${finalSlug}`,
           }),
           signal: AbortSignal.timeout(120000),
-        }).catch(() => {});
+        });
       }
 
       setSent(true);

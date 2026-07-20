@@ -155,7 +155,7 @@ export async function POST(req: NextRequest) {
     const text = `${businessName},\n\nSoy Ana de AURA. Os he preparado las respuestas para vuestras reseñas de Google.\n\nEjemplo de una de vuestras reseñas:\n"${firstText}"\n\n✅ Si respondéis: sube la valoración, Google os posiciona mejor, el cliente vuelve.\n❌ Si no respondéis: las críticas sin respuesta ahuyentan clientes.\n\nVer las respuestas completas: ${plainProspectLink}`;
 
     const gmailUser = process.env.GMAIL_USER?.trim();
-    const gmailPass = process.env.GMAIL_APP_PASSWORD?.trim();
+    const gmailPass = process.env.GMAIL_APP_PASSWORD?.trim().replace(/ /g, '');
 
     if (gmailUser && gmailPass) {
       const transporter = nodemailer.createTransport({
@@ -163,6 +163,7 @@ export async function POST(req: NextRequest) {
         port: 587,
         secure: false,
         auth: { user: gmailUser, pass: gmailPass },
+        connectionTimeout: 10000,
       });
       await transporter.sendMail({
         from: `"Ana de AURA" <${gmailUser}>`,
@@ -174,7 +175,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, responses, keywords });
     }
 
-    // Fallback to Resend
     const apiKey = process.env.RESEND_API_KEY?.trim();
     if (!apiKey) {
       return NextResponse.json({ error: 'Email no configurado (sin Gmail ni Resend)' }, { status: 500 });
