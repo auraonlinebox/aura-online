@@ -1,14 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 const STORAGE_URL = 'https://aura-storage.entretorres1x2.workers.dev';
+
+type SortDir = 'asc' | 'desc';
 
 export default function TrackingPage() {
   const [prospects, setProspects] = useState<any[]>([]);
   const [events, setEvents] = useState<any[]>([]);
   const [tab, setTab] = useState<'prospects' | 'emails'>('prospects');
   const [loading, setLoading] = useState(true);
+  const [sortCol, setSortCol] = useState<string>('createdAt');
+  const [sortDir, setSortDir] = useState<SortDir>('desc');
 
   useEffect(() => {
     Promise.all([
@@ -19,6 +23,44 @@ export default function TrackingPage() {
       setEvents(eData.events || []);
     }).finally(() => setLoading(false));
   }, []);
+
+  const toggleSort = (col: string) => {
+    if (sortCol === col) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+    else { setSortCol(col); setSortDir('desc'); }
+  };
+
+  const sortedProspects = useMemo(() => {
+    const sorted = [...prospects];
+    sorted.sort((a: any, b: any) => {
+      let va = a[sortCol] ?? '';
+      let vb = b[sortCol] ?? '';
+      if (sortCol === 'businessName') { va = (va || '').toLowerCase(); vb = (vb || '').toLowerCase(); }
+      const cmp = va > vb ? 1 : va < vb ? -1 : 0;
+      return sortDir === 'desc' ? -cmp : cmp;
+    });
+    return sorted;
+  }, [prospects, sortCol, sortDir]);
+
+  const sortedEvents = useMemo(() => {
+    const sorted = [...events];
+    sorted.sort((a: any, b: any) => {
+      const va = a.receivedAt || 0;
+      const vb = b.receivedAt || 0;
+      return sortDir === 'desc' ? vb - va : va - vb;
+    });
+    return sorted;
+  }, [events, sortDir]);
+
+  const SortIcon = ({ col }: { col: string }) => {
+    if (sortCol !== col) return <span className="text-gray-300 ml-1">↕</span>;
+    return <span className="text-orange-500 ml-1">{sortDir === 'desc' ? '↓' : '↑'}</span>;
+  };
+
+  const Th = ({ col, children, align = 'left' }: { col: string; children: React.ReactNode; align?: string }) => (
+    <th className={`px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900 select-none text-${align}`} onClick={() => toggleSort(col)}>
+      {children} <SortIcon col={col} />
+    </th>
+  );
 
   const eventLabel = (type: string) => {
     const map: Record<string, string> = {
@@ -84,15 +126,15 @@ export default function TrackingPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left px-4 py-3 font-medium text-gray-600">Negocio</th>
+                    <Th col="businessName">Negocio</Th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Estado</th>
-                    <th className="text-right px-4 py-3 font-medium text-gray-600">Enviado</th>
-                    <th className="text-right px-4 py-3 font-medium text-gray-600">Leído</th>
+                    <Th col="createdAt" align="right">Enviado</Th>
+                    <Th col="readAt" align="right">Leído</Th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Link</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {prospects.map((p: any, i: number) => (
+                  {sortedProspects.map((p: any, i: number) => (
                     <tr key={p.slug} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
                       <td className="px-4 py-3 font-medium text-gray-900">{p.businessName || '—'}</td>
                       <td className="px-4 py-3 text-center">
@@ -129,11 +171,11 @@ export default function TrackingPage() {
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Evento</th>
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Email</th>
                     <th className="text-left px-4 py-3 font-medium text-gray-600">Asunto</th>
-                    <th className="text-right px-4 py-3 font-medium text-gray-600">Fecha</th>
+                    <Th col="receivedAt" align="right">Fecha</Th>
                   </tr>
                 </thead>
                 <tbody>
-                  {events.map((e: any, i: number) => {
+                  {sortedEvents.map((e: any, i: number) => {
                     const d = e.data || {};
                     return (
                       <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
