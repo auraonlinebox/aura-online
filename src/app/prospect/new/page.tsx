@@ -131,7 +131,7 @@ export default function NewProspect() {
         });
         const slugData = await slugRes.json();
         finalSlug = slugData.slug;
-        setSlug(slugData.url);
+        setSlug(slugData.slug);
       }
       setResponses(responsesData);
 
