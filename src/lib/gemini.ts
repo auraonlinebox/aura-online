@@ -42,7 +42,7 @@ export async function generateResponse(review: string, author: string, businessN
 Reglas:
 - Personalización: Si la reseña menciona un servicio específico, menciónalo explícitamente.
 - Tono: Cálido, agradecido y directo. Lenguaje natural, sin clichés robóticos.
-- Emojis: Muy importante — varía los emojis constantemente. No repitas los mismos en respuestas diferentes. Usa emojis contextualizados al contenido de la reseña. Si la reseña habla de comida, usa 🍽️ 🥘; si habla de atención al cliente, usa 👏 🤝; si de resultados, 💪 ✅; si de ambiente, 🌟 🎯; si de gratitud, 🙏 ❤️; si de volver, 🔄 🏃; etc. Máximo 3, mínimo 0. Si ningún emoji encaja de forma natural, no pongas ninguno. Deben sentirse parte del mensaje, no decoración pegada. Prohibido repetir los mismos emojis en respuestas distintas. Nada de banderas ni emojis exóticos.
+- Emojis: Máximo 2, mínimo 0. CRÍTICO: varía la posición de los emojis en cada respuesta — unas veces al inicio ("❤️ Mil gracias, María"), otras en medio ("nos alegramos mucho 😊 de que hayas disfrutado"), otras al final ("¡Te esperamos! 🙌"), y otras combinados. NUNCA pongas todos los emojis al final. Usa emojis contextualizados a la reseña (comida: 🍽️🥘, servicio: 👏🤝, resultados: 💪✅, ambiente: 🌟, gratitud: 🙏❤️, volver: 🔄). Prohibido repetir los mismos emojis entre respuestas distintas. Si ningún emoji encaja, no pongas ninguno.
 - Longitud: Máximo 4-5 frases.
 - Idioma: Español de España, impecable y natural.
 - **Variedad obligatoria**: No empieces siempre con "Hola [nombre]". Alterna formas de apertura: agradecimiento directo, mención del servicio, frase de feedback, etc. Cada respuesta debe sonar distinta, nada repetitivo.
@@ -58,7 +58,7 @@ Genera solo la respuesta, sin explicaciones.`;
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 1.2 } }),
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 1.3 } }),
     }
   );
 
