@@ -137,6 +137,7 @@ export default function SocialCardPage() {
                   </select>
                 </div>
                 <textarea value={c.response} onChange={(e) => updateCard(activeIndex, 'response', e.target.value)} placeholder="Respuesta de AURA" rows={3} className="w-full px-3 py-2 border border-orange-200 rounded-lg text-sm resize-none bg-orange-50" />
+                <button onClick={async () => { try { const r = await fetch('/api/generate-examples', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ examples: [{ text: c.text, author: c.author, business: c.business }] }) }); const d = await r.json(); if (d.examples?.[0]?.response) updateCard(activeIndex, 'response', d.examples[0].response); } catch {} }} className="text-xs text-orange-500 hover:text-orange-600 font-medium">🔄 Regenerar respuesta</button>
                 {displayCards.length > 1 && <button onClick={() => removeCard(activeIndex)} className="text-xs text-red-400 hover:text-red-500">Eliminar</button>}
               </div>
             )}
