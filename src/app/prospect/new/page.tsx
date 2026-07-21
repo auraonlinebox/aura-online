@@ -295,15 +295,16 @@ export default function NewProspect() {
               </p>
               {slug && responses.length > 0 && (() => {
             const reviewBlocks = responses.map((r, i) =>
-              `👤 ${r.author} ${'⭐'.repeat(r.rating)}\n"${r.text}"\n✅ ${r.response}`
+              `👤 ${r.author} ${'⭐'.repeat(r.rating)}\n"${r.text}"\n${r.response}`
             ).join('\n\n');
 
             const msgText =
-              `👋 Hola! Soy Ana de AURA.\n\n` +
-              `He preparado respuestas automaticas para algunas de las reseñas de Google de ${businessName}. Por ejemplo:\n\n` +
+              `👋 Hola! Soy Ana de AURA - Reputación Digital\n\n` +
+              `He preparado respuestas automatizadas para las reseñas de Google de ${businessName} más recientes. Por ejemplo:\n\n` +
               `${reviewBlocks.split('\n\n')[0]}\n\n` +
-              `✅ Responder reseñas sube tu valoracion en Google y mejora tu reputacion online.\n\n` +
-              `🔗 Aqui teneis las respuestas completas y el analisis:\nhttps://aura-online.es/prospect/${slug}\n\n` +
+              `✅ Responder reseñas sube tu valoración en Google y mejora tu reputación online.\n` +
+              `❌ No responder… las críticas sin respuesta ahuyentan clientes.\n\n` +
+              `🔗 Aquí tenéis las respuestas completas y el análisis:\nhttps://aura-online.es/prospect/${slug}\n\n` +
               `Sin compromiso. Echadle un vistazo y si os gusta, hablamos.\n\n` +
               `👉 https://aura-online.es`;
 
