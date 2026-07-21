@@ -163,12 +163,7 @@ export default function InstagramPosts() {
                     <span style={{ color: '#ea580c', fontWeight: 700, fontSize: 12 }}>RESPUESTA DE AURA</span>
                   </div>
                   <div style={{ color: '#1f2937', fontSize: 15, lineHeight: 1.6, fontWeight: 500 }}>
-                    "¡Mil gracias, María! 🎉 Nos encanta saber que estás disfrutando de la experiencia. Tu opinión nos motiva a seguir mejorando cada día. ¡Te esperamos con los brazos abiertos! 🙌✨"
-                  </div>
-                  <div style={{ marginTop: 10, display: 'flex', gap: 3 }}>
-                    {['😊','⭐','🙌'].map(e => (
-                      <span key={e} style={{ fontSize: 20 }}>{e}</span>
-                    ))}
+                    "Mil gracias, María. Nos encanta saber que estas disfrutando de la experiencia. Tu opinión nos motiva a seguir mejorando cada día. Te esperamos de nuevo."
                   </div>
                 </div>
               </div>

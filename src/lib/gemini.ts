@@ -42,7 +42,7 @@ export async function generateResponse(review: string, author: string, businessN
 Reglas:
 - Personalización: Si la reseña menciona un servicio específico, menciónalo explícitamente.
 - Tono: Cálido, agradecido y directo. Lenguaje natural, sin clichés robóticos.
-- Prohibido el uso de emojis.
+- Emojis: Incluye 1 a 3 emojis universales (como 👍 ❤️ ⭐ 😊 🙌 👏 💪) que refuercen el tono de la respuesta. No uses emojis raros, banderas, ni emoticonos que puedan no renderizarse bien en todos los dispositivos.
 - Longitud: Máximo 4-5 frases.
 - Idioma: Español de España, impecable y natural.
 - **Variedad obligatoria**: No empieces siempre con "Hola [nombre]". Alterna formas de apertura: agradecimiento directo, mención del servicio, frase de feedback, etc. Cada respuesta debe sonar distinta, nada repetitivo.
