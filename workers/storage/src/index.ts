@@ -170,7 +170,7 @@ export default {
         const raw = await env.aura_prospects.get(item.slug).catch(() => null);
         if (raw) {
           const data = JSON.parse(raw);
-          enriched.push({ ...item, readAt: data.readAt || 0, businessEmail: data.businessEmail || '', lastResentAt: data.lastResentAt || 0 });
+          enriched.push({ ...item, readAt: data.readAt || 0, emailOpens: data.emailOpens || 0, businessEmail: data.businessEmail || '', lastResentAt: data.lastResentAt || 0 });
           cleanIndex.push(item);
         } else {
           changed = true; // skip deleted prospects
@@ -194,6 +194,16 @@ export default {
       }
       all.sort((a: any, b: any) => (b.receivedAt || 0) - (a.receivedAt || 0));
       return new Response(JSON.stringify({ events: all.slice(0, limit) }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
+    if (req.method === 'POST' && url.pathname.match(/^\/prospect\/[^\/]+\/track-open$/)) {
+      const slug = url.pathname.split('/')[2];
+      const raw = await env.aura_prospects.get(slug).catch(() => null);
+      if (!raw) return new Response(JSON.stringify({ error: 'not_found' }), { status: 404, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+      const data = JSON.parse(raw);
+      data.emailOpens = (data.emailOpens || 0) + 1;
+      await env.aura_prospects.put(slug, JSON.stringify(data));
+      return new Response(JSON.stringify({ tracked: true, opens: data.emailOpens }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
     if (req.method === 'DELETE' && url.pathname.startsWith('/email-event/')) {

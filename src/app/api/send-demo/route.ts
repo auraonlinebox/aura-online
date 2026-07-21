@@ -117,6 +117,7 @@ export async function POST(req: NextRequest) {
                     <p style="color:#6b7280; font-size:13px; line-height:1.5; margin:0;">
                       Si prefieres que no te escriba más, responde a este email con "Baja".
                     </p>
+                    <img src="https://aura-online.es/api/track-open?slug=${slug || ''}&ts=${Date.now()}" width="1" height="1" alt="" style="display:none;" />
                   </td>
                 </tr>
               </table>

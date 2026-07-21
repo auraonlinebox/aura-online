@@ -102,6 +102,7 @@ export default function TrackingPage() {
     total: prospects.length,
     leidos: prospects.filter((p: any) => p.readAt > 0).length,
     noLeidos: prospects.filter((p: any) => !p.readAt).length,
+    opens: prospects.reduce((s: number, p: any) => s + (p.emailOpens || 0), 0),
   };
 
   return (
@@ -110,7 +111,7 @@ export default function TrackingPage() {
         <a href="/" className="text-orange-500 text-sm hover:underline">&larr; Volver</a>
         <h1 className="text-3xl font-bold text-gray-900 mt-4 mb-2">Dashboard de seguimiento</h1>
 
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-4 gap-4 mb-8">
           <div className="bg-white border border-gray-200 rounded-xl p-5 text-center">
             <div className="text-3xl font-black text-gray-900">{stats.total}</div>
             <div className="text-xs text-gray-500 mt-1">Prospectos enviados</div>
@@ -122,6 +123,10 @@ export default function TrackingPage() {
           <div className="bg-white border border-amber-200 rounded-xl p-5 text-center">
             <div className="text-3xl font-black text-amber-500">{stats.noLeidos}</div>
             <div className="text-xs text-gray-500 mt-1">Sin abrir</div>
+          </div>
+          <div className="bg-white border border-blue-200 rounded-xl p-5 text-center">
+            <div className="text-3xl font-black text-blue-500">{stats.opens}</div>
+            <div className="text-xs text-gray-500 mt-1">Aperturas de email</div>
           </div>
         </div>
 
@@ -150,6 +155,7 @@ export default function TrackingPage() {
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Estado</th>
                     <Th col="createdAt" align="right">Enviado</Th>
                     <Th col="readAt" align="right">Leído</Th>
+                    <th className="text-center px-4 py-3 font-medium text-gray-600">Aperturas</th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Link</th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600">Reenviado</th>
                     <th className="text-center px-4 py-3 font-medium text-gray-600 w-10"></th>
@@ -168,6 +174,7 @@ export default function TrackingPage() {
                       </td>
                       <td className="px-4 py-3 text-right text-gray-400 text-xs">{p.createdAt ? new Date(p.createdAt).toLocaleString('es-ES') : '—'}</td>
                       <td className="px-4 py-3 text-right text-gray-400 text-xs">{p.readAt > 0 ? new Date(p.readAt).toLocaleString('es-ES') : '—'}</td>
+                      <td className="px-4 py-3 text-center text-gray-400 text-xs">{p.emailOpens || 0}</td>
                       <td className="px-4 py-3 text-center">
                         <a href={`/prospect/${p.slug}?status=1`} target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:text-orange-600 text-xs font-medium">Ver</a>
                       </td>
