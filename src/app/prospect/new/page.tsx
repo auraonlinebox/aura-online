@@ -295,7 +295,7 @@ export default function NewProspect() {
               </p>
               {slug && responses.length > 0 && (() => {
             const reviewBlocks = responses.map((r, i) =>
-              `👤 ${r.author} ${'⭐'.repeat(r.rating)}\n"${r.text}"\n${r.response}`
+              `👤 ${r.author} ${'⭐'.repeat(r.rating)}\n"${r.text}"\n✍️ Respuesta de AURA: ${r.response}`
             ).join('\n\n');
 
             const msgText =
