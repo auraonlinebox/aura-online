@@ -189,44 +189,41 @@ export default function SocialCardPage() {
               style={{ width: 500, height: 500, borderRadius: 32 }}
             >
               <div className="h-full flex flex-col overflow-hidden">
-                <div className="flex-shrink-0 bg-white px-6 flex items-center gap-3" style={{ height: 72 }}>
-                  <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" className="h-9" />
-                  <div className="ml-auto text-right">
-                    <div className="text-gray-300 text-[9px] tracking-[2px]">PARA</div>
-                    <div className="text-gray-800 text-sm font-semibold truncate max-w-[200px]">{c.business || 'tu negocio'}</div>
-                  </div>
+                <div className="flex-shrink-0 flex items-center justify-center pt-6 pb-2">
+                  <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" className="h-10" />
                 </div>
 
-                <div className="flex-1 flex flex-col justify-center overflow-hidden px-6" style={{ maxHeight: 500 - 72 - 40 }}>
+                <div className="flex-1 flex flex-col px-6 gap-2.5 overflow-hidden">
                   {(c.text || c.response) ? (
-                    <div className="flex flex-col gap-3 overflow-hidden">
-                      <div className="flex items-start gap-3 flex-shrink-0">
-                        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-xs font-bold text-gray-500 flex-shrink-0">
-                          {c.author ? c.author[0].toUpperCase() : '?'}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="text-sm font-bold text-gray-900 leading-tight">{c.author || 'Cliente'}</div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm tracking-wide text-amber-400">{stars}</span>
-                            <span className="text-[10px] text-gray-400">{c.time || 'hace 2 horas'}</span>
+                    <>
+                      <div className="bg-gray-50 rounded-2xl px-5 py-4 flex-shrink-0">
+                        <div className="flex items-center gap-3" style={{ marginBottom: 10 }}>
+                          <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#f97316', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 15, fontWeight: 700, flexShrink: 0 }}>
+                            {c.author ? c.author[0].toUpperCase() : '?'}
                           </div>
+                          <div className="flex-1">
+                            <div style={{ color: '#1f2937', fontWeight: 600, fontSize: 14, lineHeight: 1.3 }}>{c.author || 'Cliente'}</div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                              {[1,2,3,4,5].map(i => (
+                                <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={i <= c.rating ? '#eab308' : '#d1d5db'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                              ))}
+                              <span style={{ color: '#9ca3af', fontSize: 10, marginLeft: 4 }}>{c.time || 'hace 2 horas'}</span>
+                            </div>
+                          </div>
+                          <svg width="18" height="18" viewBox="0 0 24 24" style={{ flexShrink: 0 }}><path fill="#9ca3af" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                         </div>
-                      </div>
-                      <div className="bg-gray-50 rounded-2xl px-5 py-3 flex-shrink-0">
-                        <p className="text-sm text-gray-700 italic leading-relaxed line-clamp-3">&ldquo;{c.text || 'Texto de la reseña'}&rdquo;</p>
+                        <p className="text-sm text-gray-700 leading-relaxed">&ldquo;{c.text || 'Texto de la reseña'}&rdquo;</p>
                       </div>
                       {c.response && (
-                        <div className="flex-shrink-0">
-                          <div className="flex items-center gap-2 mb-1.5">
-                            <div className="w-1.5 h-1.5 rounded-full bg-orange-500 flex-shrink-0" />
-                            <span className="text-[9px] font-bold text-orange-500 tracking-[2px]">RESPUESTA AURA</span>
+                        <div className="flex-shrink-0" style={{ background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)', borderRadius: 16, border: '2px solid #f97316', padding: '14px 16px', flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                            <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" style={{ height: 16 }} />
+                            <span style={{ color: '#ea580c', fontWeight: 700, fontSize: 11 }}>RESPUESTA DE AURA</span>
                           </div>
-                          <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-100 rounded-2xl px-5 py-3 max-h-[180px] overflow-y-auto">
-                            <p className="text-sm text-gray-700 leading-relaxed">{c.response}</p>
-                          </div>
+                          <p className="text-sm text-gray-700 leading-relaxed" style={{ fontWeight: 500 }}>{c.response}</p>
                         </div>
                       )}
-                    </div>
+                    </>
                   ) : (
                     <div className="flex items-center justify-center h-full">
                       <div className="text-center">
@@ -239,10 +236,8 @@ export default function SocialCardPage() {
                   )}
                 </div>
 
-                <div className="flex-shrink-0 px-6 flex items-center justify-between" style={{ height: 40 }}>
-                  <span className="text-[9px] text-gray-400 font-medium tracking-wide">aura-online.es</span>
-                  <span className="text-[9px] text-gray-300">⋆</span>
-                  <span className="text-[9px] text-gray-400 font-medium tracking-wide">RESPUESTAS · KEYWORDS · REPUTACIÓN</span>
+                <div className="flex-shrink-0 text-center pt-2 pb-5" style={{ fontSize: 9, fontWeight: 600, letterSpacing: 2.5, color: '#d97706' }}>
+                  AURA · REPUTACIÓN DIGITAL
                 </div>
               </div>
             </div>
