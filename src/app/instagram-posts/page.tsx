@@ -152,7 +152,7 @@ export default function InstagramPosts() {
                     </div>
                     <svg width="22" height="22" viewBox="0 0 24 24" style={{ flexShrink: 0 }}><path fill="#9ca3af" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                   </div>
-                  <div style={{ color: '#374151', fontSize: 14, lineHeight: 1.6 }}>
+                  <div style={{ color: '#374151', fontSize: 14, lineHeight: 1.6, textAlign: 'justify' }}>
                     "Llevo dos meses viniendo y la calidad es increíble. El trato al cliente es de 10. Volveré sin dudarlo. 100% recomendable."
                   </div>
                 </div>
@@ -162,7 +162,7 @@ export default function InstagramPosts() {
                     <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" style={{ height: 18 }} />
                     <span style={{ color: '#ea580c', fontWeight: 700, fontSize: 12 }}>RESPUESTA DE AURA</span>
                   </div>
-                  <div style={{ color: '#1f2937', fontSize: 15, lineHeight: 1.6, fontWeight: 500 }}>
+                  <div style={{ color: '#1f2937', fontSize: 15, lineHeight: 1.6, fontWeight: 500, textAlign: 'justify' }}>
                     "Mil gracias, María. Nos encanta saber que estas disfrutando de la experiencia. Tu opinión nos motiva a seguir mejorando cada día. Te esperamos de nuevo."
                   </div>
                 </div>
