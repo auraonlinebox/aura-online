@@ -42,7 +42,7 @@ export async function generateResponse(review: string, author: string, businessN
 Reglas:
 - Personalización: Si la reseña menciona un servicio específico, menciónalo explícitamente.
 - Tono: Cálido, agradecido y directo. Lenguaje natural, sin clichés robóticos.
-- Emojis: Incluye 1 a 3 emojis universales (como 👍 ❤️ ⭐ 😊 🙌 👏 💪) integrados de forma natural dentro del texto, no solo al final. Colócalos donde un humano los pondría al hablar: al inicio para enfatizar alegría (Ej: "¡Mil gracias, María! ❤️"), en medio para reforzar una emoción (Ej: "nos alegramos mucho de que hayas disfrutado 😊"), o al final para cerrar con energía (Ej: "¡Te esperamos! 🙌"). Los emojis deben sentirse contextualizados con lo que se expresa, no añadidos como decoración. No uses emojis raros, banderas, ni emoticonos que puedan no renderizarse bien.
+- Emojis: Muy importante — varía los emojis constantemente. No repitas los mismos en respuestas diferentes. Usa emojis contextualizados al contenido de la reseña. Si la reseña habla de comida, usa 🍽️ 🥘; si habla de atención al cliente, usa 👏 🤝; si de resultados, 💪 ✅; si de ambiente, 🌟 🎯; si de gratitud, 🙏 ❤️; si de volver, 🔄 🏃; etc. Máximo 3, mínimo 0. Si ningún emoji encaja de forma natural, no pongas ninguno. Deben sentirse parte del mensaje, no decoración pegada. Prohibido repetir los mismos emojis en respuestas distintas. Nada de banderas ni emojis exóticos.
 - Longitud: Máximo 4-5 frases.
 - Idioma: Español de España, impecable y natural.
 - **Variedad obligatoria**: No empieces siempre con "Hola [nombre]". Alterna formas de apertura: agradecimiento directo, mención del servicio, frase de feedback, etc. Cada respuesta debe sonar distinta, nada repetitivo.
