@@ -212,6 +212,49 @@ export default {
       return new Response(JSON.stringify({ deleted: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
     }
 
+    if (req.method === 'POST' && url.pathname === '/contact') {
+      const body = await req.json();
+      const id = `contact-${Date.now()}-${crypto.randomUUID().slice(0, 4)}`;
+      const contact = { ...body, createdAt: Date.now() };
+      await env.aura_prospects.put(id, JSON.stringify(contact));
+      const listRaw = await env.aura_prospects.get('_contact-list').catch(() => null);
+      const list = listRaw ? JSON.parse(listRaw) : [];
+      list.unshift({ id, businessName: body.businessName || '', email: body.email || '', createdAt: Date.now() });
+      await env.aura_prospects.put('_contact-list', JSON.stringify(list.slice(0, 500)));
+      return new Response(JSON.stringify({ ok: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
+    if (req.method === 'GET' && url.pathname === '/contacts') {
+      const listRaw = await env.aura_prospects.get('_contact-list').catch(() => null);
+      const list = listRaw ? JSON.parse(listRaw) : [];
+      const enriched = [];
+      const cleanIndex = [];
+      let changed = false;
+      for (const item of list) {
+        const raw = await env.aura_prospects.get(item.id).catch(() => null);
+        if (raw) {
+          const data = JSON.parse(raw);
+          enriched.push({ ...item, name: data.name || '', phone: data.phone || '', tipoNegocio: data.tipoNegocio || '', accepted: data.accepted || '' });
+          cleanIndex.push(item);
+        } else {
+          changed = true;
+        }
+      }
+      if (changed) await env.aura_prospects.put('_contact-list', JSON.stringify(cleanIndex));
+      return new Response(JSON.stringify({ contacts: enriched }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
+    if (req.method === 'DELETE' && url.pathname.startsWith('/contact/')) {
+      const id = `contact-${url.pathname.split('/')[2]}`;
+      await env.aura_prospects.delete(id);
+      const listRaw = await env.aura_prospects.get('_contact-list').catch(() => null);
+      if (listRaw) {
+        const list = JSON.parse(listRaw).filter((item: any) => item.id !== id);
+        await env.aura_prospects.put('_contact-list', JSON.stringify(list));
+      }
+      return new Response(JSON.stringify({ deleted: true }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
+    }
+
     return new Response(JSON.stringify({ status: 'ok' }), { status: 200, ...cors, headers: { ...cors.headers, 'Content-Type': 'application/json' } });
   },
 };
