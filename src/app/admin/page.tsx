@@ -20,6 +20,7 @@ export default function AdminLogin() {
         body: JSON.stringify({ password }),
       });
       if (!res.ok) { setError('Contraseña incorrecta'); return; }
+      localStorage.setItem('aura_admin', '1');
       router.push(redirect);
     } catch {
       setError('Error de conexión');
