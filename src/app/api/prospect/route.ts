@@ -25,5 +25,16 @@ export async function GET(req: NextRequest) {
   if (!slug) return NextResponse.json({ error: 'Falta slug' }, { status: 400 });
   const data = await getProspect(slug);
   if (!data) return NextResponse.json({ error: 'No encontrado' }, { status: 404 });
+
+  const auth = req.cookies.get('admin_auth')?.value;
+  const valid = process.env.ADMIN_PASSWORD;
+  const isAdmin = valid && auth === valid;
+
+  if (!isAdmin && !data.readAt) {
+    const storageUrl = process.env.PROSPECT_STORAGE_URL || 'https://aura-storage.entretorres1x2.workers.dev';
+    fetch(`${storageUrl}/prospect/${slug}/read`, { method: 'POST' }).catch(() => {});
+    data.readAt = Date.now();
+  }
+
   return NextResponse.json(data);
 }
