@@ -3,6 +3,16 @@ import type { NextRequest } from 'next/server';
 
 const adminPrefixes = ['/tracking', '/prospect/new', '/scrape', '/instagram-posts', '/social-card'];
 
+const BOT_AGENTS = /bot|crawler|spider|preview|facebookexternalhit|twitterbot|telegrambot|linkedinbot|slack|discordbot|whatsapp|instagram|curl|wget|python|go-http-client/i;
+
+function isBot(request: NextRequest): boolean {
+  const ua = request.headers.get('user-agent') || '';
+  if (BOT_AGENTS.test(ua)) return true;
+  const secFetchDest = request.headers.get('sec-fetch-dest');
+  if (secFetchDest && secFetchDest !== 'document') return true;
+  return false;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -13,10 +23,12 @@ export function middleware(request: NextRequest) {
     const valid = process.env.ADMIN_PASSWORD;
     if (valid && auth === valid) return NextResponse.next();
 
-    const slug = pathname.replace('/prospect/', '').split('/')[0].split('?')[0];
-    if (slug && /^[a-z0-9-]+$/i.test(slug)) {
-      const storageUrl = process.env.PROSPECT_STORAGE_URL || 'https://aura-storage.entretorres1x2.workers.dev';
-      fetch(`${storageUrl}/prospect/${slug}/read`, { method: 'POST' }).catch(() => {});
+    if (!isBot(request)) {
+      const slug = pathname.replace('/prospect/', '').split('/')[0].split('?')[0];
+      if (slug && /^[a-z0-9-]+$/i.test(slug)) {
+        const storageUrl = process.env.PROSPECT_STORAGE_URL || 'https://aura-storage.entretorres1x2.workers.dev';
+        fetch(`${storageUrl}/prospect/${slug}/read`, { method: 'POST' }).catch(() => {});
+      }
     }
 
     return NextResponse.next();
