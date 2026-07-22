@@ -325,6 +325,13 @@ export default function NewProspect() {
                     </div>
                   ))}
                 </div>
+
+                <a href={`/prospect/${slug}?status=1`} target="_blank" rel="noopener noreferrer" className="block w-full py-3 bg-blue-500 text-white font-medium rounded-xl hover:bg-blue-600 transition-all text-sm text-center mb-3">
+                  👁️ Ver prospecto completo
+                </a>
+
+                <textarea defaultValue={msgText} rows={10} className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm resize-y font-mono" />
+
                 <div className="flex flex-col gap-2">
                   <a
                     href={`https://api.whatsapp.com/send?text=${encodeURIComponent(msgText)}`}
