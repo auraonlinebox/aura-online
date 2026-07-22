@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
 
   const auth = request.cookies.get('admin_auth')?.value;
   const valid = process.env.ADMIN_PASSWORD;
-  if (auth === valid) return NextResponse.next();
+  if (valid && auth === valid) return NextResponse.next();
 
   const login = new URL('/admin', request.url);
   login.searchParams.set('redirect', pathname);
