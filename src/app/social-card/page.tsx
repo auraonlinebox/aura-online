@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 
 const TIMES = ['hace 2 horas', 'hace 5 horas', 'hace 1 día', 'hace 2 días', 'hace 3 días', 'hace 5 días', 'hace 1 semana', 'hace 2 semanas', 'hace 3 semanas', 'hace 1 mes'];
+const EMOJIS = ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟', '🍽️', '🤝', '✅', '🙏'];
 
 const BASE_EXAMPLES = [
   { business: 'Restaurante Casa Blanca', author: 'Laura M.', rating: 5, text: 'Comida espectacular y trato increíble. Volveremos sin duda. El mejor restaurante de la zona.', response: '', time: 'hace 2 horas' },
@@ -24,12 +25,14 @@ export default function SocialCardPage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [personality, setPersonality] = useState(1.3);
+  const [selectedEmojis, setSelectedEmojis] = useState(['😊', '🙌', '👏']);
 
   useEffect(() => {
     fetch('/api/generate-examples', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ examples: BASE_EXAMPLES }),
+      body: JSON.stringify({ examples: BASE_EXAMPLES, personality: 1.3, emojis: ['😊', '🙌', '👏'] }),
     }).then(r => r.json()).then(data => {
       if (data.examples) {
         setExamples(data.examples);
@@ -137,9 +140,36 @@ export default function SocialCardPage() {
                   </select>
                 </div>
                 <textarea value={c.response} onChange={(e) => updateCard(activeIndex, 'response', e.target.value)} placeholder="Respuesta de AURA" rows={3} className="w-full px-3 py-2 border border-orange-200 rounded-lg text-sm resize-none bg-orange-50" />
-                <button onClick={async () => { try { const r = await fetch('/api/generate-examples', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ examples: [{ text: c.text, author: c.author, business: c.business }] }) }); const d = await r.json(); if (d.examples?.[0]?.response) updateCard(activeIndex, 'response', d.examples[0].response); } catch {} }} className="text-xs text-orange-500 hover:text-orange-600 font-medium">🔄 Regenerar respuesta</button>
+                <button onClick={async () => { try { const r = await fetch('/api/generate-examples', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ examples: [{ text: c.text, author: c.author, business: c.business }], personality, emojis: selectedEmojis }) }); const d = await r.json(); if (d.examples?.[0]?.response) updateCard(activeIndex, 'response', d.examples[0].response); } catch {} }} className="text-xs text-orange-500 hover:text-orange-600 font-medium">🔄 Regenerar respuesta</button>
                 {displayCards.length > 1 && <button onClick={() => removeCard(activeIndex)} className="text-xs text-red-400 hover:text-red-500">Eliminar</button>}
               </div>
+            )}
+
+            {/* Configurator */}
+            {!showAll && (
+              <details className="bg-white border border-gray-200 rounded-xl p-4">
+                <summary className="text-xs text-gray-400 cursor-pointer hover:text-gray-600 select-none font-medium">Ajustes de personalización</summary>
+                <div className="mt-3 space-y-3">
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-[11px] text-gray-500 font-medium">Personalidad</label>
+                      <span className="text-[11px] text-gray-400">{personality <= 0.8 ? 'Conservadora' : personality <= 1.2 ? 'Equilibrada' : 'Creativa'}</span>
+                    </div>
+                    <input type="range" min="0.5" max="1.5" step="0.1" value={personality} onChange={(e) => setPersonality(parseFloat(e.target.value))} className="w-full accent-orange-500" />
+                    <div className="flex justify-between text-[10px] text-gray-300 mt-0.5">
+                      <span>0.5</span><span>0.7</span><span>0.9</span><span>1.1</span><span>1.3</span><span>1.5</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[11px] text-gray-500 font-medium block mb-1">Emojis en respuestas</label>
+                    <div className="flex flex-wrap gap-1">
+                      {EMOJIS.map(e => (
+                        <button key={e} onClick={() => setSelectedEmojis(prev => prev.includes(e) ? prev.filter(x => x !== e) : [...prev, e])} className={`w-7 h-7 text-sm flex items-center justify-center rounded-md border transition-all ${selectedEmojis.includes(e) ? 'bg-orange-100 border-orange-300' : 'bg-white border-gray-200 opacity-40 hover:opacity-80'}`}>{e}</button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </details>
             )}
 
             {!showAll && (

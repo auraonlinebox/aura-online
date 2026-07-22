@@ -331,8 +331,7 @@ export default function NewProspect() {
                   </div>
                   <input type="range" min="0.5" max="1.5" step="0.1" value={personality} onChange={(e) => setPersonality(parseFloat(e.target.value))} className="w-full accent-orange-500" />
                   <div className="flex justify-between text-[10px] text-gray-300 mt-0.5">
-                    <span>Menos riesgo</span>
-                    <span>Más originalidad</span>
+                    <span>0.5</span><span>0.7</span><span>0.9</span><span>1.1</span><span>1.3</span><span>1.5</span>
                   </div>
                 </div>
                 <div>

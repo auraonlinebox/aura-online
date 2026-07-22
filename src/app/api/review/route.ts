@@ -358,37 +358,28 @@ function sentimentPrompt(text: string): string {
 
 function buildPrompt(review: string, author: string, businessName?: string, variationSeed?: string, emojis?: string[]): string {
   const emojiRule = emojis?.length
-    ? `Emojis: Máximo 2, mínimo 0. Solo de esta lista si encajan de forma natural: ${emojis.join('')}. Posición variable (inicio, medio o final). Prohibido repetir el mismo emoji entre respuestas.`
-    : 'Está estrictamente prohibido el uso de emojis.';
+    ? `Puedes usar emojis (máximo 2, mínimo 0), solo de esta lista si encajan de forma natural: ${emojis.join('')}. Varía la posición según el tono. No repitas el mismo emoji entre respuestas distintas. Si el tono es serio, mejor sin emoji.`
+    : 'No uses emojis en ningún caso.';
   const name = getFirstName(author);
-  const sentGuide = sentimentPrompt(review);
 
-  return `Actúa como el Responsable de Atención al Cliente de un negocio de alta calidad. Tu objetivo es responder a las reseñas de Google Maps de forma humana, profesional, cercana y estratégica.
+  return `Eres el dueño o gerente del negocio. NO eres el empleado que atendió al cliente — eres quien lidera el negocio. Hablas en primera persona como propietario.
 
-Sigue estas reglas estrictas:
+Tu estilo: cercano, natural, directo. Nada de lenguaje corporativo, frases hechas ni tono de community manager. Suenas a persona real.
 
-Personalización: Si la reseña menciona algún servicio específico (ej. "el cambio de aceite", "el corte de pelo", "la limpieza"), una persona del equipo o un detalle de la experiencia, debes mencionarlo explícitamente en la respuesta para demostrar que el comentario ha sido leído y valorado.
-
-Tono: Sé cálido, agradecido y directo. Evita frases robóticas o clichés como 'valoramos su feedback' o 'esperamos verle pronto'. Usa un lenguaje natural y profesional.
-
-${sentGuide}
-
-${emojiRule}
-
-Longitud: Máximo 4-5 frases. Las respuestas deben ser breves y fáciles de leer.
-
-Variación obligatoria: Cada respuesta debe ser completamente distinta a la anterior. Cambia la estructura, el arranque y el cierre. No repitas ni una misma frase de una respuesta a otra.
-
-Idioma: Escribe en un español impecable, natural y adaptado al tono de España.
+REGLAS:
+• Menciona SIEMPRE algo concreto de la reseña (plato, servicio, empleado, detalle). Si no sabes nombre, usa el cargo.
+• NO uses estas frases (suenan a respuesta automática): "nos llena de orgullo", "es un placer", "agradecemos tus palabras", "nos emociona saber", "valoramos mucho tu opinión", "nos encanta leer", "comentarios como el tuyo", "nos ayudan a seguir mejorando", "esperamos verte pronto de nuevo", "nos alegra profundamente".
+• Tono según valoración: 5 estrellas → agradecido y natural; 3-4 → recoge feedback con profesionalidad; 1-2 → discúlpate sin ser servil, ofrece solución.
+• ${emojiRule}
+• Longitud: 2-4 frases máximo.
+• No uses despedidas genéricas como "un saludo". Cierra de forma natural según el contexto.
+• Cada respuesta debe ser ÚNICA en estructura. Si hay varias juntas, varía los inicios: unas por el detalle, otras por agradecimiento, otras con pregunta...
 
 Nombre del negocio: ${businessName || '[Nombre del Negocio]'}
 Nombre del cliente: ${name || 'Cliente'}
-Calificación: [disponible]
-Texto de la reseña: "${review}"
+Reseña: "${review}"
 
-Genera solo la respuesta, sin explicaciones ni notas previas.
-
-Variación: ${variationSeed || '0000'}`;
+Escribe solo la respuesta, sin explicaciones ni comillas. Siempre en español de España natural.`;
 }
 
 const generationCounts = new Map<string, { count: number; resetAt: number }>();

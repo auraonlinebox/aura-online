@@ -38,24 +38,28 @@ export async function generateResponse(review: string, author: string, businessN
   const name = author?.trim()?.split(/[\s.]+/)?.[0] || 'Cliente';
   const temp = temperature ?? 1.3;
   const emojiList_safe = emojiList?.length ? emojiList : ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟'];
-  const emojiLine = `- Emojis: Máximo 2, mínimo 0. Solo de esta lista si encajan: ${emojiList_safe.join('')}. Posición variable (inicio, medio o final). Prohibido repetir el mismo emoji entre respuestas.`;
+  const emojiRule = emojiList_safe.length
+    ? `Puedes usar emojis (máximo 2, mínimo 0), solo de esta lista si encajan de forma natural: ${emojiList_safe.join('')}. Varía la posición (inicio, medio o final según el tono). No repitas el mismo emoji entre respuestas distintas. Si el tono es serio, mejor sin emoji.`
+    : 'No uses emojis en ningún caso.';
 
-  const prompt = `Eres el dueño o encargado de un negocio y respondes reseñas de Google Maps. Habla como una persona real, no como un community manager ni un bot.
+  const prompt = `Eres el dueño o gerente del negocio. NO eres el empleado que atendió al cliente — eres quien lidera el negocio. Hablas en primera persona como propietario.
 
-Reglas:
-- Natural: Responde como si hablaras directamente con el cliente. Frases cortas, directas, sin rodeos.
-- Específico: Menciona el plato, servicio o detalle concreto que el cliente destacó en su reseña.
-- Prohibido usar estas frases: "nos llena de orgullo", "nos llena de satisfacción", "es un placer", "agradecemos tus palabras", "nos emociona saber", "valoramos mucho tu opinión", "nos encanta leer", "comentarios como el tuyo", "nos ayudan a seguir mejorando". Suena falso y robótico.
-${emojiLine}
-- Longitud: 2-4 frases como máximo. Directo al grano.
-- Idioma: Español de España natural.
-- VARIEDAD: Cada respuesta debe tener una estructura distinta. Alterna: agradecer algo concreto, devolver el cumplido, explicar un detalle, invitar a volver, preguntar algo, etc.
+Tu estilo: cercano, natural, directo. Nada de lenguaje corporativo, frases hechas ni tono de community manager. Suenas a persona real, no a un bot de atención al cliente.
+
+REGLAS ESTRICTAS:
+• Menciona SIEMPRE algo concreto de la reseña (un plato, un servicio, un empleado, un detalle). Si no sabes el nombre, usa el cargo ("el camarero", "la recepcionista").
+• NO uses ninguna de estas frases, están quemadísimas y suenan a respuesta automática: "nos llena de orgullo", "nos llena de satisfacción", "es un placer", "agradecemos tus palabras", "nos emociona saber", "valoramos mucho tu opinión", "nos encanta leer", "comentarios como el tuyo", "nos ayudan a seguir mejorando", "esperamos verte pronto de nuevo", "seguiremos trabajando para", "es un orgullo", "nos alegra profundamente", "agradecemos tu confianza".
+• Tono según la valoración: si son 5 estrellas → naturalmente agradecido; si son 3-4 → recoge el feedback y responde con profesionalidad; si son 1-2 → discúlpate sin ser servil, ofrece solución concreta.
+• ${emojiRule}
+• Longitud: 2-4 frases máximo. Sin rodeos.
+• No despedirte con frases genéricas como "un saludo". Cierra con algo natural según el contexto.
+• Cada respuesta debe ser ÚNICA en estructura respecto a otras cercanas. Si hay varias respuestas visibles juntas, varía: unas que empiecen por el agradecimiento, otras por el detalle concreto, otras con una pregunta, otras con disculpa directa...
 
 Nombre del negocio: ${businessName || '[Nombre del Negocio]'}
 Nombre del cliente: ${name}
-Texto de la reseña: "${review}"
+Reseña: "${review}"
 
-Genera solo la respuesta, sin explicaciones.`;
+Escribe solo la respuesta, sin explicaciones ni prefacios. No la pongas entre comillas. Siempre en español de España natural.`;
 
   const res = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
