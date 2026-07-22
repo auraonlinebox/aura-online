@@ -310,6 +310,21 @@ export default function NewProspect() {
 
             return (
               <>
+                <div className="space-y-3 mb-4">
+                  {responses.map((r, i) => (
+                    <div key={i} className="bg-white border border-gray-200 rounded-xl p-4 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-gray-800">{r.author}</span>
+                          <span className="text-amber-400 text-sm">{'⭐'.repeat(r.rating)}</span>
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-500 italic">"{r.text}"</p>
+                      <textarea value={r.response} onChange={(e) => { const copy = [...responses]; copy[i] = { ...copy[i], response: e.target.value }; setResponses(copy); }} rows={2} className="w-full px-3 py-2 border border-orange-200 rounded-xl text-sm resize-none bg-orange-50" />
+                      <button onClick={async () => { const res = await fetch('/api/generate-examples', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ examples: [{ text: r.text, author: r.author, business: businessName }] }) }); const d = await res.json(); if (d.examples?.[0]?.response) { const copy = [...responses]; copy[i] = { ...copy[i], response: d.examples[0].response }; setResponses(copy); } }} className="text-xs text-orange-500 hover:text-orange-600 font-medium">Regenerar</button>
+                    </div>
+                  ))}
+                </div>
                 <div className="flex flex-col gap-2">
                   <a
                     href={`https://api.whatsapp.com/send?text=${encodeURIComponent(msgText)}`}
