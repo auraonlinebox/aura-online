@@ -15,6 +15,7 @@ export default function ProspectPage() {
 
   useEffect(() => {
     const isStatusCheck = window.location.search.includes('status=1');
+    const isAdmin = localStorage.getItem('aura_admin') === '1';
     setShowStatus(isStatusCheck);
 
     fetch(`/api/prospect?slug=${slug}`)
@@ -22,7 +23,7 @@ export default function ProspectPage() {
       .then((d) => {
         setData(d);
         if (d.readAt) setReadAt(d.readAt);
-        if (!isStatusCheck) {
+        if (!isStatusCheck && !isAdmin) {
           fetch(`https://aura-storage.entretorres1x2.workers.dev/prospect/${slug}/read`, { method: 'POST' }).catch(() => {});
         }
       })
