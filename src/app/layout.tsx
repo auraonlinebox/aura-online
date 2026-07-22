@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const dynamic = 'force-dynamic';
@@ -23,6 +24,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-TRZKLVKPVT" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-TRZKLVKPVT');`}
+        </Script>
       </head>
       <body className="antialiased">
         <script dangerouslySetInnerHTML={{ __html: `
