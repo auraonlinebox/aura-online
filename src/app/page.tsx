@@ -231,7 +231,7 @@ export default function Home() {
               {response ? (
                 <div className="space-y-3">
                   <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                    <p className="text-sm text-gray-700 leading-relaxed">{response}</p>
+                    <p className="text-sm text-gray-700 leading-relaxed" style={{textAlign:'justify'}}>{response}</p>
                   </div>
                   <button onClick={() => { navigator.clipboard.writeText(response); alert('Respuesta copiada'); }} className="text-xs text-orange-500 hover:text-orange-600 font-medium">
                     Copiar respuesta
@@ -505,13 +505,13 @@ export default function Home() {
                     <span className="text-xs text-gray-400">{r.date}</span>
                   </div>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed mb-4">{r.review}</p>
+                <p className="text-sm text-gray-700 leading-relaxed mb-4" style={{textAlign:'justify'}}>{r.review}</p>
                 <div className="border-t border-gray-100 pt-4 mt-2">
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center text-white text-[10px] font-bold shrink-0">A</div>
                     <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Respuesta de AURA</span>
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">{r.response}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed" style={{textAlign:'justify'}}>{r.response}</p>
                 </div>
               </div>
             ))}

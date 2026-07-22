@@ -358,7 +358,7 @@ function sentimentPrompt(text: string): string {
 
 function buildPrompt(review: string, author: string, businessName?: string, variationSeed?: string, emojis?: string[]): string {
   const emojiRule = emojis?.length
-    ? `Puedes usar emojis (máximo 2, mínimo 0), solo de esta lista si encajan de forma natural: ${emojis.join('')}. Varía la posición según el tono. No repitas el mismo emoji entre respuestas distintas. Si el tono es serio, mejor sin emoji.`
+    ? `Puedes usar emojis (máximo 2, mínimo 0), solo de esta lista si encajan de forma natural: ${emojis.join('')}. Colócalos DENTRO del texto, no al final. Preferiblemente en medio de una frase para enfatizar una palabra o idea. Si no encajan de forma natural en medio, mejor no ponerlos. No repitas el mismo emoji entre respuestas distintas. Si el tono es serio, mejor sin emoji.`
     : 'No uses emojis en ningún caso.';
   const name = getFirstName(author);
 

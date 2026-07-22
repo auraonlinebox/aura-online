@@ -39,7 +39,7 @@ export async function generateResponse(review: string, author: string, businessN
   const temp = temperature ?? 1.3;
   const emojiList_safe = emojiList?.length ? emojiList : ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟'];
   const emojiRule = emojiList_safe.length
-    ? `Puedes usar emojis (máximo 2, mínimo 0), solo de esta lista si encajan de forma natural: ${emojiList_safe.join('')}. Varía la posición (inicio, medio o final según el tono). No repitas el mismo emoji entre respuestas distintas. Si el tono es serio, mejor sin emoji.`
+    ? `Puedes usar emojis (máximo 2, mínimo 0), solo de esta lista si encajan de forma natural: ${emojiList_safe.join('')}. Colócalos DENTRO del texto, no al final. Preferiblemente en medio de una frase para enfatizar una palabra o idea. Si no encajan de forma natural en medio, mejor no ponerlos. No repitas el mismo emoji entre respuestas distintas. Si el tono es serio, mejor sin emoji.`
     : 'No uses emojis en ningún caso.';
 
   const prompt = `Eres el dueño o gerente del negocio. NO eres el empleado que atendió al cliente — eres quien lidera el negocio. Hablas en primera persona como propietario.
