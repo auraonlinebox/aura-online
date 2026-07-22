@@ -25,17 +25,6 @@ export default function ProspectPage() {
       })
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
-
-    const timer = setTimeout(() => {
-      if (localStorage.getItem('aura_admin') === '1') return;
-      fetch('/api/track-read', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug }),
-      }).catch(() => {});
-    }, 20000);
-
-    return () => clearTimeout(timer);
   }, [slug]);
 
   if (loading) return (
