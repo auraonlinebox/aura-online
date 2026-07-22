@@ -420,7 +420,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 3 días',
                 review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda.',
-                response: '¡Qué bien que disfrutaras tanto del tartar y la crema, María! Se lo diré de tu parte a Javier, que le va a hacer mucha ilusión saber que estuvisteis bien atendidos. Os esperamos de vuelta cuando queráis. 😊',
+                response: 'María, el tartar de atún y la crema de calabaza están entre mis favoritos de la carta. Transmitiré tu felicitación a Javier por su impecable atención en la sala. ¡Esperamos veros de nuevo muy pronto por El Sabor! 🍽️',
                 label: 'Restaurante',
               },
               {
@@ -429,7 +429,7 @@ export default function Home() {
                 stars: 4,
                 date: 'hace 5 días',
                 review: 'Muy contenta con el corte. Patricia entendió exactamente lo que quería y me dio buenos consejos para el mantenimiento en casa. El trato fue súper agradable. Repetiré sin duda.',
-                response: '¡Qué bien que te haya gustado el corte, Sara! Se lo diré a Patricia, le hará mucha ilusión saber que los consejos te han servido. Te esperamos cuando necesites retocarlo. 😊',
+                response: 'Lograr el corte perfecto es siempre nuestro objetivo principal, Sara. Patricia se esfuerza mucho en entender a cada cliente, por lo que te esperamos en tu próximo cambio de look con los brazos abiertos. ✨',
                 label: 'Peluquería',
               },
               {
@@ -438,7 +438,7 @@ export default function Home() {
                 stars: 1,
                 date: 'hace 1 semana',
                 review: 'Dejé el coche por una revisión y tardaron 3 días en decirme qué tenía. El presupuesto final duplicó el inicial y encima no quedó bien arreglado del todo. Mala comunicación.',
-                response: 'Siento mucho que la reparación no quedara fina y que la comunicación fallara. Pásate por el taller cuando puedas para que revisemos ese problema directamente sin coste adicional. Necesito arreglar esto cuanto antes.',
+                response: 'Le pido disculpas personalmente por la gestión de su reparación y la falta de claridad en el presupuesto. Analizaré internamente qué ha fallado en la comunicación para que esta situación no vuelva a repetirse. ⚠️',
                 label: 'Taller mecánico',
               },
               {
@@ -447,7 +447,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 4 días',
                 review: 'La mejor clínica dental en la que he estado. La dra. Martínez es un encanto y me explicó todo el tratamiento paso a paso. Cero dolor y resultados increíbles. 100% recomendable.',
-                response: 'Qué bien que te hayas sentido cómoda con la doctora Martínez, Laura. Es fundamental que entiendas cada paso del tratamiento para estar tranquila en el sillón. Esperamos verte en tu próxima revisión, ¡un saludo! 🙌',
+                response: 'La dra. Martínez posee una gran capacidad pedagógica y me reconforta ver que su tratamiento cumplió todas las expectativas. Contar con una experiencia sin dolor es nuestra prioridad absoluta. 🦷',
                 label: 'Clínica dental',
               },
               {
@@ -456,7 +456,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 1 semana',
                 review: 'El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena.',
-                response: 'Hola Ana. Siento mucho la espera, ese día hubo problemas con el personal y me tocó cubrir a mí solo el turno. Es cierto que los costes han subido y hemos tenido que ajustar precios, aunque intento mantener la calidad de siempre. Espero que la próxima vez la atención sea más rápida.',
+                response: 'Tomo nota sobre la subida de precios y la necesidad de reforzar el personal en tienda para agilizar el servicio. Mantendremos los altos estándares de calidad en nuestras prendas a pesar de los ajustes. 👗',
                 label: 'Tienda de ropa',
               },
               {
@@ -465,7 +465,7 @@ export default function Home() {
                 stars: 2,
                 date: 'hace 2 días',
                 review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.',
-                response: 'Hola David, tienes toda la razón en quejarse. El retraso fue un fallo nuestro de gestión y te pido disculpas, no debería haber pasado sin avisarte antes. Me alegra al menos que el resultado de la limpieza fuera bueno.',
+                response: 'El retraso que menciona es inaceptable bajo nuestros estándares de puntualidad. Ya he tomado medidas con el equipo operativo para que los avisos de demora sean inmediatos de ahora en adelante. 🕒',
                 label: 'Limpiezas',
               },
               {
@@ -474,7 +474,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 1 día',
                 review: 'El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy profesional y trato cercano. Lo recomiendo a todos.',
-                response: 'Qué alegría leer que por fin te has quitado ese dolor de espalda de encima, Pedro. Me alegra mucho que el tratamiento haya dado resultados tan rápidos. Aquí tienes tu sitio para lo que necesites, ¡un abrazo! 💪',
+                response: 'Recuperar la movilidad y eliminar esa dolencia de espalda es nuestro máximo éxito profesional. Resulta gratificante confirmar que la profesionalidad del fisio ha marcado un antes y un después para usted. ✅',
                 label: 'Fisioterapia',
               },
               {
@@ -483,7 +483,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 4 días',
                 review: 'El jardín quedó bonito pero tardaron casi 3 semanas en venir a hacer el presupuesto. Una vez contratado, el trabajo bien, pero la espera fue excesiva.',
-                response: 'Tienes toda la razón, Elena. Nos organizamos mal con las visitas previas y lo sentimos. Me alegra al menos que el resultado final del jardín te haya convencido. Trabajaremos para ser más ágiles la próxima vez.',
+                response: 'Entiendo perfectamente su malestar con la espera inicial para el presupuesto de jardinería. Agilizaremos nuestros procesos administrativos para que, en el futuro, la atención sea tan brillante como el resultado del jardín. 🌱',
                 label: 'Jardinería',
               },
             ].map((r, i) => (
