@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-const EMOJIS = ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟', '🍽️', '🤝', '✅', '🙏'];
+const EMOJIS = ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟', '🍽️', '🤝', '✅', '🙏', '✨', '🎉', '💎', '🤩', '😍', '💯', '🫶', '👀', '🏆', '🚗', '💇', '🦷', '🧹', '🌿', '🐾', '🎊'];
 
 export default function NewProspect() {
   const [businessName, setBusinessName] = useState('');
@@ -335,7 +335,7 @@ export default function NewProspect() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500 font-medium block mb-2">Emojis en respuestas</label>
+                  <label className="text-xs text-gray-500 font-medium block mb-2">Emojis en respuestas <span className="text-gray-300 font-normal">(solo si encajan)</span></label>
                   <div className="flex flex-wrap gap-1.5">
                     {EMOJIS.map(e => (
                       <button key={e} onClick={() => setSelectedEmojis(prev => prev.includes(e) ? prev.filter(x => x !== e) : [...prev, e])} className={`w-8 h-8 text-base flex items-center justify-center rounded-lg border transition-all ${selectedEmojis.includes(e) ? 'bg-orange-100 border-orange-300' : 'bg-white border-gray-200 opacity-40 hover:opacity-80'}`}>{e}</button>

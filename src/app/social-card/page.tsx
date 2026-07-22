@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 const TIMES = ['hace 2 horas', 'hace 5 horas', 'hace 1 día', 'hace 2 días', 'hace 3 días', 'hace 5 días', 'hace 1 semana', 'hace 2 semanas', 'hace 3 semanas', 'hace 1 mes'];
-const EMOJIS = ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟', '🍽️', '🤝', '✅', '🙏'];
+const EMOJIS = ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟', '🍽️', '🤝', '✅', '🙏', '✨', '🎉', '💎', '🤩', '😍', '💯', '🫶', '👀', '🏆', '🚗', '💇', '🦷', '🧹', '🌿', '🐾', '🎊'];
 
 const BASE_EXAMPLES = [
   { business: 'Restaurante Casa Blanca', author: 'Laura M.', rating: 5, text: 'Comida espectacular y trato increíble. Volveremos sin duda. El mejor restaurante de la zona.', response: '', time: 'hace 2 horas' },
@@ -161,7 +161,7 @@ export default function SocialCardPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-[11px] text-gray-500 font-medium block mb-1">Emojis en respuestas</label>
+                    <label className="text-[11px] text-gray-500 font-medium block mb-1">Emojis en respuestas <span className="text-gray-300 font-normal">(solo si encajan)</span></label>
                     <div className="flex flex-wrap gap-1">
                       {EMOJIS.map(e => (
                         <button key={e} onClick={() => setSelectedEmojis(prev => prev.includes(e) ? prev.filter(x => x !== e) : [...prev, e])} className={`w-7 h-7 text-sm flex items-center justify-center rounded-md border transition-all ${selectedEmojis.includes(e) ? 'bg-orange-100 border-orange-300' : 'bg-white border-gray-200 opacity-40 hover:opacity-80'}`}>{e}</button>

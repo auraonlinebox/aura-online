@@ -12,7 +12,7 @@ const quickExamples = [
 ];
 
 const BUSINESS_TYPES = ['Restaurante', 'Peluquería', 'Taller mecánico', 'Clínica dental', 'Fisioterapia', 'Inmobiliaria', 'Hotel', 'Tienda', 'Academia', 'Veterinario', 'Jardinería', 'Limpiezas', 'Otros'];
-const EMOJIS_DEMO = ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟', '🍽️', '🤝', '✅', '🙏'];
+const EMOJIS_DEMO = ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟', '🍽️', '🤝', '✅', '🙏', '✨', '🎉', '💎', '🤩', '😍', '💯', '🫶', '👀', '🏆', '🚗', '💇', '🦷', '🧹', '🌿', '🐾', '🎊'];
 
 export default function Home() {
   const [review, setReview] = useState('');
@@ -206,7 +206,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-[11px] text-gray-500 font-medium block mb-1">Emojis</label>
+                    <label className="text-[11px] text-gray-500 font-medium block mb-1">Emojis<span className="text-gray-300 font-normal ml-1">(solo si encajan)</span></label>
                     <div className="flex flex-wrap gap-1">
                       {EMOJIS_DEMO.map(e => (
                         <button key={e} onClick={() => setDemoEmojis(prev => prev.includes(e) ? prev.filter(x => x !== e) : [...prev, e])} className={`w-7 h-7 text-sm flex items-center justify-center rounded-md border transition-all ${demoEmojis.includes(e) ? 'bg-orange-100 border-orange-300' : 'bg-white border-gray-200 opacity-40 hover:opacity-80'}`}>{e}</button>
