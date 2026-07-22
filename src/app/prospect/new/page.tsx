@@ -223,8 +223,8 @@ export default function NewProspect() {
   ).join('\n\n');
 
   const msgText =
-    `${businessName} ¿Quién responde vuestras reseñas de GOOGLE?\n\n` +
-    `👋 Hola! Soy Ana de AURA - Reputación Digital\n\n` +
+    `${businessName} ¿Quién responde a vuestras reseñas de Google?\n\n` +
+    `Hola, soy Ana de AURA - Reputación Digital\n\n` +
     `He preparado respuestas automatizadas para las reseñas de Google de ${businessName} más recientes. Por ejemplo:\n\n` +
     `${reviewBlocks.split('\n\n')[0]}\n\n` +
     `✅ Responder reseñas sube tu valoración en Google y mejora tu reputación online.\n` +
