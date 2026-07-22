@@ -356,7 +356,10 @@ function sentimentPrompt(text: string): string {
   return 'TONO: opinión mezclada. Agradece la sinceridad y responde a lo que dice.';
 }
 
-function buildPrompt(review: string, author: string, businessName?: string, variationSeed?: string): string {
+function buildPrompt(review: string, author: string, businessName?: string, variationSeed?: string, emojis?: string[]): string {
+  const emojiRule = emojis?.length
+    ? `Emojis: Máximo 2, mínimo 0. Solo de esta lista si encajan de forma natural: ${emojis.join('')}. Posición variable (inicio, medio o final). Prohibido repetir el mismo emoji entre respuestas.`
+    : 'Está estrictamente prohibido el uso de emojis.';
   const name = getFirstName(author);
   const sentGuide = sentimentPrompt(review);
 
@@ -370,7 +373,7 @@ Tono: Sé cálido, agradecido y directo. Evita frases robóticas o clichés como
 
 ${sentGuide}
 
-Está estrictamente prohibido el uso de emojis.
+${emojiRule}
 
 Longitud: Máximo 4-5 frases. Las respuestas deben ser breves y fáciles de leer.
 
@@ -414,7 +417,7 @@ function incrementDemoCount(ip: string): void {
 
 export async function POST(req: Request) {
   try {
-    const { review, rating, author, businessName, source: reqSource } = await req.json();
+    const { review, rating, author, businessName, source: reqSource, personality, emojis } = await req.json();
     if (!review || typeof review !== 'string' || review.length < 5) {
       return Response.json({ error: 'Escribe la reseña para generar una respuesta.' }, { status: 400 });
     }
@@ -439,7 +442,7 @@ export async function POST(req: Request) {
     const safeAuthor = typeof author === 'string' && author.trim() ? author.trim() : 'Cliente';
     const safeBusiness = typeof businessName === 'string' && businessName.trim() ? businessName.trim() : '';
     const variationSeed = Math.random().toString(36).slice(2, 8);
-    const prompt = buildPrompt(review, safeAuthor, safeBusiness, variationSeed);
+    const prompt = buildPrompt(review, safeAuthor, safeBusiness, variationSeed, emojis);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000);
@@ -451,7 +454,7 @@ export async function POST(req: Request) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 1.2, topP: 0.95, maxOutputTokens: 400 },
+          generationConfig: { temperature: typeof personality === 'number' ? personality : 1.3, topP: 0.95, maxOutputTokens: 400 },
         }),
         signal: controller.signal,
       }

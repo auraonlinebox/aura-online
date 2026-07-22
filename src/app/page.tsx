@@ -12,6 +12,7 @@ const quickExamples = [
 ];
 
 const BUSINESS_TYPES = ['Restaurante', 'Peluquería', 'Taller mecánico', 'Clínica dental', 'Fisioterapia', 'Inmobiliaria', 'Hotel', 'Tienda', 'Academia', 'Veterinario', 'Jardinería', 'Limpiezas', 'Otros'];
+const EMOJIS_DEMO = ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟', '🍽️', '🤝', '✅', '🙏'];
 
 export default function Home() {
   const [review, setReview] = useState('');
@@ -33,6 +34,8 @@ export default function Home() {
   const [accepted, setAccepted] = useState(false);
   const [showLimit, setShowLimit] = useState(false);
   const [generationsLeft, setGenerationsLeft] = useState(3);
+  const [demoPersonality, setDemoPersonality] = useState(1.3);
+  const [demoEmojis, setDemoEmojis] = useState(['😊', '🙌', '👏']);
 
   useEffect(() => {
     const stored = localStorage.getItem('aura_generations');
@@ -53,7 +56,7 @@ export default function Home() {
       const res = await fetch('/api/review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ review: review.trim(), rating: rating || undefined, author: reviewAuthor || undefined, source: 'demo' }),
+        body: JSON.stringify({ review: review.trim(), rating: rating || undefined, author: reviewAuthor || undefined, source: 'demo', personality: demoPersonality, emojis: demoEmojis }),
       });
       const data = await res.json();
       if (res.status === 429 && data.limitExceeded) {
@@ -94,7 +97,6 @@ export default function Home() {
             <a href="#planes" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Planes</a>
             <a href="#por-que-elegirnos" className="text-gray-500 hover:text-gray-900 hidden sm:inline">¿Por qué elegirnos?</a>
             <a href="#como-funciona" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Cómo funciona</a>
-            <a href="/scrape" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Buscar</a>
             <a href="mailto:auraonlinebox@gmail.com" className="text-gray-500 hover:text-gray-900 hidden sm:inline">Contacto</a>
             <button onClick={() => setShowContact(true)} className="bg-gray-900 text-white px-7 py-3 rounded-full text-sm font-semibold hover:bg-gray-800 transition-all flex flex-col items-center leading-tight">
               Quiero AURA
@@ -189,6 +191,27 @@ export default function Home() {
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-100 resize-none text-sm min-h-[120px]"
                 rows={4}
               />
+              {/* Configurator */}
+              <details className="mt-3">
+                <summary className="text-xs text-gray-400 cursor-pointer hover:text-gray-600 select-none">Ajustes de personalización</summary>
+                <div className="mt-3 space-y-3">
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-[11px] text-gray-500 font-medium">Personalidad</label>
+                      <span className="text-[11px] text-gray-400">{demoPersonality <= 0.8 ? 'Conservadora' : demoPersonality <= 1.2 ? 'Equilibrada' : 'Creativa'}</span>
+                    </div>
+                    <input type="range" min="0.5" max="1.5" step="0.1" value={demoPersonality} onChange={(e) => setDemoPersonality(parseFloat(e.target.value))} className="w-full accent-orange-500" />
+                  </div>
+                  <div>
+                    <label className="text-[11px] text-gray-500 font-medium block mb-1">Emojis</label>
+                    <div className="flex flex-wrap gap-1">
+                      {EMOJIS_DEMO.map(e => (
+                        <button key={e} onClick={() => setDemoEmojis(prev => prev.includes(e) ? prev.filter(x => x !== e) : [...prev, e])} className={`w-7 h-7 text-sm flex items-center justify-center rounded-md border transition-all ${demoEmojis.includes(e) ? 'bg-orange-100 border-orange-300' : 'bg-white border-gray-200 opacity-40 hover:opacity-80'}`}>{e}</button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </details>
               <button onClick={generateResponse} disabled={loading || review.length < 5} className="w-full mt-3 py-3 bg-gray-900 text-white font-medium rounded-xl hover:bg-gray-800 disabled:opacity-40 transition-all text-sm">
                 {loading ? 'Generando...' : 'Generar respuesta con AURA'}
               </button>
@@ -327,43 +350,6 @@ export default function Home() {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </button>
             <p className="text-xs text-gray-500 mt-3">Sin compromiso · Sin tarjeta · Sin spam</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Personalizable */}
-      <section id="personalizable" className="py-10 sm:py-14">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Tú controlas cada respuesta
-            </h2>
-            <p className="text-gray-500 max-w-xl mx-auto">
-              No solo generamos respuestas automáticas. Tú eliges el tono, los emojis y las personalizas antes de enviar. En dos clics tienes respuestas profesionales sin tener que pensar.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-5 max-w-3xl mx-auto">
-            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
-              <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-3 text-xl">🎛️</div>
-              <h3 className="font-bold text-gray-900 mb-1 text-sm">Personalidad ajustable</h3>
-              <p className="text-xs text-gray-500">Desliza entre tono conservador o más creativo. AURA se adapta a tu estilo.</p>
-            </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
-              <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-3 text-xl">🎯</div>
-              <h3 className="font-bold text-gray-900 mb-1 text-sm">Emojis a tu gusto</h3>
-              <p className="text-xs text-gray-500">Activa o desactiva emojis, elige cuáles usar. Cada respuesta con los que más te representan.</p>
-            </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
-              <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-3 text-xl">✏️</div>
-              <h3 className="font-bold text-gray-900 mb-1 text-sm">Edita antes de enviar</h3>
-              <p className="text-xs text-gray-500">Cada respuesta es editable. Regenera individualmente o retoca el texto hasta que quede perfecto.</p>
-            </div>
-          </div>
-          <div className="text-center mt-6">
-            <a href="/prospect/new" className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all text-sm">
-              Probar generador de respuestas
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </a>
           </div>
         </div>
       </section>
@@ -792,7 +778,7 @@ export default function Home() {
           <a href="/" className="inline-block mb-3">
             <img src="/logo.svg?v=2" alt="AURA" className="h-10 mx-auto" />
           </a>
-          <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a> | <a href="/scrape" className="hover:text-gray-600 underline">Buscar</a> | <a href="/tracking" className="hover:text-gray-600 underline">Tracking</a> | <a href="mailto:auraonlinebox@gmail.com" className="hover:text-gray-600 underline">Contacto</a> | <a href="/aviso-legal" className="hover:text-gray-600 underline">Aviso Legal</a> | <a href="/privacidad" className="hover:text-gray-600 underline">Privacidad</a></p>
+          <p>© 2026 AURA. Todos los derechos reservados. | <a href="https://aura-online.es" className="hover:text-gray-600">aura-online.es</a> | <a href="mailto:auraonlinebox@gmail.com" className="hover:text-gray-600 underline">Contacto</a> | <a href="/aviso-legal" className="hover:text-gray-600 underline">Aviso Legal</a> | <a href="/privacidad" className="hover:text-gray-600 underline">Privacidad</a></p>
         </div>
       </footer>
     </div>
