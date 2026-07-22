@@ -201,6 +201,9 @@ export default function Home() {
                       <span className="text-[11px] text-gray-400">{demoPersonality <= 0.8 ? 'Conservadora' : demoPersonality <= 1.2 ? 'Equilibrada' : 'Creativa'}</span>
                     </div>
                     <input type="range" min="0.5" max="1.5" step="0.1" value={demoPersonality} onChange={(e) => setDemoPersonality(parseFloat(e.target.value))} className="w-full accent-orange-500" />
+                    <div className="flex justify-between text-[10px] text-gray-300 mt-0.5 px-0.5 select-none">
+                      <span>0.5</span><span>0.7</span><span>0.9</span><span>1.1</span><span>1.3</span><span>1.5</span>
+                    </div>
                   </div>
                   <div>
                     <label className="text-[11px] text-gray-500 font-medium block mb-1">Emojis</label>
@@ -417,7 +420,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 3 días',
                 review: 'Espectacular todo. La crema de calabaza y el tartar de atún son increíbles. El camarero Javier nos trató fenomenal. Volveremos sin duda.',
-                response: 'Muchas gracias por dedicarnos un momento para compartir tu experiencia. Nos alegra que disfrutaras de la crema de calabaza y el tartar de atún, platos que nuestro equipo prepara con esmero. Trasladaré tus palabras a Javier, le hará mucha ilusión. Será un placer recibiros de nuevo.',
+                response: '¡Qué bien que disfrutaras tanto del tartar y la crema, María! Se lo diré de tu parte a Javier, que le va a hacer mucha ilusión saber que estuvisteis bien atendidos. Os esperamos de vuelta cuando queráis. 😊',
                 label: 'Restaurante',
               },
               {
@@ -426,7 +429,7 @@ export default function Home() {
                 stars: 4,
                 date: 'hace 5 días',
                 review: 'Muy contenta con el corte. Patricia entendió exactamente lo que quería y me dio buenos consejos para el mantenimiento en casa. El trato fue súper agradable. Repetiré sin duda.',
-                response: 'Gracias por tus palabras, Sara. Nos alegra que Patricia lograra el corte que buscabas y que los consejos te sean útiles. Es un placer contar con clientas que valoran nuestro asesoramiento. Te esperamos pronto.',
+                response: '¡Qué bien que te haya gustado el corte, Sara! Se lo diré a Patricia, le hará mucha ilusión saber que los consejos te han servido. Te esperamos cuando necesites retocarlo. 😊',
                 label: 'Peluquería',
               },
               {
@@ -435,7 +438,7 @@ export default function Home() {
                 stars: 1,
                 date: 'hace 1 semana',
                 review: 'Dejé el coche por una revisión y tardaron 3 días en decirme qué tenía. El presupuesto final duplicó el inicial y encima no quedó bien arreglado del todo. Mala comunicación.',
-                response: 'Hola Javier, lamentamos que la experiencia no haya estado a la altura. Nos preocupa que el coche no quedara bien reparado. Ponte en contacto con el taller para revisarlo personalmente y solucionarlo. Queremos recuperar tu confianza.',
+                response: 'Siento mucho que la reparación no quedara fina y que la comunicación fallara. Pásate por el taller cuando puedas para que revisemos ese problema directamente sin coste adicional. Necesito arreglar esto cuanto antes.',
                 label: 'Taller mecánico',
               },
               {
@@ -444,7 +447,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 4 días',
                 review: 'La mejor clínica dental en la que he estado. La dra. Martínez es un encanto y me explicó todo el tratamiento paso a paso. Cero dolor y resultados increíbles. 100% recomendable.',
-                response: 'Muchas gracias por tus palabras, Laura. Nos alegra que te sintieras cómoda y que los resultados cumplieran tus expectativas. Trasladaré tu felicitación a la doctora Martínez. Esperamos verte en tu próxima revisión.',
+                response: 'Qué bien que te hayas sentido cómoda con la doctora Martínez, Laura. Es fundamental que entiendas cada paso del tratamiento para estar tranquila en el sillón. Esperamos verte en tu próxima revisión, ¡un saludo! 🙌',
                 label: 'Clínica dental',
               },
               {
@@ -453,7 +456,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 1 semana',
                 review: 'El local está bien pero los precios han subido mucho. La dependienta fue amable pero tardó en atenderme porque estaba sola. La calidad del producto sigue siendo buena.',
-                response: 'Gracias por compartir tu opinión, Ana. Lamentamos la espera, intentamos que el servicio sea fluido aunque en ocasiones se complica. Revisamos constantemente nuestras tarifas para mantener la calidad que valoras. Te esperamos pronto.',
+                response: 'Hola Ana. Siento mucho la espera, ese día hubo problemas con el personal y me tocó cubrir a mí solo el turno. Es cierto que los costes han subido y hemos tenido que ajustar precios, aunque intento mantener la calidad de siempre. Espero que la próxima vez la atención sea más rápida.',
                 label: 'Tienda de ropa',
               },
               {
@@ -462,7 +465,7 @@ export default function Home() {
                 stars: 2,
                 date: 'hace 2 días',
                 review: 'Contraté un servicio de limpieza a fondo y llegaron 40 minutos tarde. La limpieza estuvo bien pero la organización fue un desastre. No avisaron de la demora.',
-                response: 'Sentimos que la falta de puntualidad empañara el servicio, David. Es inaceptable no haber avisado y estamos revisando nuestros protocolos para que no vuelva a ocurrir. Nos gustaría recuperar tu confianza en una próxima ocasión.',
+                response: 'Hola David, tienes toda la razón en quejarse. El retraso fue un fallo nuestro de gestión y te pido disculpas, no debería haber pasado sin avisarte antes. Me alegra al menos que el resultado de la limpieza fuera bueno.',
                 label: 'Limpiezas',
               },
               {
@@ -471,7 +474,7 @@ export default function Home() {
                 stars: 5,
                 date: 'hace 1 día',
                 review: 'El fisio me ha cambiado la vida. Tres sesiones y el dolor de espalda ha desaparecido por completo. Muy profesional y trato cercano. Lo recomiendo a todos.',
-                response: 'Nos alegra enormemente que tres sesiones hayan sido suficientes, Pedro. Trabajamos para ofrecer el mejor tratamiento y hace feliz saber que lo hemos conseguido. Gracias por tu confianza y recomendación.',
+                response: 'Qué alegría leer que por fin te has quitado ese dolor de espalda de encima, Pedro. Me alegra mucho que el tratamiento haya dado resultados tan rápidos. Aquí tienes tu sitio para lo que necesites, ¡un abrazo! 💪',
                 label: 'Fisioterapia',
               },
               {
@@ -480,7 +483,7 @@ export default function Home() {
                 stars: 3,
                 date: 'hace 4 días',
                 review: 'El jardín quedó bonito pero tardaron casi 3 semanas en venir a hacer el presupuesto. Una vez contratado, el trabajo bien, pero la espera fue excesiva.',
-                response: 'Agradecemos tu sinceridad, Elena. Lamentamos la demora en el presupuesto, no estuvimos a la altura en ese primer contacto. Nos alegra que el resultado final te gustara. Tomamos nota para agilizar los tiempos de respuesta.',
+                response: 'Tienes toda la razón, Elena. Nos organizamos mal con las visitas previas y lo sentimos. Me alegra al menos que el resultado final del jardín te haya convencido. Trabajaremos para ser más ágiles la próxima vez.',
                 label: 'Jardinería',
               },
             ].map((r, i) => (
