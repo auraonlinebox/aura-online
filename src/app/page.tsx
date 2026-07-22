@@ -331,6 +331,43 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Personalizable */}
+      <section id="personalizable" className="py-10 sm:py-14">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Tú controlas cada respuesta
+            </h2>
+            <p className="text-gray-500 max-w-xl mx-auto">
+              No solo generamos respuestas automáticas. Tú eliges el tono, los emojis y las personalizas antes de enviar. En dos clics tienes respuestas profesionales sin tener que pensar.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-5 max-w-3xl mx-auto">
+            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
+              <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-3 text-xl">🎛️</div>
+              <h3 className="font-bold text-gray-900 mb-1 text-sm">Personalidad ajustable</h3>
+              <p className="text-xs text-gray-500">Desliza entre tono conservador o más creativo. AURA se adapta a tu estilo.</p>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
+              <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-3 text-xl">🎯</div>
+              <h3 className="font-bold text-gray-900 mb-1 text-sm">Emojis a tu gusto</h3>
+              <p className="text-xs text-gray-500">Activa o desactiva emojis, elige cuáles usar. Cada respuesta con los que más te representan.</p>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
+              <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-3 text-xl">✏️</div>
+              <h3 className="font-bold text-gray-900 mb-1 text-sm">Edita antes de enviar</h3>
+              <p className="text-xs text-gray-500">Cada respuesta es editable. Regenera individualmente o retoca el texto hasta que quede perfecto.</p>
+            </div>
+          </div>
+          <div className="text-center mt-6">
+            <a href="/prospect/new" className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all text-sm">
+              Probar generador de respuestas
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* CTA trial */}
       <section className="py-10 sm:py-14 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-center">
         <div className="max-w-2xl mx-auto px-4">

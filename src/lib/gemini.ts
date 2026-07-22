@@ -31,11 +31,14 @@ ${texts}`;
   return JSON.parse(cleaned);
 }
 
-export async function generateResponse(review: string, author: string, businessName?: string): Promise<string> {
+export async function generateResponse(review: string, author: string, businessName?: string, temperature?: number, emojiList?: string[]): Promise<string> {
   const apiKey = process.env.GOOGLE_AI_API_KEY;
   if (!apiKey) throw new Error('GOOGLE_AI_API_KEY not configured');
 
   const name = author?.trim()?.split(/[\s.]+/)?.[0] || 'Cliente';
+  const temp = temperature ?? 1.3;
+  const emojiList_safe = emojiList?.length ? emojiList : ['😊', '🙌', '👏', '💪', '⭐', '❤️', '🔥', '🎯', '👍', '🌟'];
+  const emojiLine = `- Emojis: Máximo 2, mínimo 0. Solo de esta lista si encajan: ${emojiList_safe.join('')}. Posición variable (inicio, medio o final). Prohibido repetir el mismo emoji entre respuestas.`;
 
   const prompt = `Eres el dueño o encargado de un negocio y respondes reseñas de Google Maps. Habla como una persona real, no como un community manager ni un bot.
 
@@ -43,7 +46,7 @@ Reglas:
 - Natural: Responde como si hablaras directamente con el cliente. Frases cortas, directas, sin rodeos.
 - Específico: Menciona el plato, servicio o detalle concreto que el cliente destacó en su reseña.
 - Prohibido usar estas frases: "nos llena de orgullo", "nos llena de satisfacción", "es un placer", "agradecemos tus palabras", "nos emociona saber", "valoramos mucho tu opinión", "nos encanta leer", "comentarios como el tuyo", "nos ayudan a seguir mejorando". Suena falso y robótico.
-- Emojis: Máximo 1, mínimo 0. Solo si encaja de forma natural, no lo fuerces.
+${emojiLine}
 - Longitud: 2-4 frases como máximo. Directo al grano.
 - Idioma: Español de España natural.
 - VARIEDAD: Cada respuesta debe tener una estructura distinta. Alterna: agradecer algo concreto, devolver el cumplido, explicar un detalle, invitar a volver, preguntar algo, etc.
@@ -59,7 +62,7 @@ Genera solo la respuesta, sin explicaciones.`;
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 1.3 } }),
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: temp } }),
     }
   );
 

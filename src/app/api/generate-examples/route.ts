@@ -3,14 +3,14 @@ import { generateResponse } from '@/lib/gemini';
 
 export async function POST(req: NextRequest) {
   try {
-    const { examples } = await req.json();
+    const { examples, personality, emojis } = await req.json();
     if (!examples?.length) {
       return NextResponse.json({ error: 'Faltan ejemplos' }, { status: 400 });
     }
 
     const updated = [];
     for (const ex of examples) {
-      const response = await generateResponse(ex.text, ex.author, ex.business);
+      const response = await generateResponse(ex.text, ex.author, ex.business, personality, emojis);
       updated.push({ ...ex, response });
     }
 
