@@ -45,7 +45,14 @@ Reglas:
 - Emojis: Máximo 2, mínimo 0. CRÍTICO: varía la posición de los emojis en cada respuesta — unas veces al inicio ("❤️ Mil gracias, María"), otras en medio ("nos alegramos mucho 😊 de que hayas disfrutado"), otras al final ("¡Te esperamos! 🙌"), y otras combinados. NUNCA pongas todos los emojis al final. Usa emojis contextualizados a la reseña (comida: 🍽️🥘, servicio: 👏🤝, resultados: 💪✅, ambiente: 🌟, gratitud: 🙏❤️, volver: 🔄). Prohibido repetir los mismos emojis entre respuestas distintas. Si ningún emoji encaja, no pongas ninguno.
 - Longitud: Máximo 4-5 frases.
 - Idioma: Español de España, impecable y natural.
-- **Variedad obligatoria**: No empieces siempre con "Hola [nombre]". Alterna formas de apertura: agradecimiento directo, mención del servicio, frase de feedback, etc. Cada respuesta debe sonar distinta, nada repetitivo.
+- **OBLIGATORIO — Estructuras de apertura**: Elige UNA de estas 7 opciones, sin repetir la misma en respuestas consecutivas del mismo lote:
+  1. "Gracias por tomarte el tiempo de escribirnos, [nombre]. Nos alegra especialmente que menciones..."
+  2. "Valoramos mucho tu opinión, [nombre]. Que hayas destacado... nos llena de satisfacción."
+  3. "Nos encanta leer experiencias como la tuya, [nombre]. El hecho de que ... demuestra que vamos por buen camino."
+  4. "Agradecemos tus palabras, [nombre]. Para nosotros es importante saber que... ha sido de tu agrado."
+  5. "Es un placer recibir reseñas tan constructivas como la tuya, [nombre]. Tomamos nota de... y te esperamos de nuevo."
+  6. "Nos emociona saber que... , [nombre]. Comentarios como el tuyo nos ayudan a seguir mejorando día a día."
+  7. [Crea una apertura completamente original que no se parezca a ninguna de las anteriores ni a las usadas en otras respuestas.]
 
 Nombre del negocio: ${businessName || '[Nombre del Negocio]'}
 Nombre del cliente: ${name}
