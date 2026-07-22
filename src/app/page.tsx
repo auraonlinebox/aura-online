@@ -354,27 +354,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA trial */}
-      <section className="py-10 sm:py-14 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-white mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-            Prueba AURA gratis durante 7 días
-          </h2>
-          <p className="text-gray-400 text-base sm:text-lg mb-3 max-w-lg mx-auto">
-            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu negocio y el mejor servicio para responder reseñas.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500 mb-6">
-            <span className="flex items-center gap-1">✓ Configuración en 5 minutos</span>
-            <span className="flex items-center gap-1">✓ AURA se adapta a tu estilo</span>
-            <span className="flex items-center gap-1">✓ Cancela cuando quieras</span>
-          </div>
-          <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20">
-            Empezar prueba gratuita
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </button>
-        </div>
-      </section>
-
       {/* How it works */}
       <section id="como-funciona" className="py-10 sm:py-14">
         <div className="max-w-4xl mx-auto px-4">
@@ -395,6 +374,27 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CTA trial */}
+      <section className="py-10 sm:py-14 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-center">
+        <div className="max-w-2xl mx-auto px-4">
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+            Prueba AURA gratis durante 7 días
+          </h2>
+          <p className="text-gray-400 text-base sm:text-lg mb-3 max-w-lg mx-auto">
+            Sin compromiso. Sin tarjeta de crédito. Solo tú, tu negocio y el mejor servicio para responder reseñas.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-500 mb-6">
+            <span className="flex items-center gap-1">✓ Configuración en 5 minutos</span>
+            <span className="flex items-center gap-1">✓ AURA se adapta a tu estilo</span>
+            <span className="flex items-center gap-1">✓ Cancela cuando quieras</span>
+          </div>
+          <button onClick={() => setShowContact(true)} className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20">
+            Empezar prueba gratuita
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </button>
         </div>
       </section>
 
