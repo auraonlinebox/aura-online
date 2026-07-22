@@ -227,10 +227,13 @@ export default function Home() {
 
             {/* Output */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-              <div className="text-sm font-semibold text-gray-700 mb-3">Respuesta de AURA</div>
               {response ? (
                 <div className="space-y-3">
-                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                  <div className="bg-orange-50 rounded-xl p-4 border border-orange-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs font-bold shrink-0">A</div>
+                      <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider">Respuesta de AURA</span>
+                    </div>
                     <p className="text-sm text-gray-700 leading-relaxed" style={{textAlign:'justify'}}>{response}</p>
                   </div>
                   <button onClick={() => { navigator.clipboard.writeText(response); alert('Respuesta copiada'); }} className="text-xs text-orange-500 hover:text-orange-600 font-medium">
@@ -508,10 +511,12 @@ export default function Home() {
                 <p className="text-sm text-gray-700 leading-relaxed mb-4" style={{textAlign:'justify'}}>{r.review}</p>
                 <div className="border-t border-gray-100 pt-4 mt-2">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center text-white text-[10px] font-bold shrink-0">A</div>
-                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Respuesta de AURA</span>
+                    <div className="w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center text-white text-[10px] font-bold shrink-0">A</div>
+                    <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider">Respuesta de AURA</span>
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed" style={{textAlign:'justify'}}>{r.response}</p>
+                  <div className="bg-orange-50 rounded-xl p-4 border border-orange-200">
+                    <p className="text-sm text-gray-700 leading-relaxed" style={{textAlign:'justify'}}>{r.response}</p>
+                  </div>
                 </div>
               </div>
             ))}

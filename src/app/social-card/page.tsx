@@ -248,7 +248,7 @@ export default function SocialCardPage() {
                       {c.response && (
                         <div className="flex-shrink-0" style={{ background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)', borderRadius: 16, border: '2px solid #f97316', padding: '14px 16px', flex: 1 }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                            <img src="https://aura-online.es/logo.svg?v=2" alt="AURA" style={{ height: 16 }} />
+                            <span style={{ display: 'inline-flex', width: 18, height: 18, background: '#f97316', color: '#fff', borderRadius: '50%', fontSize: 10, fontWeight: 700, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>A</span>
                             <span style={{ color: '#ea580c', fontWeight: 700, fontSize: 11 }}>RESPUESTA DE AURA</span>
                           </div>
                         <p className="text-sm text-gray-700 leading-relaxed" style={{ textAlign: 'justify' }}>{c.response}</p>

@@ -114,7 +114,13 @@ export default function ProspectPage() {
       </div>
       <div style={{ color: '#6b7280', fontSize: 14, marginBottom: 12, fontStyle: 'italic' }}>"{r.text}"</div>
       {r.response ? (
-        <div style={{ background: '#fff7ed', borderLeft: '3px solid #f97316', padding: '12px 16px', borderRadius: 8, color: '#1f2937', fontSize: 14 }}>{r.response}</div>
+        <div style={{ background: '#fff7ed', borderLeft: '3px solid #f97316', padding: '12px 16px', borderRadius: 8, color: '#1f2937', fontSize: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+            <span style={{ display: 'inline-flex', width: 20, height: 20, background: '#f97316', color: '#fff', borderRadius: '50%', fontSize: 11, fontWeight: 700, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>A</span>
+            <span style={{ color: '#ea580c', fontWeight: 700, fontSize: 10, letterSpacing: 0.5 }}>RESPUESTA DE AURA</span>
+          </div>
+          {r.response}
+        </div>
       ) : (
         <div style={{ color: '#9ca3af', fontSize: 13, fontStyle: 'italic' }}>Respuesta no disponible</div>
       )}
